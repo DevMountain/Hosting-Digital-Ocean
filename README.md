@@ -5,6 +5,7 @@ Many students buy a Digital Ocean droplet on the $5 tier, which comes with limit
 
 <details> <summary> swapfile details </summary> 
 
+#### Create swapfile and turn on
 ```cli
 touch /swapfile
 fallocate -l 1G /swapfile
