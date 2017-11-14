@@ -133,7 +133,7 @@ The first time you access your droplet, there is likely an older version of Node
 ***
 
 
-## Copy project to server
+## Prep code for production
 #### store paths in .env file
 - On local machine, instead of using absolute paths (e.g., 'http://localhost:3200/auth') to environment variables. In other words, everywhere you have a full path with "localhost" in it, replace that path string with a reference to a variable, and store that variable and value in your .env (or config.js) file.
     - For example, if you have an ```<a>``` tag with an Auth0 link like this...
@@ -158,7 +158,9 @@ The first time you access your droplet, there is likely an older version of Node
 - In your server, the following code to point your server to your front end static files. This tells express to look for a build folder. The ```__dirname``` variable tells it to start at the current file where Node is running (i.e., your server file), and ```/../build``` tells it to then go up one file and into a build folder.
 ```app.use( express.static( `${__dirname}/../build` ) );```
 
-#### push and pull from GitHub
+
+## Copy project to server
+###### push and pull from GitHub
 - Commit and push your working code to GitHub.
 - Use ```ssh root@your.ip.address``` to connect to your droplet, and use ```cd``` to go into your project folder on the server.
 - Clone the project to the server using ```git clone url-to-your-github-project```. Once done, your code will be on the server, except for node_modules, .env variables, and a build folder (since these are all .gitignored and therefore not copied to and from GitHub).
