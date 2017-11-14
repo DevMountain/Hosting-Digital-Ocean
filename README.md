@@ -134,7 +134,7 @@ The first time you access your droplet, there is likely an older version of Node
 
 
 ## Copy project to server
-#### .env variables
+#### store paths in .env file
 - On local machine, instead of using absolute paths (e.g., 'http://localhost:3200/auth') to environment variables. In other words, everywhere you have a full path with "localhost" in it, replace that path string with a reference to a variable, and store that variable and value in your .env (or config.js) file.
     - For example, if you have an ```<a>``` tag with an Auth0 link like this...
 
@@ -161,14 +161,17 @@ The first time you access your droplet, there is likely an older version of Node
 #### push and pull from GitHub
 - Commit and push your working code to GitHub.
 - Use ```ssh root@your.ip.address``` to connect to your droplet, and use ```cd``` to go into your project folder on the server.
-- Clone the  project onto server using ```git clone url-to-your-github-project```. Once this is done, your code will now be on your server, except for node_modules and .env variables (since these are .gitignored).
+- Clone the project to the server using ```git clone url-to-your-github-project```. Once done, your code will be on the server, except for node_modules, .env variables, and a build folder (since these are all .gitignored and therefore not copied to and from GitHub).
+###### node_modules
 - Run ```npm install``` inside the project folder on the server to install node packages.
+###### .env variables
 - Recreate any .env file or config.js in the the server. 
     - Use ```touch .env``` to make an .env file.
     - Use ```nano .env``` to edit the file.
 - Go to your code editor and copy the contents of your local .env file. Inside nano on the server, paste in the contents you copied so they will now be in the server .env file. Change any full paths containing "localhost" (e.g., 'http://localhost:3100/api/users') to relative paths instead (e.g., '/api/users'). We do this because your server might be structured differently than your local machine, so we give the server a relative path, and it knows what to do from there.
 - To exit nano, use Ctrl+x to exit. It will ask if you want to save. Type ```Yes``` or ```y```, then hit Return to confirm. 
-- Create a build folder using ```npm run build```. This will create a folder called "build" with an optimized version of your project. The express.static line you added to the server file will tell the server to look in that build folder for the static files that need to be served. We need to create a build on the server because the build folder is also .gitignored, so making a build on your local computer will not transfer over.
+###### build folder
+- Create a build folder using ```npm run build```. This will create a folder called "build" with an optimized version of your project. The express.static line you added to the server file will tell the server to look in that build folder for the static files that need to be served.
 - Now your entire project is saved to the server, including code, node_modules, .env files, and build folder. The next step is to run Node on our project to see if it works from the server.
 
 
