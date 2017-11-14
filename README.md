@@ -141,7 +141,7 @@ The first time you access your droplet, there is likely an older version of Node
 
 - Clone project onto server using ```git clone url-to-your-github-project```.
 - Run ```npm install``` to install node packages.
-- Recreate any .env file or config.js onto the server. Use ```touch``` to make a file and ```nano``` to edit it. For example, to make an .env file run these commands: 
+- Recreate any .env file or config.js onto the server. Use ```touch``` to make a file and ```nano``` to edit it. For example, to make an .env file, run these commands: 
 ```sh
     touch .env
     nano .env
