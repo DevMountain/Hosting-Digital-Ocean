@@ -2,7 +2,7 @@
 
 ## Overview
 
-Basic steps:
+###### Basic steps:
 1. Get secure connection to droplet with SSH key.
 1. Sign up for a droplet on Digital Ocean.
 1. Push working code to GitHub. Make sure express.static points to build folder.
@@ -11,7 +11,7 @@ Basic steps:
 1. Create a build with ```npm run build```.
 1. Run forever (so hosted project is always running).
 
-Optional:
+###### Optional:
 1. Set up swapfile to extend the limited RAM that comes with the cheaper droplets.
 1. Set up nginx to host multiple projects on same droplet.
 1. Set up a domain name.
@@ -134,7 +134,7 @@ The first time you access your droplet, there is likely an older version of Node
 
 
 ## Prep code for production
-###### store paths in .env file
+###### .env variables
 - On local machine, instead of using absolute paths (e.g., 'http://localhost:3200/auth') to environment variables. In other words, everywhere you have a full path with "localhost" in it, replace that path string with a reference to a variable, and store that variable and value in your .env (or config.js) file.
     - For example, if you have an ```<a>``` tag with an Auth0 link like this...
 
@@ -166,7 +166,7 @@ The first time you access your droplet, there is likely an older version of Node
 - Clone the project to the server using ```git clone url-to-your-github-project```. Once done, your code will be on the server, except for node_modules, .env variables, and a build folder (since these are all .gitignored and therefore not copied to and from GitHub).
 ###### node_modules
 - Run ```npm install``` inside the project folder on the server to install node packages.
-###### .env variables
+###### .env file
 - Recreate any .env file or config.js in the the server. 
     - Use ```touch .env``` to make an .env file.
     - Use ```nano .env``` to edit the file.
