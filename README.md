@@ -79,7 +79,7 @@ The key's randomart image is:
 
 
 ## Connect to Server
-- Use ```ssh root@yourIPaddress``` (e.g., ```ssh root@127.48.12.123```) to connect to your droplet through the command line.
+- Use ```ssh root@your.ip.address``` (e.g., ```ssh root@127.48.12.123```) to connect to your droplet through the command line.
 - You will need your password to connect. **YOU DIDN'T FORGET IT, DID YOU?**
 
 
@@ -160,7 +160,7 @@ The first time you access your droplet, there is likely an older version of Node
 
 #### push and pull from GitHub
 - Commit and push your working code to GitHub.
-- Use ```ssh root@yourIPaddress``` to connect to your droplet, and use ```cd``` to go into your project folder on the server.
+- Use ```ssh root@your.ip.address``` to connect to your droplet, and use ```cd``` to go into your project folder on the server.
 - Clone the  project onto server using ```git clone url-to-your-github-project```. Once this is done, your code will now be on your server, except for node_modules and .env variables (since these are .gitignored).
 - Run ```npm install``` inside the project folder on the server to install node packages.
 - Recreate any .env file or config.js in the the server. 
