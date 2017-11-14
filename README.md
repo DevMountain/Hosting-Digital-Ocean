@@ -1,6 +1,8 @@
 # Digital Ocean
 
 ### Overview
+
+Basic steps:
 1. Sign up for a droplet on Digital Ocean.
 1. Get secure connection to droplet with SSH key.
 1. Push working code to GitHub. Make sure express.static points to build folder.
