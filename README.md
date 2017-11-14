@@ -3,8 +3,8 @@
 ### Overview
 
 Basic steps:
-1. Sign up for a droplet on Digital Ocean.
 1. Get secure connection to droplet with SSH key.
+1. Sign up for a droplet on Digital Ocean.
 1. Push working code to GitHub. Make sure express.static points to build folder.
 1. Clone project from GitHub to server and ```npm install```.
 1. Create .env/config.js files on server.
