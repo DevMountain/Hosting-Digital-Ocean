@@ -43,10 +43,6 @@ The key's randomart image is:
 
 
 
-
-
-
-
 ### Swapfile (optional)
 Many students buy a Digital Ocean droplet on the $5 tier, which comes with limited RAM. A swapfile can effectively extend the amount of given RAM by swapping out less-recently-used files to the hard disk. This can come in handy. For example, sometimes when running a build on a low-RAM droplet, the process will time out because there is not enough RAM. Having a swapfile in place can help with this.
 
