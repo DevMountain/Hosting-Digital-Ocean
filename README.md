@@ -1,6 +1,6 @@
 # Digital Ocean
 
-### Overview
+## Overview
 
 Basic steps:
 1. Get secure connection to droplet with SSH key.
@@ -21,7 +21,7 @@ Optional:
 ***
 
 
-### SSH Key
+## SSH Key
 
 An SSH key gives us a secure connection to our server droplet. 
 - To begin the creation process, type ```ssh-keygen -t rsa```.
@@ -61,7 +61,7 @@ The key's randomart image is:
 ***
 
 
-### Digital Ocean account
+## Digital Ocean account
 - Sign up for a droplet on Digital Ocean.
 - In the Security Settings, paste in the public SSH key. Give it a name to remember which key it is, probably something like "Michelle-Macbook" to remember which computer it is connected to.
 - Most students should choose Ubuntu for the operation system.
@@ -78,7 +78,7 @@ The key's randomart image is:
 ***
 
 
-### Connect to Server
+## Connect to Server
 - Use ```ssh root@youripaddress``` (e.g., ```ssh root@127.48.12.123```) to connect to your droplet through the command line.
 - You will need your password to connect. **YOU DIDN'T FORGET IT, DID YOU?**
 
@@ -86,7 +86,7 @@ The key's randomart image is:
 ***
 
 
-### Swapfile (optional)
+## Swapfile (optional)
 Many students buy a Digital Ocean droplet on the $5 tier, which comes with limited RAM. A swapfile can effectively extend the amount of given RAM by swapping out less-recently-used files to the hard disk. This can come in handy. For example, sometimes when running a build on a low-RAM droplet, the process will time out because there is not enough RAM. Having a swapfile in place can help with this.
 
 <details> <summary> swapfile details </summary> 
@@ -133,7 +133,7 @@ The first time you access your droplet, there is likely an older version of Node
 ***
 
 
-### Clone project from GitHub
+## Clone project from GitHub
 - On local machine, switch any localhost paths to environment variables.
 - Make sure the code is working on your local machine.
 - In your server, add express.static
@@ -158,7 +158,7 @@ The first time you access your droplet, there is likely an older version of Node
 ***
 
 
-### Run Node
+## Run Node
 - Test to see if your hosted project works. Try running node on your server file. If, for example, your server file is called "index.js" and it is inside a folder called "server", run ```node server/index.js```.
 - Now enter your IP address (the one Digital Ocean gave you) in the browser URL bar, followed by a ```:``` and the port your server is running on (e.g., ```127.48.12.123:3100```). Your hosted site should appear. You are almost done! Currently, your site is running but will stop as soon as you close the command line window or otherwise terminate the running Node process.
 - To keep your app running forever, move on to the final required step, in which you will install something called forever.
@@ -172,4 +172,4 @@ The first time you access your droplet, there is likely an older version of Node
 ***
 
 
-### forever
+## forever
