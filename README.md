@@ -139,7 +139,7 @@ The first time you access your droplet, there is likely an older version of Node
 
         ``` <a href={"http://localhost:3200/auth"}><li>Log in</li></a> ``` 
     
-        - ... replace the string so it says something like this:
+        ... replace the string so it says something like this:
 
         ```<a href={process.env.REACT_APP_LOGIN}><li>Log in</li></a>``` 
     
