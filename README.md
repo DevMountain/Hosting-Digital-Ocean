@@ -70,3 +70,10 @@ swapon /swapfile
 </details>
 
 
+***
+
+
+```npm run build```
+
+#### Possible bugs:
+- It is possible to get a timeout error when running a build on your server. This may happen if your droplet is the cheapest tier (with the least RAM). You might fix this by implementing a swapfile (see the optional section on swapfiles). If you already created a swapfile, trying running through all those swapfile commands again (perhaps there was an error when creating it the first time).
