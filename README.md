@@ -139,7 +139,13 @@ The first time you access your droplet, there is likely an older version of Node
 ### Run Node
 - Test to see if your hosted project works. Try running node on your server file. If, for example, your server file is called "index.js" and it is inside a folder called "server", run ```node server/index.js```.
 - Now enter your IP address (the one Digital Ocean gave you) in the browser URL bar, followed by a ```:``` and the port your server is running on (e.g., ```127.48.12.123:3100```). Your hosted site should appear. You are almost done! Currently, your site is running but will stop as soon as you close the command line window or otherwise terminate the running Node process.
-- To keep your app running forever, move on to the next step, in which you will install something called forever.
+- To keep your app running forever, move on to the final required step, in which you will install something called forever.
 
-#### Possible errors:
+#### Possible bugs:
 - You might run Node and find that your app's front end does not appear. Perhaps you see the words ```Cannot GET``` in the browser. Try testing one of your GET endpoints to see if the back end works by typing the endpoint URL into the browser bar (e.g., '127.48.12.123:3100/api/products'). If the browser correctly displays data from your endpoint, this probably indicates that your project is hosted on the server but your server file is not pointing to your build folder correctly. Carefully check the express.static line again. It is easy to miss a slash (```/```) or a period (```.```). The correct code probably looks like this: ```app.use( express.static( `${__dirname}/../build` ) );```. Notice the ```__dirname``` variable (with two underscores), followed by a slash, then traveling up one folder and going into the ```build``` folder.
+
+
+***
+
+
+### forever
