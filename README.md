@@ -134,7 +134,7 @@ The first time you access your droplet, there is likely an older version of Node
 
 
 ## Prep code for production
-#### store paths in .env file
+###### store paths in .env file
 - On local machine, instead of using absolute paths (e.g., 'http://localhost:3200/auth') to environment variables. In other words, everywhere you have a full path with "localhost" in it, replace that path string with a reference to a variable, and store that variable and value in your .env (or config.js) file.
     - For example, if you have an ```<a>``` tag with an Auth0 link like this...
 
@@ -152,7 +152,7 @@ The first time you access your droplet, there is likely an older version of Node
     1. If you built your front end with ```create-react-app```, your React front end can only access variable that start with ```REACT_APP_```. The ```npm start``` command builds them into the app. Variables that are accessed outside of React (i.e., in your back end), do not need the ```REACT_APP_``` prefix.
     2. React does not allow you to access files outside the src folder, so if you need environment variables in your front end, you will have to put an .env file inside the src folder.
 
-#### build folder
+###### build folder
 - Make sure the project is working on your local machine.
 - Run ```npm run build``` to create a build folder.
 - In your server, the following code to point your server to your front end static files. This tells express to look for a build folder. The ```__dirname``` variable tells it to start at the current file where Node is running (i.e., your server file), and ```/../build``` tells it to then go up one file and into a build folder.
