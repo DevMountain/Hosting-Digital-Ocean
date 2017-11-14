@@ -134,9 +134,27 @@ The first time you access your droplet, there is likely an older version of Node
 
 
 ## Clone project from GitHub
-- On local machine, switch any localhost paths to environment variables.
-- Make sure the code is working on your local machine.
+- On local machine, instead of using absolute paths (e.g., 'http://localhost:3200/auth') to environment variables. In other words, everywhere you have a full path with "localhost" in it, replace that path string with a reference to a variable, and store that variable and value in your .env (or config.js) file.
+    - For example, if you had an <a> tag with an Auth0 link like this:
+```html
+        <a href={"http://localhost:3200/auth"}><li>Log in</li></a>
+``` 
+    replace the string so it says something like this:
+```html
+        <a href={process.env.REACT_APP_LOGIN}><li>Log in</li></a>
+``` 
+    - In the .env file, store the variable. No need for a keyword like ```var``` or ```const```. Also, quotation marks are optional (unless there is a space inside the string, in which case they are required). The variable for the example above would look like this inside the .env file:
+```
+    REACT_APP_LOGIN=http://localhost:3200/auth
+```
+    - Replacing full paths with environment variables is generally a good idea throughout your whole app (both front end and back). For React, however, keep two things in mind:
+        1. If you built your front end with ```create-react-app```, your React front end can only access variable that start with ```REACT_APP_```. The ```npm start``` command builds them into the app. Variables that are accessed outside of React (i.e., in your back end), do not need the ```REACT_APP_``` prefix.
+        2. React does not allow you to access files outside the src folder, so if you need environment variables in your front end, you will have to put an .env file inside the src folder.
+
+
 - In your server, add express.static
+```app.use( express.static( `${__dirname}/../build` ) );```
+- Make sure the code is working on your local machine.
 
 
 - Clone project onto server using ```git clone url-to-your-github-project```.
@@ -153,6 +171,7 @@ The first time you access your droplet, there is likely an older version of Node
 
 #### Possible errors:
 - It is possible to get a timeout error when running a build on your server. This may happen if your droplet is the cheapest tier (with the least RAM). You might fix this by implementing a swapfile (see the optional section on swapfiles). If you already created a swapfile, trying running through all those swapfile commands again (perhaps there was an error when creating it the first time).
+- If you see an error saying ```npm build``` was called without any arguments, try ```npm run build``` instead. Your ```package.json``` file shows both ```start``` and ```build``` together in the ```scripts``` section, and you are used to running ```npm start``` (with no "run" command), so you may think you can run ```npm build``` the same way. It is true that leaving out ```run``` is a shorthand way of running scripts, but there is already a built-in npm command for ```npm build``` (used to build Node add-ons FYI), and that built-in command overshadows the ```npm build``` shorthand. **TL;DR**: Try ```npm run build``` instead.
 
 
 ***
