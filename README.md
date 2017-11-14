@@ -1,5 +1,21 @@
 # Digital Ocean
 
+### Overview
+1. Sign up for a droplet on Digital Ocean.
+1. Get secure connection to droplet with SSH key.
+1. Push working code to GitHub. Make sure express.static points to build folder.
+1. Clone project from GitHub to server and ```npm install```.
+1. Create .env/config.js files on server.
+1. Create a build with ```npm run build```.
+1. Run forever (so hosted project is always running).
+Optional:
+1. Set up swapfile to extend the limited RAM that comes with the cheaper droplets.
+1. Set up nginx to host multiple projects on same droplet.
+1. Set up a domain name.
+
+
+***
+
 
 ### SSH Key
 
