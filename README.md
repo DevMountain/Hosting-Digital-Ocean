@@ -17,12 +17,6 @@ Optional:
 1. Set up a domain name.
 
 
-***
-
-
-### Digital Ocean account
-- Don't forget to copy the IP address. You will use this to connect to your server through the command line, and you will also use it to log on to the site once it is hosted (unless you set up a domain).
-
 
 ***
 
@@ -36,7 +30,7 @@ An SSH key gives us a secure connection to our server droplet.
 Generating public/private rsa key pair.
 Enter file in which to save the key (/Users/username/.ssh/id_rsa):
 ```
-- You will be asked to enter a password. YOU MUST NOT FORGET THIS PASSWORD. It cannot be recovered. Make sure it is something you can remember.
+- You will be asked to enter a password. **YOU MUST NOT FORGET THIS PASSWORD**. It cannot be recovered. Make sure it is something you can remember.
 ```sh
 Enter passphrase (empty for no passphrase):
 Enter same passphrase again:
@@ -65,6 +59,28 @@ The key's randomart image is:
 
 #### Possible errors:
 - You might get an error saying your private key is invalid, even when you are sure you copied the correct key. This can happen if you accidentally copied spaces at the end of the key string. This especially happens with Windows users using git bash, even when it looks like there are no extra spaces in the selection. Try pasting the key into Notepad or another editor (like VS Code) and then copying again from there.
+
+
+***
+
+
+### Digital Ocean account
+- Sign up for a droplet on Digital Ocean.
+- In the Security Settings, paste in the public SSH key. Give it a name to remember which key it is, probably something like "Michelle-Macbook" to remember which computer it is connected to.
+- Most students should choose Ubuntu for the operation system.
+- Select a droplet size. Most students choose the cheapest droplet (about $5 per month).
+- When asked, choose a data center close to you (e.g, San Francisco for the West Coast).
+- Select the SSH key you registered earlier.
+- Choose a droplet name that can represent multiple projects, not just one (e.g., "kevin-droplet" rather than "personal-project").
+- Once the droplet is created, you will receive the droplet's IP address. You will use this to connect to your server through the command line, and you will also use it to log on to the site once it is hosted (unless you set up a domain).
+
+
+***
+
+
+### Connect to Server
+- Use ```ssh root@youripaddress``` (e.g., ```ssh root@127.48.12.123```) to connect to your droplet through the command line.
+- You will need your password to connect. **YOU DIDN'T FORGET IT, DID YOU?**
 
 
 ***
