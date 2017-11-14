@@ -37,7 +37,7 @@ The key's randomart image is:
 - You will copy the public key (```id_rsa.pub```) to give to Digital Ocean. You will not give out the private key. To see the public key, type ```cat ~/.ssh/id_rsa.pub```. This will show you a long string starting with ```ssh-rsa``` and ending with an email address.
 - You can also copy the key using ```pbcopy < ~/.ssh/id_rsa.pub```.
 
-#### Possible bugs:
+#### Possible errors:
 - You might get an error saying your private key is invalid, even when you are sure you copied the correct key. This can happen if you accidentally copied spaces at the end of the key string. This especially happens with Windows users using git bash, even when it looks like there are no extra spaces in the selection. Try pasting the key into Notepad or another editor (like VS Code) and then copying again from there.
 
 
@@ -64,7 +64,7 @@ swapon /swapfile
 - If you want to have the droplet load with the swapfile on, use ```nano /etc/fstab``` to open the fstab file, and at the bottom type ```/swapfile   none    swap    sw    0   0```.
 - If you want to tell the server to swap files less often, use ```nano /etc/sysctl.conf``` to open the sysctl.conf file and type ```vm.swappiness=10``` to set the swappiness to 10 (instead of the default 60).
 
-#### Possible bugs:
+#### Possible errors:
 - If the you get an error related to the ```fallocate``` command, it may be that the swapfile is currently on. You cannot fallocate a swapfile that is currently in use. Try turning off the swapfile with ```swapoff /swapfile``` and then entering the commands again, starting with ```fallocate -l 1G /swapfile``` and ending with ```swapon /swapfile``` (which turns it back on). 
 
 </details>
@@ -84,7 +84,7 @@ The first time you access your droplet, there is likely an older version of Node
 - If you want to install an earlier version of Node, type ```n x.x.x``` (e.g., ```n 8.6.0```).
 - Run ```npm i -g npm``` to update and install the latest stable version of npm.
 
-#### Possible bugs:
+#### Possible errors:
 - It is possible to get an error that says Node is not compatible with npm. This might happen if you have the latest version of Node installed on your server and it is not a stable version or is not yet supported. Try downgrading to a slightly earlier version of node using ```n x.x.x``` (replacing the x's with the version numbers).
 
 
@@ -93,5 +93,5 @@ The first time you access your droplet, there is likely an older version of Node
 
 ```npm run build```
 
-#### Possible bugs:
+#### Possible errors:
 - It is possible to get a timeout error when running a build on your server. This may happen if your droplet is the cheapest tier (with the least RAM). You might fix this by implementing a swapfile (see the optional section on swapfiles). If you already created a swapfile, trying running through all those swapfile commands again (perhaps there was an error when creating it the first time).
