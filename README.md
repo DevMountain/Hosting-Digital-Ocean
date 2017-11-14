@@ -8,6 +8,7 @@
 1. Create .env/config.js files on server.
 1. Create a build with ```npm run build```.
 1. Run forever (so hosted project is always running).
+
 Optional:
 1. Set up swapfile to extend the limited RAM that comes with the cheaper droplets.
 1. Set up nginx to host multiple projects on same droplet.
