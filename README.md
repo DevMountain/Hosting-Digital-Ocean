@@ -141,8 +141,14 @@ The first time you access your droplet, there is likely an older version of Node
 
 - Clone project onto server using ```git clone url-to-your-github-project```.
 - Run ```npm install``` to install node packages.
-- Recreate any .env file or config.js onto the server. Paste in the contents from the corresponding files on your local machine. Change any absolute paths containing "localhost" (e.g., 'http://localhost:3100/api/users') to relative paths instead (e.g., '/api/users').
-- Create a build using ```npm run build```. This will create a folder called "build" with an optimized version of your project. The express.static lines you added to the server file will tell the server to look in that folder for the static files that need to be served.
+- Recreate any .env file or config.js onto the server. Use ```touch``` to make a file and ```nano``` to edit it. For example to make an .env file run these commands: 
+```sh
+    touch .env
+    nano .env
+```
+- Inside of nano, paste in the contents you copied from the .env or config.js files on your local machine. Change any absolute paths containing "localhost" (e.g., 'http://localhost:3100/api/users') to relative paths instead (e.g., '/api/users').
+- To exit nano, use Ctrl+x to exit. It will ask if you want to save. Type "Yes" or "y", then hit Return to confirm. 
+- Create a build folder using ```npm run build```. This will create a folder called "build" with an optimized version of your project. The express.static line you added to the server file will tell the server to look in that build folder for the static files that need to be served.
 
 
 #### Possible errors:
