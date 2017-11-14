@@ -140,12 +140,12 @@ The first time you access your droplet, there is likely an older version of Node
         ``` <a href={"http://localhost:3200/auth"}><li>Log in</li></a> ``` 
     
     replace the string so it says something like this:
-
         ```<a href={process.env.REACT_APP_LOGIN}><li>Log in</li></a>``` 
     
     - In the .env file, store the variable. No need for a keyword like ```var``` or ```const```. Also, quotation marks are optional (unless there is a space inside the string, in which case they are required). The variable for the example above would look like this inside the .env file:
 
-    ````REACT_APP_LOGIN=http://localhost:3200/auth```
+        ```REACT_APP_LOGIN=http://localhost:3200/auth```
+
     - Replacing full paths with environment variables is generally a good idea throughout your whole app (both front end and back). For React, however, keep two things in mind:
         1. If you built your front end with ```create-react-app```, your React front end can only access variable that start with ```REACT_APP_```. The ```npm start``` command builds them into the app. Variables that are accessed outside of React (i.e., in your back end), do not need the ```REACT_APP_``` prefix.
         2. React does not allow you to access files outside the src folder, so if you need environment variables in your front end, you will have to put an .env file inside the src folder.
