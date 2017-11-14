@@ -71,6 +71,23 @@ swapon /swapfile
 
 
 ***
+
+
+### Upgrade Node
+
+The first time you access your droplet, there is likely an older version of Node installed on the computer. If so, you should update. You might want to run the same version of Node as the one installed on your computer.
+- To see what version you currently have, type ```node -v```.
+- Run ```apt-get update && apt-get dist-upgrade``` to update the software Linus know about. 
+- Run ```apt-get install nodejs -y ; apt-get install npm -y``` to install Node.js and npm.
+- Run ```npm i -g n``` to globally install ```n```, which you can use to upgrade Node (or downgrade to an earlier version).
+- If you want to install the latest version of Node, type ```n latest```.
+- If you want to install an earlier version of Node, type ```n x.x.x``` (e.g., ```n 8.6.0```).
+- Run ```npm i -g npm``` to update and install the latest stable version of npm.
+
+#### Possible bugs:
+- It is possible to get an error that says Node is not compatible with npm. This might happen if you have the latest version of Node installed on your server and it is not a stable version or is not yet supported. Try downgrading to a slightly earlier version of node using ```n x.x.x``` (replacing the x's with the version numbers).
+
+
 ***
 
 
