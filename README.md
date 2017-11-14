@@ -115,7 +115,7 @@ swapon /swapfile
 ***
 
 
-### Upgrade Node
+## Upgrade Node
 
 The first time you access your droplet, there is likely an older version of Node installed on the computer. If so, you should update. You might want to run the same version of Node as the one installed on your computer.
 - To see what version you currently have, type ```node -v```.
