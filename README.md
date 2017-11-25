@@ -125,11 +125,11 @@ When you have multiple files to host, nginx will let you keep them on the same d
 
 ###### Install nginx
 - Run ```sudo apt-get install nginx```. 
-- The ```/nginx``` folder should now be installed in the ```/etc``` folder. Inside ```/nginx```, Ubuntu should have installed multiple files and folders, including ```/sites-available``` and ```sites-enabled```. If these two folders are not here, create them inside the ```/nginx``` folder by running ```touch sites-available sites-enabled```. In ```/sites-available``` we will configure each hosted project site. In ```/sites-enabled``` we will store symlinks to those configuration files for each project we wish to enable.
-- Go to nginx's "sites-available" folder by running ```cd /etc/nginx/sites-available```.
-- If a default file was not created automatically by the installation, create a default file in ```/sites-available``` with ```touch default```.
+- The ```nginx/``` folder should now be installed in the ```/etc/``` folder. Inside ```nginx/```, Ubuntu should have installed multiple files and folders, including ```sites-available/``` and ```sites-enabled/```. If these two folders are not here, create them inside the ```nginx/``` folder by running ```touch sites-available sites-enabled```. Although the simplest way is to edit the default file that was probably created for you in ```sites-available/```, it may be a better practice to leave the default file alone and instead create and configure a small file for each hosted project site. In ```sites-enabled/``` we will store symlinks to those configuration files for each project we wish to enable.
+- Go to nginx's "sites-available/" folder by running ```cd /etc/nginx/sites-available```.
+- A default file was probably created automatically in ```sites-available/``` by the installation. This file has many comments and shows sample configurations for nginx files. If you do not have a default file, here is an example of what one shows:
 
-<details> <summary> default file </summary> 
+<details> <summary> default file in sites-available/ </summary>
 
 ```
 ##
@@ -219,9 +219,10 @@ server {
 #	}
 #}
 ```
-
-
 </details>
+
+- If you are wondering how nginx knows to check each of these new files you linked to in ```/sites-enabled```, take a look at the ``` Near the bottom, look for ```include /etc/nginx/sites-enabled/*;```. This line tells points nginx to each file in ```/sites-enabled```.
+
 
 ###### Configure nginx 
 
