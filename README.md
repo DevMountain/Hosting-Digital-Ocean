@@ -71,7 +71,7 @@ The key's randomart image is:
 - Choose a droplet name that can represent multiple projects, not just one (e.g., "kevin-droplet" rather than "personal-project").
 - Once the droplet is created, you will receive the droplet's IP address. You will use this to connect to your server through the command line, and you will also use it to log on to the site once it is hosted (unless you set up a domain).
 
-###### Possible errors:
+#### Possible errors:
 - When pasting in your SSH key, you might get an error saying your private key is invalid, even when you are sure you copied the correct key. This can happen if you accidentally copied spaces at the end of the key string. This especially happens with Windows users using git bash, even when it looks like there are no extra spaces in the selection. Try pasting the key into Notepad or another editor (like VS Code) and then copying again from there.
 
 
@@ -106,7 +106,7 @@ swapon /swapfile
 - If you want to have the droplet load with the swapfile on, use ```nano /etc/fstab``` to open the fstab file, and at the bottom type ```/swapfile   none    swap    sw    0   0```.
 - If you want to tell the server to swap files less often, use ```nano /etc/sysctl.conf``` to open the sysctl.conf file and type ```vm.swappiness=10``` to set the swappiness to 10 (instead of the default 60).
 
-###### Possible errors:
+#### Possible errors:
 - If the you get an error related to the ```fallocate``` command, it may be that the swapfile is currently on. You cannot fallocate a swapfile that is currently in use. Try turning off the swapfile with ```swapoff /swapfile``` and then entering the commands again, starting with ```fallocate -l 1G /swapfile``` and ending with ```swapon /swapfile``` (which turns it back on). 
 
 </details>
@@ -126,7 +126,7 @@ The first time you access your droplet, there is likely an older version of Node
 - If you want to install an earlier version of Node, type ```n x.x.x``` (e.g., ```n 8.6.0```).
 - Run ```npm i -g npm``` to update and install the latest stable version of npm.
 
-###### Possible errors:
+#### Possible errors:
 - It is possible to get an error that says Node is not compatible with npm. This might happen if you have the latest version of Node installed on your server and it is not a stable version or is not yet supported. Try downgrading to a slightly earlier version of node using ```n x.x.x``` (replacing the x's with the version numbers).
 
 
@@ -177,7 +177,7 @@ The first time you access your droplet, there is likely an older version of Node
 - Now your entire project is saved to the server, including code, node_modules, .env files, and build folder. The next step is to run Node on our project to see if it works from the server.
 
 
-###### Possible errors:
+#### Possible errors:
 - It is possible to get a timeout error when running a build on your server. This may happen if your droplet is the cheapest tier (with the least RAM). You might fix this by implementing a swapfile (see the optional section on swapfiles). If you already created a swapfile, trying running through all those swapfile commands again (perhaps there was an error when creating it the first time).
 - If you see an error saying ```npm build``` was called without any arguments, try ```npm run build``` instead. Your ```package.json``` file shows both ```start``` and ```build``` together in the ```scripts``` section, and you are used to running ```npm start``` (with no "run" command), so you may think you can run ```npm build``` the same way. It is true that leaving out ```run``` is a shorthand way of running scripts, but there is already a built-in npm command for ```npm build``` (used to build Node add-ons FYI), and that built-in command overshadows the ```npm build``` shorthand. **TL;DR**: Try ```npm run build``` instead.
 
@@ -190,7 +190,7 @@ The first time you access your droplet, there is likely an older version of Node
 - Now enter your IP address (the one Digital Ocean gave you) in the browser URL bar, followed by a ```:``` and the port your server is running on (e.g., ```127.48.12.123:3100```). Your hosted site should appear. You are almost done! Currently, your site is running but will stop as soon as you close the command line window or otherwise terminate the running Node process.
 - To keep your app running forever, move on to the final required step, in which you will install something called forever.
 
-###### Possible bugs:
+#### Possible bugs:
 - You might run Node and find that your app's front end does not appear. Perhaps you see the words ```Cannot GET``` in the browser. Try testing one of your GET endpoints to see if the back end works by typing the endpoint URL into the browser bar (e.g., '127.48.12.123:3100/api/products'). If the browser correctly displays data from your endpoint, this probably indicates that your project is hosted on the server but your server file is not pointing to your build folder correctly. 
     - Carefully check the express.static line again. It is easy to miss a slash (```/```) or a period (```.```). The correct code should probably look like this: ```app.use( express.static( `${__dirname}/../build` ) );```. Notice the ```__dirname``` variable (with two underscores), followed by a slash, then traveling up one folder and going into the ```build``` folder. 
     - You might also double-check that you ran ```npm run build``` to create a build folder.
