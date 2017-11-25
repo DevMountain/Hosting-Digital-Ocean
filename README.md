@@ -225,18 +225,18 @@ When you have multiple files to host, nginx will let you keep them on the same d
     </details>
 
 - Inside the ```sites-available/``` folder, create a file for each project using the ```touch``` command followed by the name of your project. No file extension is needed for these files. 
-- Use ```nano``` to open each file and put in code in this format:
+- Use ```nano``` to open each file and put in code in the format below. Notice the comments telling you what changes to make for your project.
 
     <!-- <details> <summary> sample configuration file </summary> -->
 
         ```
         server {
-            listen 80; # 80 IS THE USUAL PORT TO USE HERE
+            listen 80; #80 IS THE USUAL PORT TO USE HERE
 
-            server_name your-project.your-domain.com # PUT YOUR DOMAIN HERE
+            server_name your-project.your-domain.com #PUT YOUR DOMAIN HERE
 
             location / {
-                proxy_pass http://127.0.0.1:3001; # PUT YOUR SERVER PORT HERE
+                proxy_pass http://127.0.0.1:3001; #PUT YOUR SERVER PORT HERE
                 proxy_http_version 1.1;
                 proxy_set_header Upgrade $http_upgrade;
                 proxy_set_header Connection 'upgrade';
