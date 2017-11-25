@@ -118,6 +118,23 @@ swapon /swapfile
 ***
 
 
+## nginx (optional)
+When you have multiple files to host, nginx will let you keep them on the same droplet by watching for traffic coming to your droplet and routing that traffic to the appropriate project on the droplet.
+
+<details> <summary> nginx installation and configuration </summary> 
+
+###### Install nginx
+
+###### Configure nginx 
+
+#### Possible bugs
+
+</details>
+
+
+***
+
+
 ## Upgrade Node
 
 The first time you access your droplet, there is likely an older version of Node installed on the computer. If so, you should update. You might want to run the same version of Node as the one installed on your computer.
