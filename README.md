@@ -125,7 +125,8 @@ When you have multiple files to host, nginx will let you keep them on the same d
 
 ###### Install nginx
 - Run ```sudo apt-get install nginx```. 
-- The ```nginx/``` folder should now be installed in the ```/etc/``` folder. Inside ```nginx/```, Ubuntu should have installed multiple files and folders, including ```sites-available/``` and ```sites-enabled/```. If these two folders are not here, create them inside the ```nginx/``` folder by running ```touch sites-available sites-enabled```. Although the simplest way is to edit the default file that was probably created for you in ```sites-available/```, it may be a better practice to leave the default file alone and instead create and configure a small file for each hosted project site. In ```sites-enabled/``` we will store symlinks to those configuration files for each project we wish to enable.
+- The ```nginx/``` folder should now be installed in the ```/etc/``` folder. Inside ```nginx/```, Ubuntu should have installed multiple files and folders, including ```sites-available/``` and ```sites-enabled/```. If these two folders are not here, create them inside the ```nginx/``` folder by running ```touch sites-available sites-enabled```. Although the simplest way is to edit the default file that was probably created for you in ```sites-available/```, it may be a better practice to leave the default file alone and instead create and configure a small file for each hosted project site. 
+- After making configuration files in ```sites-available``` for each project, we will make links to those files in the ```sites-enabled``` folder. nginx uses this ```sites-enabled/``` folder to know which projects should be active.
 
 ###### Configure nginx 
 - Go to nginx's "sites-available/" folder by running ```cd /etc/nginx/sites-available```.
@@ -223,6 +224,28 @@ When you have multiple files to host, nginx will let you keep them on the same d
         ```
     </details>
 
+- Inside the ```sites-available/``` folder, create a file for each project using the ```touch``` command followed by the name of your project. No file extension is needed for these files. 
+- Use ```nano``` to open each file and put in code in this format:
+
+    <!-- <details> <summary> sample configuration file </summary> -->
+
+        ```
+        server {
+            listen 80; # 80 IS THE USUAL PORT TO USE HERE
+
+            server_name your-project.your-domain.com # PUT YOUR DOMAIN HERE
+
+            location / {
+                proxy_pass http://127.0.0.1:3001; # PUT YOUR SERVER PORT HERE
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection 'upgrade';
+                proxy_set_header Host $host;
+                proxy_cache_bypass $http_upgrade;
+            }
+        }
+        ```
+    <!-- </details> -->
 
 - If you are wondering how nginx knows to check each of these new files you linked to in ```/sites-enabled```, take a look at the ```nginx.conf``` file in the ```nginx/``` folder by running ```cat /etc/nginx/nginx.conf```. Near the bottom of the file, you should see ```include /etc/nginx/sites-enabled/*;```. This line points nginx to each file in ```/sites-enabled```, so any new file you create there will be included.
 
