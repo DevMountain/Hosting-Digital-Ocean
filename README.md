@@ -16,8 +16,8 @@
 1. Set up nginx to host multiple projects on same droplet.
 1. Set up a domain name.
 
-###### Have a hosted project you need to edit?
-- [Try this cheat sheet.](https://github.com/Alan-Miller/digital-ocean/blob/master/cheat-sheet-for-editing-hosted-project.md)
+###### Steps for making changes to a project that is already hosted:
+- [Cheat sheet.](https://github.com/Alan-Miller/digital-ocean/blob/master/cheat-sheet-for-editing-hosted-project.md)
 
 
 
