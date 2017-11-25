@@ -2,7 +2,7 @@
 
 ## Overview
 
-###### Basic steps:
+###### Basic hosting steps:
 1. Get secure connection to droplet with SSH key.
 1. Sign up for a droplet on Digital Ocean.
 1. Push working code to GitHub. Make sure express.static points to build folder.
@@ -11,10 +11,13 @@
 1. Create a build with ```npm run build```.
 1. Run forever (so hosted project is always running).
 
-###### Optional:
+###### Optional steps:
 1. Set up swapfile to extend the limited RAM that comes with the cheaper droplets.
 1. Set up nginx to host multiple projects on same droplet.
 1. Set up a domain name.
+
+###### Have a hosted project you need to edit?
+- [Try this cheat sheet.](https://github.com/Alan-Miller/digital-ocean/blob/master/cheat-sheet-for-editing-hosted-project.md)
 
 
 

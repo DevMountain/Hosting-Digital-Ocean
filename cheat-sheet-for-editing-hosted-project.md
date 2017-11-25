@@ -9,7 +9,7 @@
 6. Use ```npm run build``` for React projects which use ```express.static``` to serve up files from a build folder. This recreates the build folder with the recent changes so they become part of the files that are served up.
 7. Restart forever.
 
-## Changes to node modules (new dependencies installed)?
+## Changes to node modules (i.e., new dependencies installed)?
 1. Installing new node modules in the local project should have changed your local package.json file. This file is not .gitignored, so you can update your hosted project's package.json file by following steps 1–5 above which describe how to push and pull working code to the server.
 2. Once package.json file is up to date on the server, run ```npm install``` to install the new dependencies into your project.
 3. Use ```npm run build``` to make a new build folder so these changes become part of the code served up.
