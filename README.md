@@ -126,6 +126,8 @@ When you have multiple files to host, nginx will let you keep them on the same d
 ###### Install nginx
 - Run ```sudo apt-get install nginx```. 
 - The ```nginx/``` folder should now be installed in the ```/etc/``` folder. Inside ```nginx/```, Ubuntu should have installed multiple files and folders, including ```sites-available/``` and ```sites-enabled/```. If these two folders are not here, create them inside the ```nginx/``` folder by running ```touch sites-available sites-enabled```. Although the simplest way is to edit the default file that was probably created for you in ```sites-available/```, it may be a better practice to leave the default file alone and instead create and configure a small file for each hosted project site. In ```sites-enabled/``` we will store symlinks to those configuration files for each project we wish to enable.
+
+###### Configure nginx 
 - Go to nginx's "sites-available/" folder by running ```cd /etc/nginx/sites-available```.
 - SIDE NOTE: A default file was probably created automatically in ```sites-available/``` by the installation. This file has many comments and shows sample configurations for nginx files. If you do not have a default file, below is an example of a default file. It is just a reference. We won't need it for this tutorial, so feel free to move ahead.
 
@@ -225,7 +227,6 @@ When you have multiple files to host, nginx will let you keep them on the same d
 - If you are wondering how nginx knows to check each of these new files you linked to in ```/sites-enabled```, take a look at the ```nginx.conf``` file in the ```nginx/``` folder by running ```cat /etc/nginx/nginx.conf```. Near the bottom of the file, you should see ```include /etc/nginx/sites-enabled/*;```. This line points nginx to each file in ```/sites-enabled```, so any new file you create there will be included.
 
 
-###### Configure nginx 
 
 ###### Possible bugs
 - Welcome to nginx page.
