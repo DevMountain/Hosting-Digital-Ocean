@@ -331,7 +331,7 @@ The first time you access your droplet, there is likely an older version of Node
 ## Run Node
 - Test to see if your hosted project works. Try running node on your server file. If, for example, your server file is called "index.js" and it is inside a folder called "server", run ```node server/index.js```.
 - Now enter your IP address (the one Digital Ocean gave you) in the browser URL bar, followed by a ```:``` and the port your server is running on (e.g., ```127.48.12.123:3100```). Your hosted site should appear. You are almost done! Currently, your site is running but will stop as soon as you close the command line window or otherwise terminate the running Node process.
-- To keep your app running forever, move on to the final required step, in which you will install something called forever.
+- Once you've tested your site, use Ctrl+C to terminate the Node process. To keep your app running forever, move on to the final required step, in which you will install something called forever.
 
 ###### Possible bugs:
 - You might run Node and find that your app's front end does not appear. Perhaps you see the words ```Cannot GET``` in the browser. Try testing one of your GET endpoints to see if the back end works by typing the endpoint URL into the browser bar (e.g., '127.48.12.123:3100/api/products'). If the browser correctly displays data from your endpoint, this probably indicates that your project is hosted on the server but your server file is not pointing to your build folder correctly. 
@@ -343,3 +343,18 @@ The first time you access your droplet, there is likely an older version of Node
 
 
 ## forever
+
+###### Install forever
+- 
+
+<details> <summary> Additional forever commands </summary>
+
+- ```forever list```: Shows currently running forever processes. Notice how each process has a UID and a PID.
+- ```forever restart [id]```: Restart a specific process, replacing [id] with the process UID or PID.
+- ```forever restartall```: Restart all current processes.
+- ```forever stopall```: Stop all processes.
+- ```forever columns [add/rm] [column name]```: Format what you see when you run ```forever list``` by adding or removing columns by their column name. For instance, you might remove the 'command' column or the 'logfile' column if you don't find that information useful. You might add the 'dir' column because it shows you the project folder path forever is running in, which is helpful for identifying which project is running which process.
+- ```--uid [custom UID]``` option: Adding this option when together with ```forever start``` lets you set the UID to whatever numbers or characters you want. This can be convenient for both identifying which process is running and for easily remembering the UID so you can stop or restart the process quickly. For example, ```forever -a start --uid foto server/server.js``` to create a "foto" UID, and ```forever restart foto``` to restart that process.
+
+
+</details>
