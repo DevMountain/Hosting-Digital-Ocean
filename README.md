@@ -81,7 +81,7 @@ The key's randomart image is:
 ***
 
 
-## Connect to Server
+## connect to server
 - Use ```ssh root@your.ip.address``` (e.g., ```ssh root@127.48.12.123```) to connect to your droplet through the command line.
 - You will need your password to connect. **YOU DIDN'T FORGET IT, DID YOU?**
 
@@ -89,7 +89,7 @@ The key's randomart image is:
 ***
 
 
-## Swapfile (optional)
+## swapfile (optional)
 Many students buy a Digital Ocean droplet on the $5 tier, which comes with limited RAM. A swapfile can effectively extend the amount of given RAM by swapping out less-recently-used files to the hard disk. This can come in handy. For example, sometimes when running a build on a low-RAM droplet, the process will time out because there is not enough RAM. Having a swapfile in place can help with this.
 
 <details> <summary> swapfile details </summary> 
@@ -258,7 +258,7 @@ server {
 ***
 
 
-## Upgrade Node
+## upgrade Node
 
 The first time you access your droplet, there is likely an older version of Node installed on the computer. If so, you should update. You might want to run the same version of Node as the one installed on your computer.
 - To see what version you currently have, type ```node -v```.
@@ -276,7 +276,7 @@ The first time you access your droplet, there is likely an older version of Node
 ***
 
 
-## Prep code for production
+## prep code for production
 ###### .env variables
 - On local machine, instead of using absolute paths (e.g., 'http://localhost:3200/auth') to environment variables. In other words, everywhere you have a full path with "localhost" in it, replace that path string with a reference to a variable, and store that variable and value in your .env (or config.js) file.
     - For example, if you have an ```<a>``` tag with an Auth0 link like this...
@@ -302,7 +302,7 @@ The first time you access your droplet, there is likely an older version of Node
 ```app.use( express.static( `${__dirname}/../build` ) );```
 
 
-## Copy project to server
+## copy project to server
 ###### push and pull from GitHub
 - Commit and push your working code to GitHub.
 - Use ```ssh root@your.ip.address``` to connect to your droplet, and use ```cd``` to go into your project folder on the server.
@@ -328,7 +328,7 @@ The first time you access your droplet, there is likely an older version of Node
 ***
 
 
-## Run Node
+## test with Node
 - Test to see if your hosted project works. Try running node on your server file. If, for example, your server file is called "index.js" and it is inside a folder called "server", run ```node server/index.js```.
 - Now enter your IP address (the one Digital Ocean gave you) in the browser URL bar, followed by a ```:``` and the port your server is running on (e.g., ```127.48.12.123:3100```). Your hosted site should appear. You are almost done! Currently, your site is running but will stop as soon as you close the command line window or otherwise terminate the running Node process.
 - Once you've tested your site, use Ctrl+C to terminate the Node process. To keep your app running forever, move on to the final required step, in which you will install something called forever.
@@ -352,6 +352,12 @@ The first time you access your droplet, there is likely an older version of Node
 ###### After starting forever
 - Once you use the ```forever start``` command, your project should be running and accessible online even after closing the command line window.
 - If you need to deploy new changes to your project after hosting it, try this [cheat sheet](https://github.com/Alan-Miller/digital-ocean/blob/master/cheat-sheet-for-editing-hosted-project.md).
+
+###### Possible issues:
+- ```error: Cannot start forever```
+
+```error: log file /root/.forever/[some_process].log exists. Use the -a or --append option to append log```.
+- **Miscellaneous**: Sometimes you run forever and it fails and you don't know why. It can be helpful to stop forever and instead go back to testing the project by running Node, which will often give more useful errors. Running Node also lets you see console logs in your server code, which can help you debug.
 
 <details> <summary> Additional forever commands </summary>
 
