@@ -232,7 +232,7 @@ When you have multiple files to host, nginx will let you keep them on the same d
 server {
     listen 80; #80 IS THE USUAL PORT TO USE HERE
 
-    server_name your-project.your-domain.com #PUT YOUR DOMAIN HERE
+    server_name your_project.your_domain.com #PUT YOUR DOMAIN HERE
 
     location / {
         proxy_pass http://127.0.0.1:3001; #PUT YOUR SERVER PORT HERE
