@@ -17,5 +17,5 @@ Whether you have a local database you want to copy to your server (e.g., local t
 
         ```export PATH="/Path/To/Folder/PgDump/Is/In/:$PATH"```. 
     
-        Make sure the path just points to the folder pg_dump is in, not to pg_dump itself, and make sure to include ```export PATH=``` and ```:$PATH``` on either end. Once your .bash_profile has the updated PATH code, save and close this file. 
+        Points the path to the folder pg_dump is in, not to pg_dump itself, and make sure to include ```export PATH=``` and ```:$PATH``` on either end. Once your .bash_profile has the updated PATH code, save and close this file. 
     - Open a new command line window (your CLI only notices changes to the .bash_profile when opening a new window) and try the ```pg_dump``` command again.
