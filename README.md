@@ -349,6 +349,10 @@ The first time you access your droplet, there is likely an older version of Node
 - Use ```cd``` to go to the top level of your project file.
 - Use ```forever start [path to server file]``` to start forever (e.g., ```forever start server/server.js```). 
 
+###### After starting forever
+- Once you use the ```forever start``` command, your project should be running and accessible online even after closing the command line window.
+- If you need to deploy new changes to your project after hosting it, try this [cheat sheet](https://github.com/Alan-Miller/digital-ocean/blob/master/cheat-sheet-for-editing-hosted-project.md).
+
 <details> <summary> Additional forever commands </summary>
 
 - ```forever list```: Shows currently running forever processes. Notice how each process has a UID and a PID.
