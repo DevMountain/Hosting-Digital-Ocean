@@ -354,7 +354,7 @@ The first time you access your droplet, there is likely an older version of Node
 - ```forever restartall```: Restart all current processes.
 - ```forever stopall```: Stop all processes.
 - ```forever columns [add/rm] [column name]```: Format the list of processes you see when you run ```forever list``` by adding or removing columns using the column name. For instance, you might remove the "command" column or the "logfile" column if you don't find that information useful. You might add the "dir" column because it shows the project folder forever is running in, which is helpful for identifying which project is running which process.
-- ```--uid [custom UID]``` option together with ```forever start```: This option lets you set the UID to whatever numbers or characters you want. This can be convenient for both identifying which process is running and for easily remembering the UID so you can stop or restart the process quickly. For example, ```forever -a start --uid foto server/server.js``` to create a "foto" UID, and ```forever restart foto``` to restart that process.
+- ```--uid [custom UID]``` option together with ```forever start```: This option lets you set the UID to whatever numbers or characters you want. This can be convenient for both identifying which process is running and for easily remembering the UID so you can stop or restart the process quickly. For example, if you have an app called Foto, you could start forever with ```forever -a start --uid foto server/server.js``` to create a "foto" UID, and ```forever restart foto``` to restart that process.
 
 
 </details>
