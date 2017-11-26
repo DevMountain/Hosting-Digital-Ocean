@@ -347,7 +347,7 @@ The first time you access your droplet, there is likely an older version of Node
 ###### Install and start forever
 - Use ```npm install -g forever``` to install.
 - Use ```cd``` to go to the top level of your project file.
-- Use ```forever start [path to server file]``` to start forever running the project. 
+- Use ```forever start [path to server file]``` to start forever running the project (e.g., ```forever start server/server.js```). 
 
 <details> <summary> Additional forever commands </summary>
 
