@@ -7,7 +7,7 @@ log into psql then ```\password```
 Whether you have a local database you want to copy to your server (e.g., local to Heroku) or a hosted database you want to move to a different server (e.g., Heroku to Digital Ocean), the ```pg_dump``` command is your friend.
 
 ###### Possible issues
-- pg_dump command not found: You may try to use the ```pg_dump``` command only to have your command line editor say something like "command not found," even though you are sure you correctly installed pg_dump. If so, you may need to find out where it was installed and point your command line editor to that path using your .bash_profile or .bashrc file. Try the following:
+- **pg_dump command not found:** You may try to use the ```pg_dump``` command only to have your command line editor say something like "command not found," even though you are sure you correctly installed pg_dump. If so, you may need to find out where it was installed and point your command line editor to that path using your .bash_profile or .bashrc file. Try the following:
     - If you know exactly where pg_dump was installed, copy the full path. 
     - If you do not know where pg_dump is installed, use ```find``` to search for pg_dump. 
         - The ```find``` command includes a path, options, and a search expression. For example, if you thought pg_dump was installed in your ```/Applications/``` folder and wanted to search for pg_dump by its name, you might try ```find /Applications/ -name pg_dump``` (where ```-name``` is the search-by-name option). 
