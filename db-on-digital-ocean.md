@@ -3,7 +3,7 @@
 ## Change your db user password:
 log into psql then ```\password```
 
-## Copy database to server
+## Copy database to hosted server
 Whether you have a local database you want to copy to your server (e.g., local to Heroku) or a hosted database you want to move to a different server (e.g., Heroku to Digital Ocean), the ```pg_dump``` command is your friend.
 
 ###### Possible issues
@@ -25,3 +25,9 @@ Whether you have a local database you want to copy to your server (e.g., local t
     
         Point the path to the folder pg_dump is in, not to pg_dump itself, and make sure to include ```export PATH=``` and ```:$PATH``` on either end. Once your .bash_profile has the updated PATH code, save and close this file. 
     - Open a new command line window (your CLI only notices changes to the .bash_profile when opening a new window) and try the ```pg_dump``` command again.
+
+## Access Digital Ocean database on local computer using SSH tunnel
+If you hosted your database on Digital Ocean and are noticing difficulty connecting to it from your local computer (e.g., through a GUI on your computer like PGAdmin or SQL Tabs), try an SSH tunnel to securely connect to the remote database.
+- To create a secure tunnel, run ```ssh -N -L [new_port]:[host]:[remote_port] [user]``` in the command line. For example, if the user is anna and the database is a Postgres database running on 5432, the user might run ```ssh -N -L 5555:localhost:5432 anna``` to create a secure tunnel and forward the local port 555 to the remote port 5432, encrypting it in the process. For more on this, see [these tips](http://www.revsys.com/writings/quicktips/ssh-tunnel.html).
+- Connect to the database using localhost and the new port. For example, in the example above, the user anna could then use a GUI to connect to the database on port 5555 on localhost. 
+- Keep in mind the tunnel only stays open as long as the command line window is open where the tunnel command was entered.
