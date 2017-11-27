@@ -85,7 +85,7 @@ The key's randomart image is:
 - Use ```ssh root@your.ip.address``` (e.g., ```ssh root@127.48.12.123```) to connect to your droplet through the command line.
 - You will need your password to connect. **YOU DIDN'T FORGET IT, DID YOU?**
 
-<details> <summary> Additional SSH options </summary>
+<details> <summary> Additional SSH login options </summary>
 
 ###### Change SSH password
 If you need to change your password, you can do so after first logging into your droplet. Obviously, this means you need to know your old password. If you do change it, don't forget you cannot recover passwords, so you will have to take care to remember the new one.
@@ -95,7 +95,7 @@ If you need to change your password, you can do so after first logging into your
 ###### Add SSH password to ssh-agent keychain
 To log in without typing your password, you can add the password to the ssh-agent, a program that holds private keys for authentication.
 1. Start the ssh-agent by running ```ssh-agent -s```.
-1. Modify the hidden SSH config file on your computer to automatically load keys into ssh-agent's keychain.
+2. Modify the hidden SSH config file on your computer to automatically load keys into ssh-agent's keychain.
     - Open the config file using ```nano ~/.ssh/config```.
     - Add the following to the config file:
 ```sh
@@ -104,7 +104,7 @@ To log in without typing your password, you can add the password to the ssh-agen
         UseKeyChain yes
         IdentityFile ~/.ssh/id_rsa
 ```
-1. Add your SSH private key to the ssh-agent by running ```ssh-add -K ~/.ssh/id_rsa```.
+3. Add your SSH private key to the ssh-agent by running ```ssh-add -K ~/.ssh/id_rsa```.
 [See these docs for more.](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
 
 ###### Custom SSH login
