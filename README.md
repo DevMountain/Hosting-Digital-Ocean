@@ -95,7 +95,7 @@ If you need to change your password, you can do so after first logging into your
 ---
 
 ###### Add SSH password to ssh-agent keychain
-To log in without typing your password, you can add the password to the ssh-agent, a program that holds private keys for authentication.
+To log in without typing your password, you can add the password to the ssh-agent, a program that holds private keys for authentication. [See these docs for more.](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
 1. Start the ssh-agent by running ```ssh-agent -s```.
 2. Modify the hidden SSH config file on your computer to automatically load keys into ssh-agent's keychain.
     - Open the config file using ```nano ~/.ssh/config```.
@@ -107,8 +107,6 @@ To log in without typing your password, you can add the password to the ssh-agen
         IdentityFile ~/.ssh/id_rsa
 ```
 3. Add your SSH private key to the ssh-agent by running ```ssh-add -K ~/.ssh/id_rsa```.
-
-    [See these docs for more.](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
 
 ---
 
