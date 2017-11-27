@@ -106,8 +106,7 @@ To log in without typing your password, you can add the password to the ssh-agen
 ```
 - Add your SSH private key to the ssh-agent by running ```ssh-add -K ~/.ssh/id_rsa```.
   
-    
-      
+_
 
 ###### Custom SSH login
 If you find it inconvenient to type in your IP address when logging into your server, try customizing your SSH login.
