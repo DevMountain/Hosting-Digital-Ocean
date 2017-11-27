@@ -20,7 +20,7 @@
 - Try this [cheat sheet](https://github.com/Alan-Miller/digital-ocean/blob/master/cheat-sheet-for-editing-hosted-project.md).
 
 ###### Hosting your database on Digital Ocean
-- Read more [here](https://github.com/Alan-Miller/digital-ocean/blob/master/db-on-digital-ocean.md).
+- Read more in this [separate file](https://github.com/Alan-Miller/digital-ocean/blob/master/db-on-digital-ocean.md).
 
 
 ***
