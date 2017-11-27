@@ -94,13 +94,13 @@ If you find it inconvenient to type in your IP address when logging into your se
 
 ``` sh
 
-Host bakerc
-    User root
-    Hostname 103.723.6.24
+    Host bakerc
+        User root
+        Hostname 103.723.6.24
 
-Host bakerm
-    User mb
-    Hostname 103.723.6.24
+    Host bakerm
+        User mb
+        Hostname 103.723.6.24
 
 ```
 
