@@ -87,6 +87,11 @@ The key's randomart image is:
 
 <details> <summary> Additional SSH options </summary>
 
+###### Change SSH password
+If you need to change your password, you can do so after first logging into your droplet. Obviously, this means you need to know your old password. If you do change it, don't forget you cannot recover passwords, so you will have to take care to remember the new one.
+- Log in to your droplet using ```ssh root@[your.IP.address]```.
+- Type ```passwd```. You will be prompted to enter your old password and then the new password (twice). 
+
 ###### Custom SSH login
 If you find it inconvenient to type in your IP address when logging into your server, try customizing your SSH login.
 - On your local computer open the hidden SSH config file in your home folder. If you want to use nano, you can enter ```nano ~/.ssh/config```. 
@@ -103,11 +108,6 @@ If you find it inconvenient to type in your IP address when logging into your se
         Hostname 103.723.6.24
 
 ```
-
-###### Change SSH password
-If you need to change your password, you can do so after first logging into your droplet. Obviously, this means you need to know your old password. If you do change it, don't forget you cannot recover passwords, so you will have to take care to remember the new one.
-- Log in to your droplet using ```ssh root@[your.IP.address]``` or ```ssh [config_login]```.
-- Type ```passwd```. You will be prompted to enter your old password and then the new password (twice). 
 
 </details>
 
