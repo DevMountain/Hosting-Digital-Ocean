@@ -184,6 +184,83 @@ swapon /swapfile
 ***
 
 
+## prep code for production
+###### turn off React's service worker
+If your project was bootstrapped using create-react-app, a default service worker was registered in your index.js file. Make sure ```registerServiceWorker()``` is commented out or that the service worker is otherwise not registered. Doing so will save some headaches caused when trying to serve your local files and server files together.
+
+###### .env variables
+- On local machine, instead of using absolute paths (e.g., 'http://localhost:3200/auth') to environment variables. In other words, everywhere you have a full path with "localhost" in it, replace that path string with a reference to a variable, and store that variable and value in your .env (or config.js) file.
+    - For example, if you have an ```<a>``` tag with an Auth0 link like this...
+
+        ``` <a href={"http://localhost:3200/auth"}><li>Log in</li></a> ``` 
+    
+        ... replace the string so it says something like this:
+
+        ```<a href={process.env.REACT_APP_LOGIN}><li>Log in</li></a>``` 
+    
+    - In the .env file, store the variable. No need for a keyword like ```var``` or ```const```. Also, quotation marks are optional (unless there is a space inside the string, in which case they are required). The variable for the example above would look like this inside the .env file:
+
+        ```REACT_APP_LOGIN=http://localhost:3200/auth```
+
+- Replacing full paths with environment variables is generally a good idea throughout your whole app (both front end and back). For React, however, keep two things in mind:
+    1. If you built your front end with ```create-react-app```, your React front end can only access variables that start with ```REACT_APP_```. The ```npm start``` command builds them into the app. Variables that are accessed outside of React (i.e., in your back end), do not need the ```REACT_APP_``` prefix.
+    2. React does not allow you to access files outside the src folder, so if you need environment variables in your front end, you will have to put an .env file inside the src folder.
+
+###### build folder
+- Make sure the project is working on your local machine.
+- Run ```npm run build``` to create a build folder.
+- In your server, use the code below to point your server to your front end static files. This tells express to look for a build folder. The ```__dirname``` variable tells it to start at the current file where Node is running (i.e., your server file), and ```/../build``` tells it to then go up one file and into a build folder.
+```app.use( express.static( `${__dirname}/../build` ) );```
+
+- If you are using React's browserHistory, you'll need to use Node's built-in ```path.join()``` method as a catch-all to ensure the index.html file is given on the other routes. Although ```path``` is built in, you must require it with ```const path = require('path');```. Then invoke the ```join()``` method in your server near the end, below all other endpoints, since this endpoint uses an asterisk as a catch-all for everything other than specified endpoints.
+    ```js
+    app.get('*', (req, res)=>{
+        res.sendFile(path.join(__dirname, '../build/index.html'));
+    });
+    ```
+
+<details> <summary> Other recommendations </summary>
+
+###### Title the app
+Inside your index.html file, find the ```<title>``` tags inside the ```<head>```. If you used create-react-app, the index.html file will be inside the public/ folder and the ```title``` tags will say ```<title>React App</title>```. Inside ```<title></title>```, put the name of your app. This name will appear in the browser tab when you go to your site.
+
+###### Customize the README
+If you used create-react-app, your README is full of boilerplate docs about create-react-app. Delete all of this and replace it with your own content. A good use for this README is to introduce users to your app with an introduction or overview or images that help the user understand how the app works. This can be particularly useful for portfolio pieces, since potential employers will have an intro page showing them what your app is all about and what they should expect.
+
+</details>
+
+***
+
+
+## copy project to server
+
+###### push and pull from GitHub
+- Commit and push your working code to GitHub.
+- Use ```ssh root@your.ip.address``` to connect to your droplet, and use ```cd``` to go into your project folder on the server.
+- Clone the project to the server using ```git clone url-to-your-github-project```. Once done, your code will be on the server, except for node_modules, .env variables, and a build folder (since these are all .gitignored and therefore not copied to and from GitHub).
+
+###### node_modules
+- Run ```npm install``` inside the project folder on the server to install node packages.
+
+###### .env file
+- Recreate any .env file or config.js in the the server. 
+    - Use ```touch .env``` to make an .env file.
+    - Use ```nano .env``` to edit the file.
+- Go to your code editor and copy the contents of your local .env file. Inside nano on the server, paste in the contents you copied so they will now be in the server .env file. Change any full paths containing "localhost" (e.g., 'http://localhost:3100/api/users') to relative paths instead (e.g., '/api/users'). We do this because your server might be structured differently than your local machine, so we give the server a relative path, and it knows what to do from there.
+- To exit nano, use Ctrl+x to exit. It will ask if you want to save. Type ```Yes``` or ```y```, then hit Return to confirm. 
+
+###### build folder
+- Create a build folder using ```npm run build```. This will create a folder called "build" with an optimized version of your project. The express.static line you added to the server file will tell the server to look in that build folder for the static files that need to be served.
+- Now your entire project is saved to the server, including code, node_modules, .env files, and build folder. The next step is to run Node on our project to see if it works from the server.
+
+
+###### Possible issues:
+- It is possible to get a timeout error when running a build on your server. This may happen if your droplet is the cheapest tier (with the least RAM). You might fix this by implementing a swapfile (see the optional section on swapfiles). If you already created a swapfile, trying running through all those swapfile commands again (perhaps there was an error when creating it the first time).
+- If you see an error saying ```npm build``` was called without any arguments, try ```npm run build``` instead. Your ```package.json``` file shows both ```start``` and ```build``` together in the ```scripts``` section, and you are used to running ```npm start``` (with no "run" command), so you may think you can run ```npm build``` the same way. It is true that leaving out ```run``` is a shorthand way of running scripts, but there is already a built-in npm command for ```npm build``` (used to build Node add-ons FYI), and that built-in command overshadows the ```npm build``` shorthand. **TL;DR**: Try ```npm run build``` instead.
+
+
+***
+
 ## nginx (optional)
 When you have multiple files to host, nginx will let you keep them on the same droplet by watching for traffic coming to your droplet and routing that traffic to the appropriate project on the droplet.
 
@@ -290,7 +367,7 @@ When you have multiple files to host, nginx will let you keep them on the same d
         ```
     </details>
 
-- Inside the ```sites-available/``` folder, create a file for each project using the ```touch``` command followed by the name of your project. No file extension is needed for these files. 
+- Inside the ```sites-available/``` folder, create a file for each project using the ```touch``` command followed by the name of your project. No file extension is needed for these files. For example, if your project is called "wonderapp", you might type ```touch wonderapp```.
 - Use ```nano``` to open each file and put in code in the format below. Notice the comments telling you what changes to make for your project.
 
 
@@ -311,92 +388,17 @@ server {
 }
 ```
 
+- Go to nginx's ```sites-enabled/``` folder by running ```cd /etc/nginx/sites-enabled```.
+- Inside the ```sites-enabled/``` folder create a symlink for each project using ```ln -s ../sites-available/[project_file_in_sites_available]```. For example, if the file you previously made in ```sites-available/``` was called ```wonderapp```, here you would run ```ln -s ../sites-available/wonderapp```. This creates a symlink between the file that was made in ```sites-available/``` and the the ```sites-enabled/``` folder.
+- Test the nginx configuration by running ```sudo nginx -t```.
+- Restart nginx by running ```sudo service nginx restart```. Your enabled sites should now be up and running as soon as you start the server (see the **test with Node** and **forever** sections below).
 - If you are wondering how nginx knows to check each of these new files you linked to in ```/sites-enabled```, take a look at the ```nginx.conf``` file in the ```nginx/``` folder by running ```cat /etc/nginx/nginx.conf```. Near the bottom of the file, you should see ```include /etc/nginx/sites-enabled/*;```. This line points nginx to each file in ```/sites-enabled```, so any new file you create there will be included.
 
 
-
 ###### Possible issues:
-- Welcome to nginx page.
+- Once you start the server and try going to the site, if you see the "Welcome to nginx" page instead of your site, you may have nginx installed and working but you may need some additional configuration. Double-check the nginx configuration for your project in ```sites-available/``` and that you have a symlink in ```sites-enabled/```. Double-check also that you tested and restarted nginx using ```sudo nginx -t``` and ```sudo service nginx restart```.
 
 </details>
-
-
-***
-
-
-## prep code for production
-###### turn off React's service worker
-If your project was bootstrapped using create-react-app, a default service worker was registered in your index.js file. Make sure ```registerServiceWorker()``` is commented out or that the service worker is otherwise not registered. Doing so will save some headaches caused when trying to serve your local files and server files together.
-
-###### .env variables
-- On local machine, instead of using absolute paths (e.g., 'http://localhost:3200/auth') to environment variables. In other words, everywhere you have a full path with "localhost" in it, replace that path string with a reference to a variable, and store that variable and value in your .env (or config.js) file.
-    - For example, if you have an ```<a>``` tag with an Auth0 link like this...
-
-        ``` <a href={"http://localhost:3200/auth"}><li>Log in</li></a> ``` 
-    
-        ... replace the string so it says something like this:
-
-        ```<a href={process.env.REACT_APP_LOGIN}><li>Log in</li></a>``` 
-    
-    - In the .env file, store the variable. No need for a keyword like ```var``` or ```const```. Also, quotation marks are optional (unless there is a space inside the string, in which case they are required). The variable for the example above would look like this inside the .env file:
-
-        ```REACT_APP_LOGIN=http://localhost:3200/auth```
-
-- Replacing full paths with environment variables is generally a good idea throughout your whole app (both front end and back). For React, however, keep two things in mind:
-    1. If you built your front end with ```create-react-app```, your React front end can only access variables that start with ```REACT_APP_```. The ```npm start``` command builds them into the app. Variables that are accessed outside of React (i.e., in your back end), do not need the ```REACT_APP_``` prefix.
-    2. React does not allow you to access files outside the src folder, so if you need environment variables in your front end, you will have to put an .env file inside the src folder.
-
-###### build folder
-- Make sure the project is working on your local machine.
-- Run ```npm run build``` to create a build folder.
-- In your server, use the code below to point your server to your front end static files. This tells express to look for a build folder. The ```__dirname``` variable tells it to start at the current file where Node is running (i.e., your server file), and ```/../build``` tells it to then go up one file and into a build folder.
-```app.use( express.static( `${__dirname}/../build` ) );```
-
-- If you are using React's browserHistory, you'll need to use Node's built-in ```path.join()``` method as a catch-all to ensure the index.html file is given on the other routes. Although ```path``` is built in, you must require it with ```const path = require('path');```. Then invoke the ```join()``` method in your server near the end, below all other endpoints, since this endpoint uses an asterisk as a catch-all for everything other than specified endpoints.
-    ```js
-    app.get('*', (req, res)=>{
-        res.sendFile(path.join(__dirname, '../build/index.html'));
-    });
-    ```
-
-<details> <summary> Other recommendations </summary>
-
-###### Title the app
-Inside your index.html file, find the ```<title>``` tags inside the ```<head>```. If you used create-react-app, the index.html file will be inside the public/ folder and the ```title``` tags will say ```<title>React App</title>```. Inside ```<title></title>```, put the name of your app. This name will appear in the browser tab when you go to your site.
-
-###### Customize the README
-If you used create-react-app, your README is full of boilerplate docs about create-react-app. Delete all of this and replace it with your own content. A good use for this README is to introduce users to your app with an introduction or overview or images that help the user understand how the app works. This can be particularly useful for portfolio pieces, since potential employers will have an intro page showing them what your app is all about and what they should expect.
-
-</details>
-
-***
-
-
-## copy project to server
-
-###### push and pull from GitHub
-- Commit and push your working code to GitHub.
-- Use ```ssh root@your.ip.address``` to connect to your droplet, and use ```cd``` to go into your project folder on the server.
-- Clone the project to the server using ```git clone url-to-your-github-project```. Once done, your code will be on the server, except for node_modules, .env variables, and a build folder (since these are all .gitignored and therefore not copied to and from GitHub).
-
-###### node_modules
-- Run ```npm install``` inside the project folder on the server to install node packages.
-
-###### .env file
-- Recreate any .env file or config.js in the the server. 
-    - Use ```touch .env``` to make an .env file.
-    - Use ```nano .env``` to edit the file.
-- Go to your code editor and copy the contents of your local .env file. Inside nano on the server, paste in the contents you copied so they will now be in the server .env file. Change any full paths containing "localhost" (e.g., 'http://localhost:3100/api/users') to relative paths instead (e.g., '/api/users'). We do this because your server might be structured differently than your local machine, so we give the server a relative path, and it knows what to do from there.
-- To exit nano, use Ctrl+x to exit. It will ask if you want to save. Type ```Yes``` or ```y```, then hit Return to confirm. 
-
-###### build folder
-- Create a build folder using ```npm run build```. This will create a folder called "build" with an optimized version of your project. The express.static line you added to the server file will tell the server to look in that build folder for the static files that need to be served.
-- Now your entire project is saved to the server, including code, node_modules, .env files, and build folder. The next step is to run Node on our project to see if it works from the server.
-
-
-###### Possible issues:
-- It is possible to get a timeout error when running a build on your server. This may happen if your droplet is the cheapest tier (with the least RAM). You might fix this by implementing a swapfile (see the optional section on swapfiles). If you already created a swapfile, trying running through all those swapfile commands again (perhaps there was an error when creating it the first time).
-- If you see an error saying ```npm build``` was called without any arguments, try ```npm run build``` instead. Your ```package.json``` file shows both ```start``` and ```build``` together in the ```scripts``` section, and you are used to running ```npm start``` (with no "run" command), so you may think you can run ```npm build``` the same way. It is true that leaving out ```run``` is a shorthand way of running scripts, but there is already a built-in npm command for ```npm build``` (used to build Node add-ons FYI), and that built-in command overshadows the ```npm build``` shorthand. **TL;DR**: Try ```npm run build``` instead.
 
 
 ***
