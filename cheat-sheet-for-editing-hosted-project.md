@@ -18,6 +18,6 @@
 ## Changes to .gitignored files like .env or config.js?
 1. Because these files are ignored by Git and will not be updated with ```git pull```, they need to be updated manually. 
 2. If these files are at the top of the project folder, use ```cd``` to go to the top of the folder and use ```nano``` to open the files (e.g., ```nano .env```).
-3. Type or paste in the edits to these files. Some of these edits can be pasted as is from your local .env or config files. Keep in mind, however, that when it comes to URLs, your local project might make use of absolute paths (e.g., 'http://localhost:3001/api/products') whereas your hosted project's .env and config files should generally use relative paths instead (e.g., '/api/products'). 
+3. Type or paste in the edits to these files. Some of these edits can be pasted as is from your local .env or config files. Keep in mind, however, that when it comes to URLs, your local project might make use of absolute paths (e.g., 'h<span>tt</span>p://localhost:3001/api/products') whereas your hosted project's .env and config files should generally use relative paths instead (e.g., '/api/products'). 
 4. Run ```npm run build``` to build these changes into your project.
 5. Restart forever.
