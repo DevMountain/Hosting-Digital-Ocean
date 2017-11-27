@@ -86,7 +86,7 @@ The key's randomart image is:
 - You will need your password to connect. **YOU DIDN'T FORGET IT, DID YOU?**
 
 <details> <summary> Additional SSH login options </summary>
-
+&nbsp;
 ###### Change SSH password
 If you need to change your password, you can do so after first logging into your droplet. Obviously, this means you need to know your old password. If you do change it, don't forget you cannot recover passwords, so you will have to take care to remember the new one.
 - Log in to your droplet using ```ssh root@[your.IP.address]```.
@@ -106,7 +106,6 @@ To log in without typing your password, you can add the password to the ssh-agen
         IdentityFile ~/.ssh/id_rsa
 ```
 - Add your SSH private key to the ssh-agent by running ```ssh-add -K ~/.ssh/id_rsa```.
-  
 &nbsp;
 ###### Custom SSH login
 If you find it inconvenient to type in your IP address when logging into your server, try customizing your SSH login.
