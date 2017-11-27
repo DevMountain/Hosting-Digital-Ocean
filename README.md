@@ -92,6 +92,7 @@ If you need to change your password, you can do so after first logging into your
 - Log in to your droplet using ```ssh root@[your.IP.address]```.
 - Type ```passwd```. You will be prompted to enter your old password and then the new password (twice). 
 
+&nbsp;
 ###### Add SSH password to ssh-agent keychain
 To log in without typing your password, you can add the password to the ssh-agent, a program that holds private keys for authentication. [See these docs for more.](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
 - Start the ssh-agent by running ```ssh-agent -s```.
@@ -107,7 +108,6 @@ To log in without typing your password, you can add the password to the ssh-agen
 - Add your SSH private key to the ssh-agent by running ```ssh-add -K ~/.ssh/id_rsa```.
   
 &nbsp;
-
 ###### Custom SSH login
 If you find it inconvenient to type in your IP address when logging into your server, try customizing your SSH login.
 - On your local computer open the hidden SSH config file in your home folder. If you want to use nano, you can enter ```nano ~/.ssh/config```. 
