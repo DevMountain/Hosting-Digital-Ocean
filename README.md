@@ -87,12 +87,12 @@ The key's randomart image is:
 
 <details> <summary> Additional SSH login options </summary>
 
-#### Change SSH password
+### Change SSH password
 If you need to change your password, you can do so after first logging into your droplet. Obviously, this means you need to know your old password. If you do change it, don't forget you cannot recover passwords, so you will have to take care to remember the new one.
 - Log in to your droplet using ```ssh root@[your.IP.address]```.
 - Type ```passwd```. You will be prompted to enter your old password and then the new password (twice). 
 
-#### Add SSH password to ssh-agent keychain
+### Add SSH password to ssh-agent keychain
 To log in without typing your password, you can add the password to the ssh-agent, a program that holds private keys for authentication. [See these docs for more.](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
 - Start the ssh-agent by running ```ssh-agent -s```.
 - Modify the hidden SSH config file on your computer to automatically load keys into ssh-agent's keychain.
@@ -106,7 +106,7 @@ To log in without typing your password, you can add the password to the ssh-agen
 ```
 - Add your SSH private key to the ssh-agent by running ```ssh-add -K ~/.ssh/id_rsa```.
 
-#### Custom SSH login
+### Custom SSH login
 If you find it inconvenient to type in your IP address when logging into your server, try customizing your SSH login.
 - On your local computer open the hidden SSH config file in your home folder. If you want to use nano, you can enter ```nano ~/.ssh/config```. 
 - Inside this file, enter a Host, User, and Hostname in the format below. The Host will be the name you want to use for logging in, and the Hostname will be the IP address for the server. The User will be either "root" or the user if you created a user on the server. Optionally, you can specify a port or leave out this line (which sets the port to its default, 22). Below is a sample config file. A person could log in to the 103.723.6.24 droplet from this computer using either ```ssh bakerc``` to log in as root or ```ssh bakerm``` to log in as user mb.
