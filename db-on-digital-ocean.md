@@ -9,15 +9,27 @@
 ###### Create a database
 - Run ```sudo -u postgres createdb [db_name]``` to create a new database owned by the postgres role.
 - For more Postgres options and commands, including how to create and edit tables through psql commands, see these [Digital Ocean Postgres docs](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04#create-a-new-database).
-- To simply copy a pre-existing local (or hosted-elsewhere) database to your newly created Digital Ocean database, see pg_dump instructions below.
-
-## Copy database to hosted server
-Whether you have a local database you want to copy to your server (e.g., local to Heroku) or a hosted database you want to move to a different server (e.g., Heroku to Digital Ocean), the ```pg_dump``` command is your friend.
-
+- To simply copy a pre-existing local (or hosted-elsewhere) database to your newly created Digital Ocean database, see pg_dump instructions in the **Copy and transfer database** section below.
 
 ###### See all databases on droplet
 - Inside your droplet, run ```psql``` to enter a Postgres session.
 - Run ```\l``` to list database information.
+
+***
+
+## Copy and transfer database
+Whether you have a local database you want to copy to your server (e.g., local to Heroku) or a hosted database you want to move to a different server (e.g., Heroku to Digital Ocean), the ```pg_dump``` command is your friend. This command is installed with Postgres and can quickly copy over the contents of one database to another. 
+
+###### Make database backup
+It can be a good idea to make a backup file of your database that you can store on your own computer. If you ever needed it, you could use it to dump into a new hosted database.
+- Create a backup SQL file on your Desktop with ```touch ~/Desktop/db_bkup.sql```.
+- Dump the contents of a database into this file using ```pg_dump``` and the ```>``` (greater than) symbol instead of a ```|``` (pipe). Instead of piping the contents into another database you are using ```>``` to write the contents into this file, overwriting any pre-existing content in that file.
+- An example of backing up a local database:
+```sh
+    touch ~Desktop/superapp_bkup.sql
+    pg_dump -Oc superapp > ~/Desktop/superapp_bkup.sql
+```
+pg_dump -O -c rgs | heroku pg:psql -a realgoodsyrup
 
 ###### Possible issues
 - **pg_dump command not found:** You may try to use the ```pg_dump``` command only to have your command line editor say something like "command not found," even though you are sure you correctly installed pg_dump. If so, you may need to find out where it was installed and point your command line editor to that path using your .bash_profile or .bashrc file. Try the following:
@@ -43,12 +55,15 @@ Whether you have a local database you want to copy to your server (e.g., local t
         Point the path to the folder pg_dump is in, not to pg_dump itself, and make sure to include ```export PATH=``` and ```:$PATH``` on either end. Once your .bash_profile has the updated PATH code, save and close this file. 
     - Open a new command line window (your CLI only notices changes to the .bash_profile when opening a new window) and try the ```pg_dump``` command again.
 
+***
+
 ## Access Digital Ocean database from local computer using SSH tunnel
 If you hosted your database on Digital Ocean and are noticing difficulty connecting to it from your local computer (e.g., through a GUI on your computer like PGAdmin or SQL Tabs), try an SSH tunnel to securely connect to the remote database.
 - To create a secure tunnel, run ```ssh -N -L [new_port]:[host]:[remote_port] [user]``` in the command line. For example, if the server user is "anna" and the database is a Postgres database running on 5432, the user might run ```ssh -N -L 5555:localhost:5432 anna``` to create a secure tunnel and forward the local port 5555 to the remote port 5432, encrypting it in the process. For more on this, see [this article](http://www.revsys.com/writings/quicktips/ssh-tunnel.html) or [this article](https://blog.trackets.com/2014/05/17/ssh-tunnel-local-and-remote-port-forwarding-explained-with-examples.html).
 - Connect to the database using localhost and the new port. For instance, in the situation above, the user anna could then use a GUI to connect to the database on port 5555 on localhost. 
 - Keep in mind the tunnel only stays open as long as the command line window is open where the tunnel command was entered. Closing the window will disconnect you from the database.
 
+***
+
 ## Change your db user password:
 log into psql then ```\password```
-
