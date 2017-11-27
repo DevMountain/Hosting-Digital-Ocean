@@ -332,10 +332,10 @@ If your project was bootstrapped using create-react-app, a default service worke
 
 <details> <summary> Other recommendations </summary>
 
-######Title your project
+###### Title your project
 Inside your index.html file, find the ```<title>``` tags inside the ```<head>```. If you used create-react-app, the index.html file will be inside the public/ folder and the ```title``` tags will say ```<title>React App</title>```. Inside ```<title></title>```, put the name of your app. This name will appear in the browser tab when you go to your site.
 
-######Customize the README
+###### Customize the README
 If you used create-react-app, your README is full of boilerplate docs about create-react-app. Delete all of this and replace it with your own content. A good use for this README is to introduce users to your app with an introduction or overview or images that help the user understand how the app works. This can be particularly useful for portfolio pieces, since potential employers will have an intro page showing them what your app is all about and what they should expect.
 
 </details>
