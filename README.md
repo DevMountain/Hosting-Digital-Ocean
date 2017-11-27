@@ -305,6 +305,9 @@ The first time you access your droplet, there is likely an older version of Node
 
 
 ## prep code for production
+###### turn off React's service worker
+If your project was bootstrapped using create-react-app, a default service worker was registered in your index.js file. Make sure ```registerServiceWorker()``` is commented out or that the service worker is otherwise not registered. Doing so will save some headaches caused when trying to serve your local files and server files together.
+
 ###### .env variables
 - On local machine, instead of using absolute paths (e.g., 'http://localhost:3200/auth') to environment variables. In other words, everywhere you have a full path with "localhost" in it, replace that path string with a reference to a variable, and store that variable and value in your .env (or config.js) file.
     - For example, if you have an ```<a>``` tag with an Auth0 link like this...
