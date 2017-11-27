@@ -112,6 +112,22 @@ If you find it inconvenient to type in your IP address when logging into your se
 </details>
 
 
+***
+
+
+## upgrade Node
+
+The first time you access your droplet, there is likely an older version of Node installed on the computer. If so, you should update. You might want to run the same version of Node as the one installed on your computer.
+- To see what version you currently have, type ```node -v```.
+- Run ```apt-get update && apt-get dist-upgrade``` to update the software Linus know about. 
+- Run ```apt-get install nodejs -y ; apt-get install npm -y``` to install Node.js and npm.
+- Run ```npm i -g n``` to globally install ```n```, which you can use to upgrade Node (or downgrade to an earlier version).
+- If you want to install the latest version of Node, type ```n latest```.
+- If you want to install an earlier version of Node, type ```n x.x.x``` (e.g., ```n 8.6.0```).
+- Run ```npm i -g npm``` to update and install the latest stable version of npm.
+
+###### Possible issues:
+- It is possible to get an error that says Node is not compatible with npm. This might happen if you have the latest version of Node installed on your server and it is not a stable version or is not yet supported. Try downgrading to a slightly earlier version of node using ```n x.x.x``` (replacing the x's with the version numbers).
 
 
 ***
@@ -286,24 +302,6 @@ server {
 ***
 
 
-## upgrade Node
-
-The first time you access your droplet, there is likely an older version of Node installed on the computer. If so, you should update. You might want to run the same version of Node as the one installed on your computer.
-- To see what version you currently have, type ```node -v```.
-- Run ```apt-get update && apt-get dist-upgrade``` to update the software Linus know about. 
-- Run ```apt-get install nodejs -y ; apt-get install npm -y``` to install Node.js and npm.
-- Run ```npm i -g n``` to globally install ```n```, which you can use to upgrade Node (or downgrade to an earlier version).
-- If you want to install the latest version of Node, type ```n latest```.
-- If you want to install an earlier version of Node, type ```n x.x.x``` (e.g., ```n 8.6.0```).
-- Run ```npm i -g npm``` to update and install the latest stable version of npm.
-
-###### Possible issues:
-- It is possible to get an error that says Node is not compatible with npm. This might happen if you have the latest version of Node installed on your server and it is not a stable version or is not yet supported. Try downgrading to a slightly earlier version of node using ```n x.x.x``` (replacing the x's with the version numbers).
-
-
-***
-
-
 ## prep code for production
 ###### turn off React's service worker
 If your project was bootstrapped using create-react-app, a default service worker was registered in your index.js file. Make sure ```registerServiceWorker()``` is commented out or that the service worker is otherwise not registered. Doing so will save some headaches caused when trying to serve your local files and server files together.
@@ -331,6 +329,8 @@ If your project was bootstrapped using create-react-app, a default service worke
 - Run ```npm run build``` to create a build folder.
 - In your server, the following code to point your server to your front end static files. This tells express to look for a build folder. The ```__dirname``` variable tells it to start at the current file where Node is running (i.e., your server file), and ```/../build``` tells it to then go up one file and into a build folder.
 ```app.use( express.static( `${__dirname}/../build` ) );```
+
+***
 
 
 ## copy project to server
