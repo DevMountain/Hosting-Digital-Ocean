@@ -8,15 +8,16 @@
 
 ###### Create a database
 - Run ```sudo -u postgres createdb [db_name]``` to create a new database owned by the postgres role.
+- For more Postgres options and commands, including how to create and edit tables through psql commands, see these [Digital Ocean Postgres docs](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04#create-a-new-database).
+- To simply copy a pre-existing local (or hosted-elsewhere) database to your newly created Digital Ocean database, see pg_dump instructions below.
+
+## Copy database to hosted server
+Whether you have a local database you want to copy to your server (e.g., local to Heroku) or a hosted database you want to move to a different server (e.g., Heroku to Digital Ocean), the ```pg_dump``` command is your friend.
+
 
 ###### See all databases on droplet
 - Inside your droplet, run ```psql``` to enter a Postgres session.
 - Run ```\l``` to list database information.
-
-###### For more options, see these [Digital Ocean Postgres docs](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04#create-a-new-database).
-
-## Copy database to hosted server
-Whether you have a local database you want to copy to your server (e.g., local to Heroku) or a hosted database you want to move to a different server (e.g., Heroku to Digital Ocean), the ```pg_dump``` command is your friend.
 
 ###### Possible issues
 - **pg_dump command not found:** You may try to use the ```pg_dump``` command only to have your command line editor say something like "command not found," even though you are sure you correctly installed pg_dump. If so, you may need to find out where it was installed and point your command line editor to that path using your .bash_profile or .bashrc file. Try the following:
@@ -25,9 +26,12 @@ Whether you have a local database you want to copy to your server (e.g., local t
 
         <details> <summary> find command </summary>
 
-        - The ``find`` command includes a path, options, and a search expression. For example, if you thought pg_dump was installed in your ```/Applications/``` folder and wanted to search for pg_dump by its name, you might try ```find /Applications/ -name pg_dump``` (where ```-name``` is the search-by-name option). 
+        - The ``find`` command includes a path, options, and a search expression. For example, if you thought pg_dump was installed in your ```/Applications``` folder and wanted to search for pg_dump by its name, you might try ```find /Applications -name pg_dump``` (where ```-name``` is the search-by-name option). 
         - If you have no idea where pg_dump was installed, you might try simply ```find / -name pg_dump 2>/dev/null``` to search your entire root folder (since you are searching all your folders, use the ```2>/dev/null``` command to suppress errors, limiting your search to more useful results). 
-        - Find the correct path to pg_dump in the search results and copy it.
+        - Find the correct path to pg_dump in the search results and copy it. Here is an example of a search result showing where pg_dump is installed:
+```sh
+        /Applications/Postgres.app/Contents/Versions/9.5/bin/pg_dump
+```
         
         </details>
     
