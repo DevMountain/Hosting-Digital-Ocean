@@ -7,6 +7,7 @@
 - Run ```sudo apt-get install postgresql postgresql-contrib```.
 
 ###### Create a database
+- Run ```sudo -u postgres createdb [db_name]``` to create a new database owned by the postgres role.
 
 ###### See all databases on droplet
 - Inside your droplet, run ```psql``` to enter a Postgres session.
