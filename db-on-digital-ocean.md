@@ -7,7 +7,7 @@
 - Run ```sudo apt-get install postgresql postgresql-contrib```.
 
 ###### Create a database
-- Run ```sudo -u postgres createdb [db_name]``` to create a new database owned by the postgres role.
+- Run ```sudo -u postgres createdb [db_name]``` to create a new database owned by the postgres role. For example, ```sudo -u postgres createdb wonderapp``` will create a database called "wonderapp" for the postgres user.
 - For more Postgres options and commands, including how to create and edit tables through psql commands, see these [Digital Ocean Postgres docs](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04#create-a-new-database).
 - To simply copy a pre-existing local (or hosted-elsewhere) database to your newly created Digital Ocean database, see pg_dump instructions in the **Copy and transfer database** section below.
 
@@ -20,14 +20,24 @@
 ## Copy and transfer database
 Whether you have a local database you want to copy to your server (e.g., local to Heroku) or a hosted database you want to move to a different server (e.g., Heroku to Digital Ocean), the ```pg_dump``` command is your friend. This command is installed with Postgres and can quickly copy over the contents of one database to another. 
 
+###### pg_dump commands and options
+The exact format you use for each part of your pg_dump command will depend a bit on where the database is and whether it is the source or the destination. Note that all these commands are done from your local computer, not from inside your server.
+- When using the ```pg_dump``` command, you might consider using the ```-O``` and ```-c``` options with it. Use ```-O``` (shorthand for ```--no-owner```) to forego any commands to set ownership to match the original database. Use ```-c``` (shorthand for ```--clean```) to clean (drop) the destination database's objects before dumping in the new ones.
+- To copy a local database, just include the database name and any options: ```pg_dump -Oc wonderapp```.
+- To copy a Digital Ocean database, use ```ssh``` to log in, ```-U``` to specify a user, and ```-h``` to specify the host: ```ssh root@123.456.7.89 "pg_dump -Oc -U anna -h localhost wonderapp"```. You will be prompted for the droplet user's password. Alternatively, if configured your user's SSH login and added the SSH password to the ssh-agent keychain (see the **Additional SSH login options** section from the [README](https://github.com/Alan-Miller/digital-ocean/blob/master/README.md)), you do not need the user or host options and can just use something like this: ```ssh anna "pg_dump -Oc wonderapp"```.
+
+###### Pipe contents from one db to another
+- pg_dump -O -c wonderapp | heroku pg:psql -a wonderapp
+- From Digital Ocean droplet to local db: ```ssh root@123.456.7.89 "pg_dump -Oc wonderapp" | psql wonderapp```
+
 ###### Make database backup
 It can be a good idea to make a backup file of your database that you can store on your own computer. If you ever needed it, you could use it to dump into a new hosted database.
 - Create a backup SQL file on your Desktop with ```touch ~/Desktop/db_bkup.sql```.
 - Dump the contents of a database into this file using ```pg_dump``` and the ```>``` (greater than) symbol instead of a ```|``` (pipe). Instead of piping the contents into another database you are using ```>``` to write the contents into this file, overwriting any pre-existing content in that file.
 - An example of backing up a local database:
 ```sh
-    touch ~Desktop/superapp_bkup.sql
-    pg_dump -Oc superapp > ~/Desktop/superapp_bkup.sql
+    touch ~Desktop/wonderapp_bkup.sql
+    pg_dump -Oc wonderapp > ~/Desktop/wonderapp_bkup.sql
 ```
 pg_dump -O -c rgs | heroku pg:psql -a realgoodsyrup
 
