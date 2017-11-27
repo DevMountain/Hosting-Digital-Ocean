@@ -115,17 +115,17 @@ To log in without typing your password, you can add the password to the ssh-agen
 ###### Custom SSH login
 If you find it inconvenient to type in your IP address when logging into your server, try customizing your SSH login.
 - On your local computer open the hidden SSH config file in your home folder. If you want to use nano, you can enter ```nano ~/.ssh/config```. 
-- Inside this file, enter a Host, User, and Hostname in the format below. The Host will be the name you want to use for logging in, and the Hostname will be the IP address for the server. The User will be either "root" or the user if you created a user on the server. Optionally, you can specify a port or leave out this line (which sets the port to its default, 22). Below is a sample config file. A person could log in to the 103.723.6.24 droplet from this computer using either ```ssh bakerc``` to log in as root or ```ssh bakerm``` to log in as user mb.
+- Inside this file, enter a Host, User, and Hostname in the format below. The Host will be the name you want to use for logging in, and the Hostname will be the IP address for the server. The User will be either "root" or the user if you created a user on the server. Optionally, you can specify a port or leave out this line (which sets the port to its default, 22). Below is a sample config file. A person could log in to the 123.456.7.89 droplet from this computer using either ```ssh bakerc``` to log in as root or ```ssh bakerm``` to log in as user mb.
 
 ``` sh
 
     Host bakerc
         User root
-        Hostname 103.723.6.24
+        Hostname 123.456.7.89
 
     Host bakerm
         User mb
-        Hostname 103.723.6.24
+        Hostname 123.456.7.89
 
 ```
 

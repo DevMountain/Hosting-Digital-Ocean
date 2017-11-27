@@ -31,19 +31,21 @@ The exact format you use for each part of your pg_dump command will depend a bit
     ```sh
     ssh root@123.456.7.89 "pg_dump -Oc -U anna -h localhost wonderapp"
     ```
-    You will be prompted for the droplet user's password. Alternatively, if configured your user's SSH login and added the SSH password to the ssh-agent keychain (see the [**Additional SSH login options**](https://github.com/Alan-Miller/digital-ocean/blob/master/README.md#connect-to-server) section from the [README](https://github.com/Alan-Miller/digital-ocean/blob/master/README.md)), you do not need the user or host options and can just use something like this: 
+    The command above will be followed by a prompt for the droplet user's password. Alternatively, if configured your user's SSH login and added the SSH password to the ssh-agent keychain (see the [**Additional SSH login options**](https://github.com/Alan-Miller/digital-ocean/blob/master/README.md#connect-to-server) section from the [README](https://github.com/Alan-Miller/digital-ocean/blob/master/README.md)), you do not need the user or host options and can just use something like this: 
     ```sh
     ssh anna "pg_dump -Oc wonderapp"
     ```
+- If you enter any of the ```pg_dump``` commands above, the command line interface will output the database for you. You can use these commands to see the database right in the CLI, but this is only half of a typical pg_dump use case. Usually you want to copy that content either straight into another database or into a text file as a database backup.
 
 ###### Pipe contents from one db to another
-- pg_dump -O -c wonderapp | heroku pg:psql -a wonderapp
-- From Digital Ocean droplet to local db: ```ssh root@123.456.7.89 "pg_dump -Oc wonderapp" | psql wonderapp```
+Use the ```|``` (pipe) to pipe one database's content into another's.
+- From local database to Heroku: ```pg_dump -Oc wonderapp | heroku pg:psql -a wonderapp```. Here, ```-a``` is an option for naming your Heroku app. Before this ```pg_dump``` command works, you may need to use ```heroku login``` to log in to your Heroku account (as mentioned in the **Possible issues** subsection below).
+- From Digital Ocean droplet to local db: ```ssh root@123.456.7.89 "pg_dump -Oc -U anna -h localhost wonderapp" | psql wonderapp```
 
 ###### Make database backup
 It can be a good idea to make a backup file of your database that you can store on your own computer. If you ever needed it, you could use it to dump into a new hosted database.
 - Create a backup SQL file on your Desktop with ```touch ~/Desktop/db_bkup.sql```.
-- Dump the contents of a database into this file using ```pg_dump``` and the ```>``` (greater than) symbol instead of a ```|``` (pipe). Instead of piping the contents into another database you are using ```>``` to write the contents into this file, overwriting any pre-existing content in that file.
+- Dump the contents of a database into this file using ```pg_dump``` and the ```>``` (greater than) symbol instead of a pipe. Instead of piping the contents into another database you are using ```>``` to write the contents into this file, overwriting any pre-existing content in that file.
 - An example of backing up a local database:
 ```sh
     touch ~Desktop/wonderapp_bkup.sql
@@ -51,6 +53,7 @@ It can be a good idea to make a backup file of your database that you can store 
 ```
 
 ###### Possible issues
+- **Heroku authentication**: Before you can dump into a Heroku database, you may need to log in from the command line. Run ```heroku login``` and enter the Heroku account email and password. Once authenticated, you should be able to run the ```pg_dump``` command with the Heroku database.
 - **pg_dump command not found:** You may try to use the ```pg_dump``` command only to have your command line editor say something like "command not found," even though you are sure you correctly installed pg_dump. If so, you may need to find out where it was installed and point your command line editor to that path using your .bash_profile or .bashrc file. Try the following:
     - If you know exactly where pg_dump was installed, copy the full path. 
     - **find command**: If you do not know where pg_dump is installed, use ```find``` to search for pg_dump. 
