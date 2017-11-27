@@ -22,7 +22,7 @@ Whether you have a local database you want to copy to your server (e.g., local t
 
 ###### pg_dump commands and options
 The exact format you use for each part of your pg_dump command will depend a bit on where the database is and whether it is the source or the destination. Note that all these commands are done from your local computer, not from inside your server.
-- When using the ```pg_dump``` command, you might consider using the ```-O``` and ```-c``` options with it. Use ```-O``` (shorthand for ```--no-owner```) to forego any commands to set ownership to match the original database. Use ```-c``` (shorthand for ```--clean```) to clean (drop) the destination database's objects before dumping in the new ones.
+- When using the ```pg_dump``` command, you might consider using the ```-O``` and ```-c``` options with it. Use ```-O``` (shorthand for ```--no-owner```) to forego any commands to set ownership to match the original database. Use ```-c``` (shorthand for ```--clean```) to clean (drop) the destination database's objects before dumping in the new ones. For more information about options, see [the docs](https://www.postgresql.org/docs/9.4/static/app-pgdump.html).
 - To copy a local database, just include the database name and any options: 
     ```sh
     pg_dump -Oc wonderapp
