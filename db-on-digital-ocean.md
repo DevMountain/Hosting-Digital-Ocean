@@ -12,11 +12,10 @@
 - Inside your droplet, run ```psql``` to enter a Postgres session.
 - Run ```\l``` to list database information.
 
+###### For more options, see these [Digital Ocean Postgres docs](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04#create-a-new-database).
 
 ## Copy database to hosted server
 Whether you have a local database you want to copy to your server (e.g., local to Heroku) or a hosted database you want to move to a different server (e.g., Heroku to Digital Ocean), the ```pg_dump``` command is your friend.
-
-###### For more options, see [these Digital Ocean Postgres docs](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04#create-a-new-database).
 
 ###### Possible issues
 - **pg_dump command not found:** You may try to use the ```pg_dump``` command only to have your command line editor say something like "command not found," even though you are sure you correctly installed pg_dump. If so, you may need to find out where it was installed and point your command line editor to that path using your .bash_profile or .bashrc file. Try the following:
