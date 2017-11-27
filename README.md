@@ -353,12 +353,12 @@ If your project was bootstrapped using create-react-app, a default service worke
 ```app.use( express.static( `${__dirname}/../build` ) );```
 
 - If you are using React's browserHistory, you'll need to use ```path```'s ```join()``` method as a catch-all to ensure the index.html file is given on the other routes. This needs to appear in your server near the end, below all other endpoints, since it uses an asterisk as a catch-all for everything other than your specified endpoints.
-```js
-const path = require('path')
-app.get('*', (req, res)=>{
-  res.sendFile(path.join(__dirname, '../build/index.html'));
-});
-```
+    ```js
+    const path = require('path')
+    app.get('*', (req, res)=>{
+    res.sendFile(path.join(__dirname, '../build/index.html'));
+    });
+    ```
 
 <details> <summary> Other recommendations </summary>
 
