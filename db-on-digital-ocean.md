@@ -38,13 +38,13 @@ The exact format you use for each part of your pg_dump command will depend a bit
 - If you enter any of the ```pg_dump``` commands above, the command line interface will output the database for you. You can use these commands to see the database right in the CLI, but this is only half of a typical pg_dump use case. Usually you want to copy that content either straight into another database or into a text file as a database backup.
 
 ###### Pipe contents from one db to another
-Use the ```|``` (pipe) to pipe one database's content into another's.
+Use the ```|``` (pipe) to pipe one database's content into another's. Here are some examples.
 - From local database to Heroku: 
     ```sh
     pg_dump -Oc wonderapp | heroku pg:psql -a wonderapp
     ```
     Here, ```-a``` is an option for naming your Heroku app. Before this ```pg_dump``` command works, you may need to use ```heroku login``` to log in to your Heroku account (as mentioned in the **Possible issues** subsection below).
-- From local database to Digital Ocean (with "anna" user custom SSH login and stored SSH password):
+- From local database to Digital Ocean (with "anna" user custom SSH login and stored SSH password (see the [**Additional SSH login options**](https://github.com/Alan-Miller/digital-ocean/blob/master/README.md#connect-to-server) section from the [README](https://github.com/Alan-Miller/digital-ocean/blob/master/README.md))):
     ```sh
     pg_dump -Oc wonderapp | ssh anna "psql -d wonderapp"
     ```
