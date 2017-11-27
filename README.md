@@ -26,7 +26,7 @@
 ***
 
 
-## SSH Key
+## SSH key
 
 An SSH key gives us a secure connection to our server droplet. 
 - To begin the creation process, from any folder, type ```ssh-keygen -t rsa```. Alternatively, add ```ssh-keygen -t rsa -b 4096``` to add 4096-bit encryption (rather than the default 2048). 
