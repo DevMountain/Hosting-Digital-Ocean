@@ -48,7 +48,7 @@ Use the ```|``` (pipe) to pipe one database's content into another's. Here are s
     ```sh
     pg_dump -Oc wonderapp | ssh anna "psql -d wonderapp"
     ```
-- From Digital Ocean droplet to local db (with no custom SSH login or stored SSH password): 
+- From Digital Ocean droplet to local db (logging in as root with no custom SSH login or stored SSH password): 
     ```sh
     ssh root@123.456.7.89 "pg_dump -Oc -U anna -h localhost wonderapp" | psql wonderapp
     ```
