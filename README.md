@@ -86,14 +86,13 @@ The key's randomart image is:
 - You will need your password to connect. **YOU DIDN'T FORGET IT, DID YOU?**
 
 <details> <summary> Additional SSH login options </summary>
-&nbsp;
 
 ###### Change SSH password
 If you need to change your password, you can do so after first logging into your droplet. Obviously, this means you need to know your old password. If you do change it, don't forget you cannot recover passwords, so you will have to take care to remember the new one.
 - Log in to your droplet using ```ssh root@[your.IP.address]```.
 - Type ```passwd```. You will be prompted to enter your old password and then the new password (twice). 
-&nbsp;
 
+&nbsp;
 ###### Add SSH password to ssh-agent keychain
 To log in without typing your password, you can add the password to the ssh-agent, a program that holds private keys for authentication. [See these docs for more.](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
 - Start the ssh-agent by running ```ssh-agent -s```.
