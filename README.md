@@ -156,7 +156,7 @@ The first time you access your droplet, there is likely an older version of Node
 
 
 ## swapfile (optional)
-Many students buy a Digital Ocean droplet on the $5 tier, which comes with limited RAM. A swapfile can effectively extend the amount of given RAM by swapping out less-recently-used files to the hard disk. This can come in handy. For example, sometimes when running a build on a low-RAM droplet, the process will time out because there is not enough RAM. Having a swapfile in place can help with this. A swapfile is particularly a good idea if your project uses Gulp.
+Many students buy a Digital Ocean droplet on the $5 tier, which comes with limited RAM. A swapfile can effectively extend the amount of given RAM by swapping out less-recently-used files to the hard disk. This can come in handy. For example, sometimes when running a build on a low-RAM droplet, the process will time out because there is not enough RAM. Having a swapfile in place can help with this. A swapfile is also a good idea if your project uses Gulp.
 
 <details> <summary> swapfile details </summary> 
 
