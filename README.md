@@ -17,8 +17,10 @@
 1. Set up a domain name.
 
 ###### Steps for making changes to a project that is already hosted:
-- [Cheat sheet.](https://github.com/Alan-Miller/digital-ocean/blob/master/cheat-sheet-for-editing-hosted-project.md)
+- Try this [cheat sheet](https://github.com/Alan-Miller/digital-ocean/blob/master/cheat-sheet-for-editing-hosted-project.md).
 
+###### Hosting your database on Digital Ocean
+- Read more [here](https://github.com/Alan-Miller/digital-ocean/blob/master/db-on-digital-ocean.md).
 
 
 ***
