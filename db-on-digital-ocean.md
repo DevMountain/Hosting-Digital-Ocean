@@ -39,8 +39,15 @@ The exact format you use for each part of your pg_dump command will depend a bit
 
 ###### Pipe contents from one db to another
 Use the ```|``` (pipe) to pipe one database's content into another's.
-- From local database to Heroku: ```pg_dump -Oc wonderapp | heroku pg:psql -a wonderapp```. Here, ```-a``` is an option for naming your Heroku app. Before this ```pg_dump``` command works, you may need to use ```heroku login``` to log in to your Heroku account (as mentioned in the **Possible issues** subsection below).
-- From Digital Ocean droplet to local db: ```ssh root@123.456.7.89 "pg_dump -Oc -U anna -h localhost wonderapp" | psql wonderapp```
+- From local database to Heroku: 
+    ```sh
+    pg_dump -Oc wonderapp | heroku pg:psql -a wonderapp
+    ```
+    Here, ```-a``` is an option for naming your Heroku app. Before this ```pg_dump``` command works, you may need to use ```heroku login``` to log in to your Heroku account (as mentioned in the **Possible issues** subsection below).
+- From Digital Ocean droplet to local db: 
+    ```sh
+    ssh root@123.456.7.89 "pg_dump -Oc -U anna -h localhost wonderapp" | psql wonderapp
+    ```
 
 ###### Make database backup
 It can be a good idea to make a backup file of your database that you can store on your own computer. If you ever needed it, you could use it to dump into a new hosted database.
