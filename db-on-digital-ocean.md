@@ -98,5 +98,8 @@ If you hosted your database on Digital Ocean and are noticing difficulty connect
 
 ***
 
-## Change your db user password:
-log into psql then ```\password```
+## Change your user password:
+Do the following to change your droplet user's password.
+- Log into your droplet with ```ssh```.
+- Run ```psql``` to start a Postgres session.
+- Run ```\password```. You will be prompted to enter the new password twice.
