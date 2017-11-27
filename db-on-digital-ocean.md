@@ -44,7 +44,11 @@ Use the ```|``` (pipe) to pipe one database's content into another's.
     pg_dump -Oc wonderapp | heroku pg:psql -a wonderapp
     ```
     Here, ```-a``` is an option for naming your Heroku app. Before this ```pg_dump``` command works, you may need to use ```heroku login``` to log in to your Heroku account (as mentioned in the **Possible issues** subsection below).
-- From Digital Ocean droplet to local db: 
+- From local database to Digital Ocean (with "anna" user custom SSH login and stored SSH password):
+    ```sh
+    pg_dump -Oc wonderapp | ssh anna "psql -d wonderapp"
+    ```
+- From Digital Ocean droplet to local db (with no custom SSH login or stored SSH password): 
     ```sh
     ssh root@123.456.7.89 "pg_dump -Oc -U anna -h localhost wonderapp" | psql wonderapp
     ```
