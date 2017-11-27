@@ -38,7 +38,7 @@ The exact format you use for each part of your pg_dump command will depend a bit
 - If you enter any of the ```pg_dump``` commands above, the command line interface will output the database for you. You can use these commands to see the database right in the CLI, but this is only half of a typical pg_dump use case. Usually you want to copy that content either straight into another database or into a text file as a database backup.
 
 ###### Pipe contents from one db to another
-Use the ```|``` (pipe) to pipe one database's content into another's. Here are some examples.
+Use the ```|``` (pipe) symbol to pipe one database's content into another's. Here are some examples.
 - **Local to Heroku**:
     ```sh
     pg_dump -Oc wonderapp | heroku pg:psql -a wonderapp
@@ -54,9 +54,9 @@ Use the ```|``` (pipe) to pipe one database's content into another's. Here are s
     ```
 
 ###### Make database backup
-It can be a good idea to make a backup file of your database that you can store on your own computer. If you ever needed it, you could use it to dump into a new hosted database.
-- Create a backup SQL file on your Desktop with ```touch ~/Desktop/db_bkup.sql```.
-- Dump the contents of a database into this file using ```pg_dump``` and the ```>``` (greater than) symbol instead of a pipe. Instead of piping the contents into another database you are using ```>``` to write the contents into this file, overwriting any pre-existing content in that file.
+It can be a good idea to make a backup file of your database that you can store on your own computer. If you ever needed it, you could use it to dump into a new hosted database. Use the ```>``` (greater than) symbol.
+- Create a blank backup SQL file on your Desktop with ```touch ~/Desktop/db_bkup.sql```.
+- Dump the contents of a database into this file using ```pg_dump``` and ```>```. Instead of piping the contents into another database with a ```|```, you are using ```>``` to write the contents into your blank file, overwriting any pre-existing content in that file.
 - An example of backing up a local database:
 ```sh
     touch ~Desktop/wonderapp_bkup.sql
