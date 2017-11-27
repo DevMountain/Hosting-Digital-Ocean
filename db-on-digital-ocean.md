@@ -29,9 +29,12 @@ Whether you have a local database you want to copy to your server (e.g., local t
         - The ``find`` command includes a path, options, and a search expression. For example, if you thought pg_dump was installed in your ```/Applications``` folder and wanted to search for pg_dump by its name, you might try ```find /Applications -name pg_dump``` (where ```-name``` is the search-by-name option). 
         - If you have no idea where pg_dump was installed, you might try simply ```find / -name pg_dump 2>/dev/null``` to search your entire root folder (since you are searching all your folders, use the ```2>/dev/null``` command to suppress errors, limiting your search to more useful results). 
         - Find the correct path to pg_dump in the search results and copy it. Here is an example of a search result showing where pg_dump is installed:
-```sh
-        /Applications/Postgres.app/Contents/Versions/9.5/bin/pg_dump
-```
+
+        ```sh
+
+            /Applications/Postgres.app/Contents/Versions/9.5/bin/pg_dump
+        
+        ```
         
         </details>
     
