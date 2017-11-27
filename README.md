@@ -87,6 +87,8 @@ The key's randomart image is:
 
 <details> <summary> Additional SSH login options </summary>
 
+&nbsp;
+
 ###### Change SSH password
 If you need to change your password, you can do so after first logging into your droplet. Obviously, this means you need to know your old password. If you do change it, don't forget you cannot recover passwords, so you will have to take care to remember the new one.
 - Log in to your droplet using ```ssh root@[your.IP.address]```.
