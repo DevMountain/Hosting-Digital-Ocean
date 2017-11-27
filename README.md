@@ -352,9 +352,8 @@ If your project was bootstrapped using create-react-app, a default service worke
 - In your server, use the code below to point your server to your front end static files. This tells express to look for a build folder. The ```__dirname``` variable tells it to start at the current file where Node is running (i.e., your server file), and ```/../build``` tells it to then go up one file and into a build folder.
 ```app.use( express.static( `${__dirname}/../build` ) );```
 
-- If you are using React's browserHistory, you'll need to use ```path```'s ```join()``` method as a catch-all to ensure the index.html file is given on the other routes. This needs to appear in your server near the end, below all other endpoints, since it uses an asterisk as a catch-all for everything other than your specified endpoints.
+- If you are using React's browserHistory, you'll need to use Node's built-in ```path.join()``` method as a catch-all to ensure the index.html file is given on the other routes. Although ```path``` is built in, you must require it with ```const path = require('path');```. Then invoke the ```join()``` method in your server near the end, below all other endpoints, since this endpoint uses an asterisk as a catch-all for everything other than specified endpoints.
     ```js
-    const path = require('path')
     app.get('*', (req, res)=>{
     res.sendFile(path.join(__dirname, '../build/index.html'));
     });
