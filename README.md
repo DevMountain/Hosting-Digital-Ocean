@@ -349,8 +349,16 @@ If your project was bootstrapped using create-react-app, a default service worke
 ###### build folder
 - Make sure the project is working on your local machine.
 - Run ```npm run build``` to create a build folder.
-- In your server, the following code to point your server to your front end static files. This tells express to look for a build folder. The ```__dirname``` variable tells it to start at the current file where Node is running (i.e., your server file), and ```/../build``` tells it to then go up one file and into a build folder.
+- In your server, use the code below to point your server to your front end static files. This tells express to look for a build folder. The ```__dirname``` variable tells it to start at the current file where Node is running (i.e., your server file), and ```/../build``` tells it to then go up one file and into a build folder.
 ```app.use( express.static( `${__dirname}/../build` ) );```
+
+- If you are using React's browserHistory, you'll need to use ```path```'s ```join()``` method as a catch-all to ensure the index.html file is given on the other routes. This needs to appear in your server near the end, below all other endpoints, since it uses an asterisk as a catch-all for everything other than your specified endpoints.
+```js
+const path = require('path')
+app.get('*', (req, res)=>{
+  res.sendFile(path.join(__dirname, '../build/index.html'));
+});
+```
 
 <details> <summary> Other recommendations </summary>
 
@@ -366,18 +374,22 @@ If you used create-react-app, your README is full of boilerplate docs about crea
 
 
 ## copy project to server
+
 ###### push and pull from GitHub
 - Commit and push your working code to GitHub.
 - Use ```ssh root@your.ip.address``` to connect to your droplet, and use ```cd``` to go into your project folder on the server.
 - Clone the project to the server using ```git clone url-to-your-github-project```. Once done, your code will be on the server, except for node_modules, .env variables, and a build folder (since these are all .gitignored and therefore not copied to and from GitHub).
+
 ###### node_modules
 - Run ```npm install``` inside the project folder on the server to install node packages.
+
 ###### .env file
 - Recreate any .env file or config.js in the the server. 
     - Use ```touch .env``` to make an .env file.
     - Use ```nano .env``` to edit the file.
 - Go to your code editor and copy the contents of your local .env file. Inside nano on the server, paste in the contents you copied so they will now be in the server .env file. Change any full paths containing "localhost" (e.g., 'http://localhost:3100/api/users') to relative paths instead (e.g., '/api/users'). We do this because your server might be structured differently than your local machine, so we give the server a relative path, and it knows what to do from there.
 - To exit nano, use Ctrl+x to exit. It will ask if you want to save. Type ```Yes``` or ```y```, then hit Return to confirm. 
+
 ###### build folder
 - Create a build folder using ```npm run build```. This will create a folder called "build" with an optimized version of your project. The express.static line you added to the server file will tell the server to look in that build folder for the static files that need to be served.
 - Now your entire project is saved to the server, including code, node_modules, .env files, and build folder. The next step is to run Node on our project to see if it works from the server.
