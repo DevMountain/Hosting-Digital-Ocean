@@ -39,7 +39,6 @@ It can be a good idea to make a backup file of your database that you can store 
     touch ~Desktop/wonderapp_bkup.sql
     pg_dump -Oc wonderapp > ~/Desktop/wonderapp_bkup.sql
 ```
-pg_dump -O -c rgs | heroku pg:psql -a realgoodsyrup
 
 ###### Possible issues
 - **pg_dump command not found:** You may try to use the ```pg_dump``` command only to have your command line editor say something like "command not found," even though you are sure you correctly installed pg_dump. If so, you may need to find out where it was installed and point your command line editor to that path using your .bash_profile or .bashrc file. Try the following:
