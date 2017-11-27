@@ -27,7 +27,7 @@
 ## SSH Key
 
 An SSH key gives us a secure connection to our server droplet. 
-- To begin the creation process, type ```ssh-keygen -t rsa```.
+- To begin the creation process, type ```ssh-keygen -t rsa```. You are creating an SSH key for your whole computer, so it does not matter what folder you are in when you type this.
 - You will be asked for a location and filename. Just use the defaults.
 ```sh
 Generating public/private rsa key pair.
@@ -92,6 +92,21 @@ If you need to change your password, you can do so after first logging into your
 - Log in to your droplet using ```ssh root@[your.IP.address]```.
 - Type ```passwd```. You will be prompted to enter your old password and then the new password (twice). 
 
+###### Add SSH password to ssh-agent keychain
+To log in without typing your password, you can add the password to the ssh-agent, a program that holds private keys for authentication.
+1. Start the ssh-agent by running ```ssh-agent -s```.
+1. Modify the hidden SSH config file on your computer to automatically load keys into ssh-agent's keychain.
+    - Open the config file using ```nano ~/.ssh/config```.
+    - Add the following to the config file:
+```sh
+    Host *
+        AddKeysToAgent yes
+        UseKeyChain yes
+        IdentityFile ~/.ssh/id_rsa
+```
+1. Add your SSH private key to the ssh-agent by running ```ssh-add -K ~/.ssh/id_rsa```.
+[See these docs for more.](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
+
 ###### Custom SSH login
 If you find it inconvenient to type in your IP address when logging into your server, try customizing your SSH login.
 - On your local computer open the hidden SSH config file in your home folder. If you want to use nano, you can enter ```nano ~/.ssh/config```. 
@@ -134,7 +149,7 @@ The first time you access your droplet, there is likely an older version of Node
 
 
 ## swapfile (optional)
-Many students buy a Digital Ocean droplet on the $5 tier, which comes with limited RAM. A swapfile can effectively extend the amount of given RAM by swapping out less-recently-used files to the hard disk. This can come in handy. For example, sometimes when running a build on a low-RAM droplet, the process will time out because there is not enough RAM. Having a swapfile in place can help with this.
+Many students buy a Digital Ocean droplet on the $5 tier, which comes with limited RAM. A swapfile can effectively extend the amount of given RAM by swapping out less-recently-used files to the hard disk. This can come in handy. For example, sometimes when running a build on a low-RAM droplet, the process will time out because there is not enough RAM. Having a swapfile in place can help with this. A swapfile is particularly a good idea if your project uses Gulp.
 
 <details> <summary> swapfile details </summary> 
 
@@ -332,7 +347,7 @@ If your project was bootstrapped using create-react-app, a default service worke
 
 <details> <summary> Other recommendations </summary>
 
-###### Title your project
+###### Title the app
 Inside your index.html file, find the ```<title>``` tags inside the ```<head>```. If you used create-react-app, the index.html file will be inside the public/ folder and the ```title``` tags will say ```<title>React App</title>```. Inside ```<title></title>```, put the name of your app. This name will appear in the browser tab when you go to your site.
 
 ###### Customize the README
@@ -375,7 +390,7 @@ If you used create-react-app, your README is full of boilerplate docs about crea
 - Once you've tested your site, use Ctrl+C to terminate the Node process. To keep your app running forever, move on to the final required step, in which you will install something called forever.
 
 ###### Possible issues:
-- You might run Node and find that your app's front end does not appear. Perhaps you see the words ```Cannot GET``` in the browser. Try testing one of your GET endpoints to see if the back end works by typing the endpoint URL into the browser bar (e.g., '127.48.12.123:3100/api/products'). If the browser correctly displays data from your endpoint, this probably indicates that your project is hosted on the server but your server file is not pointing to your build folder correctly. 
+- You might run Node and find that your app's front end does not appear. Perhaps you see the words ```Cannot GET``` in the browser. Try testing one of your GET endpoints to see if the back end works by typing the endpoint URL into the browser bar (e.g., '122.48.12.123:3100/api/products'). If the browser correctly displays data from your endpoint, this probably indicates that your project is hosted on the server but your server file is not pointing to your build folder correctly. 
     - Carefully check the express.static line again. It is easy to miss a slash (```/```) or a period (```.```). The correct code should probably look like this: ```app.use( express.static( `${__dirname}/../build` ) );```. Notice the ```__dirname``` variable (with two underscores), followed by a slash, then traveling up one folder and going into the ```build``` folder. 
     - You might also double-check that you ran ```npm run build``` to create a build folder.
 
@@ -404,6 +419,7 @@ If you used create-react-app, your README is full of boilerplate docs about crea
 - ```forever restart [id]```: Restart a specific process, replacing [id] with the process UID or PID.
 - ```forever restartall```: Restart all current processes.
 - ```forever stopall```: Stop all processes.
+- ```forever -h```: Help. Shows other forever actions and options.
 - ```forever columns [add/rm] [column name]```: Format the list of processes you see when you run ```forever list``` by adding or removing columns using the column name. For instance, you might remove the "command" column or the "logfile" column if you don't find that information useful. You might add the "dir" column because it shows the project folder forever is running in, which is helpful for identifying which project is running which process.
 - ```-a --uid [custom UID]``` options together with ```forever start```: These options let you set the UID to whatever numbers or characters you want. This can be convenient for both identifying which process is running and for easily remembering the UID so you can stop or restart the process quickly. For example, if you have an app called Foto, you could start forever with ```forever -a --uid foto start server/server.js``` to create a "foto" UID, and ```forever restart foto``` to restart that process.
 
