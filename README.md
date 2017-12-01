@@ -3,18 +3,19 @@
 ## Overview
 
 ###### Basic hosting steps:
-1. Get secure connection to droplet with SSH key.
+1. Create an SSH key which you'll use for a secure connection to your server.
 1. Sign up for a droplet on Digital Ocean.
+1. Install and configure node, postgresql, and other necessary software on your droplet.xwxxx
 1. Push working code to GitHub. Make sure express.static points to build folder.
 1. Clone project from GitHub to server and ```npm install```.
 1. Create .env/config.js files on server.
 1. Create a build with ```npm run build```.
-1. Run forever (so hosted project is always running).
+1. Run `forever` (so hosted project is always running).
 
 ###### Optional steps:
 1. Set up swapfile to extend the limited RAM that comes with the cheaper droplets.
 1. Set up nginx to host multiple projects on same droplet.
-1. Set up a domain name.
+1. Set up a domain name to point to your droplet's IP address.
 
 ###### Steps for making changes to a project that is already hosted:
 - Try this [cheat sheet](https://github.com/Alan-Miller/digital-ocean/blob/master/cheat-sheet-for-editing-hosted-project.md).
@@ -28,8 +29,8 @@
 
 ## SSH key
 
-An SSH key gives us a secure connection to our server droplet. 
-- To begin the creation process, from any folder, type ```ssh-keygen -t rsa```. Alternatively, add ```ssh-keygen -t rsa -b 4096``` to add 4096-bit encryption (rather than the default 2048). 
+An SSH key gives us a secure connection to our server droplet.
+- To begin the creation process, from any folder, type ```ssh-keygen -t rsa```. Alternatively, add ```ssh-keygen -t rsa -b 4096``` to add 4096-bit encryption (rather than the default 2048).
 - You will be asked for a location and filename. Just use the defaults.
 ```sh
 Generating public/private rsa key pair.
@@ -40,7 +41,7 @@ Enter file in which to save the key (/Users/username/.ssh/id_rsa):
 Enter passphrase (empty for no passphrase):
 Enter same passphrase again:
 ```
-- Two files will then be created in the .ssh in the home folder of your computer (i.e., in ~/.ssh). These files are ```id_rsa``` and ```id_rsa.pub```, your private and public keys, respectively. You will notice a randomart image of your key like the one below. 
+- Two files will then be created in the .ssh in the home folder of your computer (i.e., in ~/.ssh). These files are ```id_rsa``` and ```id_rsa.pub```, your private and public keys, respectively. You will notice a randomart image of your key like the one below.
 ```sh
 Your identification has been saved in demo_rsa.
 Your public key has been saved in demo_rsa.pub.
@@ -84,7 +85,8 @@ The key's randomart image is:
 
 
 ## connect to server
-- Use ```ssh root@your.ip.address``` (e.g., ```ssh root@127.48.12.123```) to connect to your droplet through the command line.
+- Open Terminal.app
+- Type ```ssh root@your.ip.address``` (e.g., ```ssh root@127.48.12.123```) to connect to your droplet through the command line.
 - You will need your password to connect. **YOU DIDN'T FORGET IT, DID YOU?**
 
 <details> <summary> Additional SSH login options </summary>
@@ -94,7 +96,7 @@ The key's randomart image is:
 ###### Change SSH password
 If you need to change your password, you can do so after first logging into your droplet. Obviously, this means you need to know your old password. If you do change it, don't forget you cannot recover passwords, so you will have to take care to remember the new one.
 - Log in to your droplet using ```ssh root@[your.IP.address]```.
-- Type ```passwd```. You will be prompted to enter your old password and then the new password (twice). 
+- Type ```passwd```. You will be prompted to enter your old password and then the new password (twice).
 
 &nbsp;
 
@@ -116,7 +118,7 @@ To log in without typing your password, you can add the password to the ssh-agen
 
 ###### Custom SSH login
 If you find it inconvenient to type in your IP address when logging into your server, try customizing your SSH login.
-- On your local computer open the hidden SSH config file in your home folder. If you want to use nano, you can enter ```nano ~/.ssh/config```. 
+- On your local computer open the hidden SSH config file in your home folder. If you want to use nano, you can enter ```nano ~/.ssh/config```.
 - Inside this file, enter a Host, User, and Hostname in the format below. The Host will be the name you want to use for logging in, and the Hostname will be the IP address for the server. The User will be either "root" or the user if you created a user on the server. Optionally, you can specify a port or leave out this line (which sets the port to its default, 22). Below is a sample config file. A person could log in to the 123.456.7.89 droplet from this computer using either ```ssh bakerc``` to log in as root or ```ssh bakerm``` to log in as user mb.
 
 ``` sh
@@ -141,7 +143,7 @@ If you find it inconvenient to type in your IP address when logging into your se
 
 The first time you access your droplet, there is likely an older version of Node installed on the computer. If so, you should update. You might want to run the same version of Node as the one installed on your computer.
 - To see what version you currently have, type ```node -v```.
-- Run ```apt-get update && apt-get dist-upgrade``` to update the software Linus know about. 
+- Run ```apt-get update && apt-get dist-upgrade``` to update the software Linus know about.
 - Run ```apt-get install nodejs -y ; apt-get install npm -y``` to install Node.js and npm.
 - Run ```npm i -g n``` to globally install ```n```, which you can use to upgrade Node (or downgrade to an earlier version).
 - If you want to install the latest version of Node, type ```n latest```.
@@ -163,12 +165,12 @@ If your project was bootstrapped using create-react-app, a default service worke
 - On local machine, instead of using absolute paths (e.g., 'http://localhost:3200/auth') to environment variables. In other words, everywhere you have a full path with "localhost" in it, replace that path string with a reference to a variable, and store that variable and value in your .env (or config.js) file.
     - For example, if you have an ```<a>``` tag with an Auth0 link like this...
 
-        ``` <a href={"http://localhost:3200/auth"}><li>Log in</li></a> ``` 
-    
+        ``` <a href={"http://localhost:3200/auth"}><li>Log in</li></a> ```
+
         ... replace the string so it says something like this:
 
-        ```<a href={process.env.REACT_APP_LOGIN}><li>Log in</li></a>``` 
-    
+        ```<a href={process.env.REACT_APP_LOGIN}><li>Log in</li></a>```
+
     - In the .env file, store the variable. No need for a keyword like ```var``` or ```const```. Also, quotation marks are optional (unless there is a space inside the string, in which case they are required). The variable for the example above would look like this inside the .env file:
 
         ```REACT_APP_LOGIN=http://localhost:3200/auth```
@@ -215,11 +217,11 @@ If you used create-react-app, your README is full of boilerplate docs about crea
 - Run ```npm install``` inside the project folder on the server to install node packages.
 
 ###### .env file
-- Recreate any .env file or config.js in the the server. 
+- Recreate any .env file or config.js in the the server.
     - Use ```touch .env``` to make an .env file.
     - Use ```nano .env``` to edit the file.
 - Go to your code editor and copy the contents of your local .env file. Inside nano on the server, paste in the contents you copied so they will now be in the server .env file. Change any full paths containing "localhost" (e.g., 'http://localhost:3100/api/users') to relative paths instead (e.g., '/api/users'). We do this because your server might be structured differently than your local machine, so we give the server a relative path, and it knows what to do from there.
-- To exit nano, use Ctrl+x to exit. It will ask if you want to save. Type ```Yes``` or ```y```, then hit Return to confirm. 
+- To exit nano, use Ctrl+x to exit. It will ask if you want to save. Type ```Yes``` or ```y```, then hit Return to confirm.
 
 ###### build folder
 - Create a build folder using ```npm run build```. This will create a folder called "build" with an optimized version of your project. The express.static line you added to the server file will tell the server to look in that build folder for the static files that need to be served.
@@ -237,7 +239,7 @@ If you used create-react-app, your README is full of boilerplate docs about crea
 ## swapfile (optional)
 Many students buy a Digital Ocean droplet on the $5 tier, which comes with limited RAM. A swapfile can effectively extend the amount of given RAM by swapping out less-recently-used files to the hard disk. This can come in handy. For example, sometimes when running a build on a low-RAM droplet, the process will time out because there is not enough RAM. Having a swapfile in place can help with this. A swapfile is also a good idea if your project uses Gulp.
 
-<details> <summary> swapfile details </summary> 
+<details> <summary> swapfile details </summary>
 
 ###### Create swapfile and turn on
 ```cli
@@ -255,7 +257,7 @@ swapon /swapfile
 - If you want to tell the server to swap files less often, use ```nano /etc/sysctl.conf``` to open the sysctl.conf file and type ```vm.swappiness=10``` to set the swappiness to 10 (instead of the default 60).
 
 ###### Possible issues:
-- If the you get an error related to the ```fallocate``` command, it may be that the swapfile is currently on. You cannot fallocate a swapfile that is currently in use. Try turning off the swapfile with ```swapoff /swapfile``` and then entering the commands again, starting with ```fallocate -l 1G /swapfile``` and ending with ```swapon /swapfile``` (which turns it back on). 
+- If the you get an error related to the ```fallocate``` command, it may be that the swapfile is currently on. You cannot fallocate a swapfile that is currently in use. Try turning off the swapfile with ```swapoff /swapfile``` and then entering the commands again, starting with ```fallocate -l 1G /swapfile``` and ending with ```swapon /swapfile``` (which turns it back on).
 
 </details>
 
@@ -266,14 +268,14 @@ swapon /swapfile
 ## nginx (optional)
 When you have multiple files to host, nginx will let you keep them on the same droplet by watching for traffic coming to your droplet and routing that traffic to the appropriate project on the droplet.
 
-<details> <summary> nginx installation and configuration </summary> 
+<details> <summary> nginx installation and configuration </summary>
 
 ###### Install nginx
-- Run ```sudo apt-get install nginx```. 
-- The ```nginx/``` folder should now be installed in the ```/etc/``` folder. Inside ```nginx/```, Ubuntu should have installed multiple files and folders, including ```sites-available/``` and ```sites-enabled/```. If these two folders are not here, create them inside the ```nginx/``` folder by running ```touch sites-available sites-enabled```. Although the simplest way is to edit the default file that was probably created for you in ```sites-available/```, it may be a better practice to leave the default file alone and instead create and configure a small file for each hosted project site. 
+- Run ```sudo apt-get install nginx```.
+- The ```nginx/``` folder should now be installed in the ```/etc/``` folder. Inside ```nginx/```, Ubuntu should have installed multiple files and folders, including ```sites-available/``` and ```sites-enabled/```. If these two folders are not here, create them inside the ```nginx/``` folder by running ```touch sites-available sites-enabled```. Although the simplest way is to edit the default file that was probably created for you in ```sites-available/```, it may be a better practice to leave the default file alone and instead create and configure a small file for each hosted project site.
 - After making configuration files in ```sites-available``` for each project, we will make links to those files in the ```sites-enabled``` folder. nginx uses this ```sites-enabled/``` folder to know which projects should be active.
 
-###### Configure nginx 
+###### Configure nginx
 - Go to nginx's "sites-available/" folder by running ```cd /etc/nginx/sites-available```.
 - SIDE NOTE: A default file was probably created automatically in ```sites-available/``` by the installation. This file has many comments and shows sample configurations for nginx files. If you do not have a default file, below is an example of a default file. It is just a reference. We won't need it for this tutorial, so feel free to move ahead.
 
@@ -412,8 +414,8 @@ server {
 - Once you've tested your site, use Ctrl+C to terminate the Node process. To keep your app running forever, move on to the final required step, in which you will install something called forever.
 
 ###### Possible issues:
-- You might run Node and find that your app's front end does not appear. Perhaps you see the words ```Cannot GET``` in the browser. Try testing one of your GET endpoints to see if the back end works by typing the endpoint URL into the browser bar (e.g., '122.48.12.123:3100/api/products'). If the browser correctly displays data from your endpoint, this probably indicates that your project is hosted on the server but your server file is not pointing to your build folder correctly. 
-    - Carefully check the express.static line again. It is easy to miss a slash (```/```) or a period (```.```). The correct code should probably look like this: ```app.use( express.static( `${__dirname}/../build` ) );```. Notice the ```__dirname``` variable (with two underscores), followed by a slash, then traveling up one folder and going into the ```build``` folder. 
+- You might run Node and find that your app's front end does not appear. Perhaps you see the words ```Cannot GET``` in the browser. Try testing one of your GET endpoints to see if the back end works by typing the endpoint URL into the browser bar (e.g., '122.48.12.123:3100/api/products'). If the browser correctly displays data from your endpoint, this probably indicates that your project is hosted on the server but your server file is not pointing to your build folder correctly.
+    - Carefully check the express.static line again. It is easy to miss a slash (```/```) or a period (```.```). The correct code should probably look like this: ```app.use( express.static( `${__dirname}/../build` ) );```. Notice the ```__dirname``` variable (with two underscores), followed by a slash, then traveling up one folder and going into the ```build``` folder.
     - You might also double-check that you ran ```npm run build``` to create a build folder.
 
 
@@ -425,7 +427,7 @@ server {
 ###### Install and start forever
 - Use ```npm install -g forever``` to install.
 - Use ```cd``` to go to the top level of your project file.
-- Use ```forever start [path to server file]``` to start forever (e.g., ```forever start server/server.js```). 
+- Use ```forever start [path to server file]``` to start forever (e.g., ```forever start server/server.js```).
 
 ###### After starting forever
 - Once you use the ```forever start``` command, your project should be running and accessible online even after closing the command line window.
