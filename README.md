@@ -446,7 +446,7 @@ server {
 ***
 
 
-## forever
+## forever (alternative to pm2)
 As an alternative to ```pm2``` is ```forever```.
 
 <details> <summary> forever </summary>
