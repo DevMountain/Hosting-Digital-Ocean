@@ -10,7 +10,7 @@
 1. Clone project from GitHub to server and ```npm install```.
 1. Create .env/config.js files on server.
 1. Create a build with ```npm run build```.
-1. Run `forever` (so hosted project is always running).
+1. Run ```pm2``` (so hosted project is always running).
 
 ###### Optional steps:
 1. Set up swapfile to extend the limited RAM that comes with the cheaper droplets.
@@ -391,7 +391,7 @@ server {
 - Go to nginx's ```sites-enabled/``` folder by running ```cd /etc/nginx/sites-enabled```.
 - Inside the ```sites-enabled/``` folder create a symlink for each project using ```ln -s ../sites-available/[project_file_in_sites_available]```. For example, if the file you previously made in ```sites-available/``` was called ```wonderapp```, here you would run ```ln -s ../sites-available/wonderapp```. This creates a symlink between the file that was made in ```sites-available/``` and the the ```sites-enabled/``` folder.
 - Test the nginx configuration by running ```sudo nginx -t```.
-- Restart nginx by running ```sudo service nginx restart```. Your enabled sites should now be up and running as soon as you start the server (see the **test with Node** and **forever** sections below).
+- Restart nginx by running ```sudo service nginx restart```. Your enabled sites should now be up and running as soon as you start the server (see the **test with Node** and **pm2** sections below).
 - If you are wondering how nginx knows to check each of these new files you linked to in ```/sites-enabled```, take a look at the ```nginx.conf``` file in the ```nginx/``` folder by running ```cat /etc/nginx/nginx.conf```. Near the bottom of the file, you should see ```include /etc/nginx/sites-enabled/*;```. This line points nginx to each file in ```/sites-enabled```, so any new file you create there will be included.
 
 
@@ -407,7 +407,7 @@ server {
 ## test with Node
 - Test to see if your hosted project works. Try running node on your server file. If, for example, your server file is called "index.js" and it is inside a folder called "server", run ```node server/index.js```.
 - Now enter your IP address (the one Digital Ocean gave you) in the browser URL bar, followed by a ```:``` and the port your server is running on (e.g., ```127.48.12.123:3100```). Your hosted site should appear. You are almost done! Currently, your site is running but will stop as soon as you close the command line window or otherwise terminate the running Node process.
-- Once you've tested your site, use Ctrl+C to terminate the Node process. To keep your app running forever, move on to the final required step, in which you will install something called forever.
+- Once you've tested your site, use Ctrl+C to terminate the Node process. To keep your app running forever, move on to the final required step, in which you will install something called ```pm2```.
 
 ###### Possible issues:
 - You might run Node and find that your app's front end does not appear. Perhaps you see the words ```Cannot GET``` in the browser. Try testing one of your GET endpoints to see if the back end works by typing the endpoint URL into the browser bar (e.g., '122.48.12.123:3100/api/products'). If the browser correctly displays data from your endpoint, this probably indicates that your project is hosted on the server but your server file is not pointing to your build folder correctly.
@@ -418,7 +418,37 @@ server {
 ***
 
 
+## pm2
+
+###### Install and start pm2
+- Use ```npm install -g pm2``` to install.
+- Use ```cd``` to go to the top level of your project file.
+- Use ```pm2 start [path to server file]``` to start pm2 (e.g., ```pm2 start server/server.js```).
+
+###### After starting pm2
+- Once you use the ```pm2 start``` command, your project should be running and accessible online even after closing the command line window.
+- If you need to deploy new changes to your project after hosting it, try this [cheat sheet](https://github.com/Alan-Miller/digital-ocean/blob/master/cheat-sheet-for-editing-hosted-project.md).
+
+###### Possible issues:
+- **Miscellaneous**: Sometimes you run pm2 and it fails and you don't know why. It can be helpful to stop pm2 and instead go back to testing the project by running Node, which will often give more useful errors. Running Node also lets you see console logs in your server code, which can help you debug.
+
+<details> <summary> Additional pm2 commands </summary>
+
+- ```pm2 list```: Shows currently running pm2 processes. Notice how each process has a UID and a PID.
+- ```pm2 restart [id]```: Restart a specific process, replacing [id] with the process UID or PID.
+- ```pm2 restart all```: Restart all current processes.
+- ```pm2 stop all```: Stop all processes.
+- ```pm2 -h```: Help. Shows other pm2 actions and options.
+- For more commands, see these [Quick Start docs](http://pm2.keymetrics.io/docs/usage/quick-start/).
+
+
+***
+
+
 ## forever
+As an alternative to ```pm2``` is ```forever```.
+
+<details> <summary> forever </summary>
 
 ###### Install and start forever
 - Use ```npm install -g forever``` to install.
@@ -429,11 +459,7 @@ server {
 - Once you use the ```forever start``` command, your project should be running and accessible online even after closing the command line window.
 - If you need to deploy new changes to your project after hosting it, try this [cheat sheet](https://github.com/Alan-Miller/digital-ocean/blob/master/cheat-sheet-for-editing-hosted-project.md).
 
-###### Possible issues:
-- **-a option**: When starting a process, you may see these two errors:```error: Cannot start forever``` and ```error: log file /root/.forever/[some_process].log exists. Use the -a or --append option to append log```. If so, trying simply adding the ```-a``` option to your previous ```start``` command.
-- **Miscellaneous**: Sometimes you run forever and it fails and you don't know why. It can be helpful to stop forever and instead go back to testing the project by running Node, which will often give more useful errors. Running Node also lets you see console logs in your server code, which can help you debug.
-
-<details> <summary> Additional forever commands </summary>
+###### Additional forever commands
 
 - ```forever list```: Shows currently running forever processes. Notice how each process has a UID and a PID.
 - ```forever restart [id]```: Restart a specific process, replacing [id] with the process UID or PID.
@@ -443,5 +469,8 @@ server {
 - ```forever columns [add/rm] [column name]```: Format the list of processes you see when you run ```forever list``` by adding or removing columns using the column name. For instance, you might remove the "command" column or the "logfile" column if you don't find that information useful. You might add the "dir" column because it shows the project folder forever is running in, which is helpful for identifying which project is running which process.
 - ```-a --uid [custom UID]``` options together with ```forever start```: These options let you set the UID to whatever numbers or characters you want. This can be convenient for both identifying which process is running and for easily remembering the UID so you can stop or restart the process quickly. For example, if you have an app called Foto, you could start forever with ```forever -a --uid foto start server/server.js``` to create a "foto" UID, and ```forever restart foto``` to restart that process.
 
+###### Possible issues:
+- **-a option**: When starting a process, you may see these two errors:```error: Cannot start forever``` and ```error: log file /root/.forever/[some_process].log exists. Use the -a or --append option to append log```. If so, trying simply adding the ```-a``` option to your previous ```start``` command.
+- **Miscellaneous**: Sometimes you run forever and it fails and you don't know why. It can be helpful to stop forever and instead go back to testing the project by running Node, which will often give more useful errors. Running Node also lets you see console logs in your server code, which can help you debug.
 
 </details>
