@@ -440,6 +440,7 @@ server {
 - ```pm2 stop all```: Stop all processes.
 - ```pm2 -h```: Help. Shows other pm2 actions and options.
 - For more commands, see these [Quick Start docs](http://pm2.keymetrics.io/docs/usage/quick-start/).
+</details>
 
 
 ***
