@@ -3,9 +3,9 @@
 ## Overview
 
 ###### Basic hosting steps:
-1. Create an SSH key which you'll use for a secure connection to your server.
+1. Create an SSH key, which you'll use for a secure connection to your server.
 1. Sign up for a droplet on Digital Ocean.
-1. Install and configure node, postgresql, and other necessary software on your droplet.xwxxx
+1. Install and configure Node, PostgreSQL, and other necessary software on your droplet.
 1. Push working code to GitHub. Make sure express.static points to build folder.
 1. Clone project from GitHub to server and ```npm install```.
 1. Create .env/config.js files on server.
@@ -85,7 +85,7 @@ The key's randomart image is:
 
 
 ## connect to server
-- Open Terminal.app
+- Open Terminal.app or another command line interface.
 - Type ```ssh root@your.ip.address``` (e.g., ```ssh root@127.48.12.123```) to connect to your droplet through the command line.
 - You will need your password to connect. **YOU DIDN'T FORGET IT, DID YOU?**
 
