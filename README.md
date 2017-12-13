@@ -86,7 +86,7 @@ The key's randomart image is:
 
 ## connect to server
 - Open Terminal.app or another command line interface.
-- Type ```ssh root@your.ip.address``` (e.g., ```ssh root@127.48.12.123```) to connect to your droplet through the command line.
+- Type ```ssh root@your.ip.address.here``` (e.g., ```ssh root@127.48.12.123```) to connect to your droplet through the command line.
 - You will need your password to connect. **YOU DIDN'T FORGET IT, DID YOU?**
 
 <details> <summary> Additional SSH login options </summary>
@@ -135,23 +135,40 @@ If you find it inconvenient to type in your IP address when logging into your se
 
 </details>
 
+*** 
+
+## swapfile
+Many students buy a Digital Ocean droplet on the $5 tier, which comes with limited memory. A swapfile can effectively extend the amount of given memory by swapping out less-recently-used files to the hard disk. This can come in handy. For example, sometimes when running a build on a low-memory droplet, the process will time out because there is not enough memory. Having a swapfile in place can help with this. A swapfile is also a good idea if your project uses Gulp.
+
+###### Create swapfile and turn on
+```cli
+touch /swapfile
+fallocate -l 1G /swapfile
+chmod 600 /swapfile
+mkswap /swapfile
+swapon /swapfile
+```
+
+###### Extra swap options:
+- If you need to turn off the swapfile: ```swapoff /swapfile```.
+- If you need to turn the swapfile back on: ```swapon /swapfile```.
+- If you want to have the droplet load with the swapfile on, use ```nano /etc/fstab``` to open the fstab file, and at the bottom type ```/swapfile   none    swap    sw    0   0```.
+- If you want to tell the server to swap files less often, use ```nano /etc/sysctl.conf``` to open the sysctl.conf file and type ```vm.swappiness=10``` to set the swappiness to 10 (instead of the default 60).
+
+###### Possible issues:
+- If the you get an error related to the ```fallocate``` command, it may be that the swapfile is currently on. You cannot fallocate a swapfile that is currently in use. Try turning off the swapfile with ```swapoff /swapfile``` and then entering the commands again, starting with ```fallocate -l 1G /swapfile``` and ending with ```swapon /swapfile``` (which turns it back on).
 
 ***
 
 
-## upgrade Node
+## install Node
 
-The first time you access your droplet, there is likely an older version of Node installed on the computer. If so, you should update. You might want to run the same version of Node as the one installed on your computer.
-- To see what version you currently have, type ```node -v```.
+The first time you access your droplet, you need to install Node/npm so you can manage and run your code.
 - Run ```apt-get update && apt-get dist-upgrade``` to update the software Linus know about.
-- Run ```apt-get install nodejs -y ; apt-get install npm -y``` to install Node.js and npm.
-- Run ```npm i -g n``` to globally install ```n```, which you can use to upgrade Node (or downgrade to an earlier version).
-- If you want to install the latest version of Node, type ```n latest```.
-- If you want to install an earlier version of Node, type ```n x.x.x``` (e.g., ```n 8.6.0```).
-- Run ```npm i -g npm``` to update and install the latest stable version of npm.
-
-###### Possible issues:
-- It is possible to get an error that says Node is not compatible with npm. This might happen if you have the latest version of Node installed on your server and it is not a stable version or is not yet supported. Try downgrading to a slightly earlier version of node using ```n x.x.x``` as mentioned above.
+- Run ```apt-get install python-software-properties```. **This is only a dependency, we aren't doing anything with Python**
+- Run ```curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -``` to add version 8 of Node.js and most up to date npm to your ```apt``` repository. _If you want a different version of node, change the 8 after ```setup_.```_
+- Run ```apt-get install nodejs -y``` to install Node/npm.
+- Double-check your versions and install with ```node -v``` and ```npm -v```.
 
 
 ***
@@ -162,7 +179,7 @@ The first time you access your droplet, there is likely an older version of Node
 If your project was bootstrapped using create-react-app, a default service worker was registered in your index.js file. Make sure ```registerServiceWorker()``` is commented out or that the service worker is otherwise not registered. Doing so will save some headaches caused when trying to serve your local files and server files together.
 
 ###### .env variables
-- On local machine, instead of using absolute paths (e.g., 'http://localhost:3200/auth') to environment variables. In other words, everywhere you have a full path with "localhost" in it, replace that path string with a reference to a variable, and store that variable and value in your .env (or config.js) file.
+- On local machine, instead of using absolute paths (e.g., 'http://localhost:3200/auth') use environment variables. In other words, everywhere you have a full path with "localhost" in it, replace that path string with a reference to a variable, and store that variable and value in your .env (or config.js) file.
     - For example, if you have an ```<a>``` tag with an Auth0 link like this...
 
         ``` <a href={"http://localhost:3200/auth"}><li>Log in</li></a> ```
@@ -177,7 +194,7 @@ If your project was bootstrapped using create-react-app, a default service worke
 
 - Replacing full paths with environment variables is generally a good idea throughout your whole app (both front end and back). For React, however, keep two things in mind:
     1. If you built your front end with ```create-react-app```, your React front end can only access variables that start with ```REACT_APP_```. The ```npm start``` command builds them into the app. Variables that are accessed outside of React (i.e., in your back end), do not need the ```REACT_APP_``` prefix.
-    2. React does not allow you to access files outside the src folder, so if you need environment variables in your front end, you will have to put an .env file inside the src folder.
+    2. ```create-react-app``` does not allow you to access files outside the src folder, so if you need environment variables in your front end, you will have to put an .env file inside the src folder.
 
 ###### build folder
 - Make sure the project is working on your local machine.
@@ -185,7 +202,7 @@ If your project was bootstrapped using create-react-app, a default service worke
 - In your server, use the code below to point your server to your front end static files. This tells express to look for a build folder. The ```__dirname``` variable tells it to start at the current file where Node is running (i.e., your server file), and ```/../build``` tells it to then go up one file and into a build folder.
 ```app.use( express.static( `${__dirname}/../build` ) );```
 
-- If you are using React's browserHistory, you'll need to use Node's built-in ```path.join()``` method as a catch-all to ensure the index.html file is given on the other routes. Although ```path``` is built in, you must require it with ```const path = require('path');```. Then invoke the ```join()``` method in your server near the end, below all other endpoints, since this endpoint uses an asterisk as a catch-all for everything other than specified endpoints.
+- If you are using React Router's browserHistory, you'll need to use Node's built-in ```path.join()``` method as a catch-all to ensure the index.html file is given on the other routes. Although ```path``` is built in, you must require it with ```const path = require('path');```. Then invoke the ```join()``` method in your server near the end, below all other endpoints, since this endpoint uses an asterisk as a catch-all for everything other than specified endpoints.
     ```js
     app.get('*', (req, res)=>{
         res.sendFile(path.join(__dirname, '../build/index.html'));
@@ -236,26 +253,6 @@ If you used create-react-app, your README is full of boilerplate docs about crea
 ***
 
 
-## swapfile
-Many students buy a Digital Ocean droplet on the $5 tier, which comes with limited RAM. A swapfile can effectively extend the amount of given RAM by swapping out less-recently-used files to the hard disk. This can come in handy. For example, sometimes when running a build on a low-RAM droplet, the process will time out because there is not enough RAM. Having a swapfile in place can help with this. A swapfile is also a good idea if your project uses Gulp.
-
-###### Create swapfile and turn on
-```cli
-touch /swapfile
-fallocate -l 1G /swapfile
-chmod 600 /swapfile
-mkswap /swapfile
-swapon /swapfile
-```
-
-###### Extra swap options:
-- If you need to turn off the swapfile: ```swapoff /swapfile```.
-- If you need to turn the swapfile back on: ```swapon /swapfile```.
-- If you want to have the droplet load with the swapfile on, use ```nano /etc/fstab``` to open the fstab file, and at the bottom type ```/swapfile   none    swap    sw    0   0```.
-- If you want to tell the server to swap files less often, use ```nano /etc/sysctl.conf``` to open the sysctl.conf file and type ```vm.swappiness=10``` to set the swappiness to 10 (instead of the default 60).
-
-###### Possible issues:
-- If the you get an error related to the ```fallocate``` command, it may be that the swapfile is currently on. You cannot fallocate a swapfile that is currently in use. Try turning off the swapfile with ```swapoff /swapfile``` and then entering the commands again, starting with ```fallocate -l 1G /swapfile``` and ending with ```swapon /swapfile``` (which turns it back on).
 
 
 ***
@@ -388,6 +385,7 @@ server {
 }
 ```
 
+
 - Go to nginx's ```sites-enabled/``` folder by running ```cd /etc/nginx/sites-enabled```.
 - Inside the ```sites-enabled/``` folder create a symlink for each project using ```ln -s ../sites-available/[project_file_in_sites_available]```. For example, if the file you previously made in ```sites-available/``` was called ```wonderapp```, here you would run ```ln -s ../sites-available/wonderapp```. This creates a symlink between the file that was made in ```sites-available/``` and the the ```sites-enabled/``` folder.
 - Test the nginx configuration by running ```sudo nginx -t```.
@@ -474,3 +472,11 @@ server {
 - **Miscellaneous**: Sometimes you run forever and it fails and you don't know why. It can be helpful to stop forever and instead go back to testing the project by running Node, which will often give more useful errors. Running Node also lets you see console logs in your server code, which can help you debug.
 
 </details>
+
+
+server {
+    listen 80;
+    location / {
+        root
+    }
+}
