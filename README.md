@@ -63,7 +63,7 @@ The key's randomart image is:
 - You will copy the public key (```id_rsa.pub```) to give to Digital Ocean. You will not give out the private key. To see the public key, type ```cat ~/.ssh/id_rsa.pub```. This will show you a long string starting with ```ssh-rsa``` and ending with an email address.
 - You can also copy the key using ```pbcopy < ~/.ssh/id_rsa.pub```.
 
-![ssh-keygen](http://gph.is/2CnCtRQ)
+![ssh-keygen](https://media.giphy.com/media/3o6nV2fTpqU06vXhi8/giphy.gif) </br>
 _this is the whole ssh-keygen process_
 
 
@@ -83,7 +83,7 @@ _this is the whole ssh-keygen process_
 ###### Possible issues:
 - When pasting in your SSH key, you might get an error saying your private key is invalid, even when you are sure you copied the correct key. This can happen if you accidentally copied spaces at the end of the key string. This especially happens with Windows users using git bash, even when it looks like there are no extra spaces in the selection. Try pasting the key into Notepad or another editor (like VS Code) and then copying again from there.
 
-<div style="position:relative;height:0;padding-bottom:56.25%"><iframe src="https://www.youtube.com/embed/uk28Progsso?ecver=2" width="640" height="360" frameborder="0" gesture="media" allow="encrypted-media" style="position:absolute;width:100%;height:100%;left:0" allowfullscreen></iframe></div>
+[![create digital ocean droplet](https://s2.postimg.org/m40sljltl/Screen_Shot_2017-12-15_at_9.56.17_AM.png)](https://www.youtube.com/watch?v=uk28Progsso)
 
 ***
 
@@ -139,7 +139,7 @@ If you find it inconvenient to type in your IP address when logging into your se
 
 </details>
 
-![ssh root](http://gph.is/2yEpVTm)
+![ssh root](https://media.giphy.com/media/l4EoWjbL8vKePUM6s/giphy.gif) </br>
 _this is what it will look like the first time you ssh into your server_
 
 *** 
@@ -177,7 +177,7 @@ The first time you access your droplet, you need to install Node/npm so you can 
 - Run ```apt-get install nodejs -y``` to install Node/npm.
 - Double-check your versions and install with ```node -v``` and ```npm -v```.
 
-<div style="position:relative;height:0;padding-bottom:75.0%"><iframe src="https://www.youtube.com/embed/YSCw5Gua6wU?ecver=2" width="480" height="360" frameborder="0" gesture="media" allow="encrypted-media" style="position:absolute;width:100%;height:100%;left:0" allowfullscreen></iframe></div>
+[![install node](https://s2.postimg.org/b5pj2yk95/Screen_Shot_2017-12-15_at_9.57.05_AM.png)](https://youtu.be/YSCw5Gua6wU)
 
 ***
 
