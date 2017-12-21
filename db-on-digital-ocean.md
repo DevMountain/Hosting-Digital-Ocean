@@ -59,7 +59,7 @@ It can be a good idea to make a backup file of your database that you can store 
 - Dump the contents of a database into this file using ```pg_dump``` and ```>```. Instead of piping the contents into another database with a ```|```, you are using ```>``` to write the contents into your blank file, overwriting any pre-existing content in that file.
 - An example of backing up a local database:
 ```sh
-    touch ~Desktop/wonderapp_bkup.sql
+    touch ~/Desktop/wonderapp_bkup.sql
     pg_dump -Oc wonderapp > ~/Desktop/wonderapp_bkup.sql
 ```
 
