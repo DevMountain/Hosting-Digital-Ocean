@@ -148,6 +148,13 @@ We can setup our server with all the basics it will need with the script below. 
 
 Copy all of this in at once into your server terminal.  You will only do this ONCE when creating a new droplet.  You do not repeat these steps for each project.  
 
+Copy This one
+
+```cli
+touch /swapfile;fallocate -l 1G /swapfile;chmod 600 /swapfile;mkswap /swapfile;swapon /swapfile;apt-get update -y && apt-get dist-upgrade -y;apt-get install nodejs -y;apt-get install npm -y;npm i -g n;n stable;npm i -g npm;npm i -g pm2;apt-get install nginx -y;
+```
+
+What it's doing.
 ```cli
 touch /swapfile;
 fallocate -l 1G /swapfile;
