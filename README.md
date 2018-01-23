@@ -3,19 +3,18 @@
 ## Overview
 
 ###### Basic hosting steps:
-1. Create an SSH key, which you'll use for a secure connection to your server.
-1. Sign up for a droplet on Digital Ocean.
-1. Install and configure Node, PostgreSQL, and other necessary software on your droplet.
-1. Push working code to GitHub. Make sure express.static points to build folder.
-1. Clone project from GitHub to server and ```npm install```.
-1. Create .env/config.js files on server.
-1. Create a build with ```npm run build```.
-1. Run ```pm2``` (so hosted project is always running).
+1. Create an [SSH key](#ssh-key), which you'll use for a secure connection to your server.
+1. Sign up for a droplet on [Digital Ocean](#digital-ocean-account).
+1. Install and configure [Node, PostgreSQL, and other necessary software on your droplet](#all-in-one-setup).
+1. Push [working code](#prep-code-for-production) to GitHub. Make sure express.static points to build folder.
+1. [Clone project](#copy-project-to-server) from GitHub to server and ```npm install```.
+1. Create [.env/config.js](#env-variables) files on server.
+1. Create a [build](#build-folder) with ```npm run build```.
+1. Run ```pm2``` (so hosted project is [always running](#pm2)).
 
 ###### Optional steps:
-1. Set up swapfile to extend the limited RAM that comes with the cheaper droplets.
-1. Set up nginx to host multiple projects on same droplet.
-1. Set up a domain name to point to your droplet's IP address.
+1. Set up [nginx](#configure-nginx) to host multiple projects on same droplet.
+1. Set up a [domain](#setting-up-domains)name to point to your droplet's IP address.
 
 ###### Steps for making changes to a project that is already hosted:
 - Try this [cheat sheet](https://github.com/Alan-Miller/digital-ocean/blob/master/cheat-sheet-for-editing-hosted-project.md).
@@ -142,7 +141,27 @@ If you find it inconvenient to type in your IP address when logging into your se
 ![ssh root](https://media.giphy.com/media/l4EoWjbL8vKePUM6s/giphy.gif) </br>
 _this is what it will look like the first time you ssh into your server_
 
-*** 
+***
+
+## All In One Setup
+We can setup our server with all the basics it will need with the script below.  We will talk about what each part is doing in the following sections.  If you want to jump to the next step go [here](#prep-code-for-production).  These lines will cover the setup of a [swapfile](#swapfile), [installing node](#install-node), [installing nginx](#install-nginx), [installing pm2](#pm2).
+
+Copy all of this in at once into your server terminal.  You will only do this ONCE when creating a new droplet.  You do not repeat these steps for each project.  
+
+```cli
+touch /swapfile;
+fallocate -l 1G /swapfile;
+chmod 600 /swapfile;
+mkswap /swapfile;
+swapon /swapfile;
+apt-get update -y && apt-get dist-upgrade -y;
+apt-get install nodejs -y;apt-get install npm -y;
+npm i -g n;
+n stable;
+npm i -g npm;
+npm i -g pm2;
+apt-get install nginx -y;
+```
 
 ## swapfile
 Many students buy a Digital Ocean droplet on the $5 tier, which comes with limited memory. A swapfile can effectively extend the amount of given memory by swapping out less-recently-used files to the hard disk. This can come in handy. For example, sometimes when running a build on a low-memory droplet, the process will time out because there is not enough memory. Having a swapfile in place can help with this. A swapfile is also a good idea if your project uses Gulp.
@@ -265,6 +284,47 @@ If you used create-react-app, your README is full of boilerplate docs about crea
 
 ***
 
+
+## test with Node
+- Test to see if your hosted project works. Try running node on your server file. If, for example, your server file is called "index.js" and it is inside a folder called "server", run ```node server/index.js```.
+- Now enter your IP address (the one Digital Ocean gave you) in the browser URL bar, followed by a ```:``` and the port your server is running on (e.g., ```127.48.12.123:3100```). Your hosted site should appear. You are almost done! Currently, your site is running but will stop as soon as you close the command line window or otherwise terminate the running Node process.
+- Once you've tested your site, use Ctrl+C to terminate the Node process. To keep your app running forever, move on to the final required step, in which you will install something called ```pm2```.
+
+###### Possible issues:
+- You might run Node and find that your app's front end does not appear. Perhaps you see the words ```Cannot GET``` in the browser. Try testing one of your GET endpoints to see if the back end works by typing the endpoint URL into the browser bar (e.g., '122.48.12.123:3100/api/products'). If the browser correctly displays data from your endpoint, this probably indicates that your project is hosted on the server but your server file is not pointing to your build folder correctly.
+    - Carefully check the express.static line again. It is easy to miss a slash (```/```) or a period (```.```). The correct code should probably look like this: ```app.use( express.static( `${__dirname}/../build` ) );```. Notice the ```__dirname``` variable (with two underscores), followed by a slash, then traveling up one folder and going into the ```build``` folder.
+    - You might also double-check that you ran ```npm run build``` to create a build folder.
+
+
+***
+
+
+## pm2
+
+###### Install and start pm2
+- Use ```npm install -g pm2``` to install.
+- Use ```cd``` to go to the top level of your project file.
+- Use ```pm2 start [path to server file]``` to start pm2 (e.g., ```pm2 start server/server.js```).
+
+###### After starting pm2
+- Once you use the ```pm2 start``` command, your project should be running and accessible online even after closing the command line window.
+- If you need to deploy new changes to your project after hosting it, try this [cheat sheet](https://github.com/Alan-Miller/digital-ocean/blob/master/cheat-sheet-for-editing-hosted-project.md).
+
+###### Possible issues:
+- **Miscellaneous**: Sometimes you run pm2 and it fails and you don't know why. It can be helpful to stop pm2 and instead go back to testing the project by running Node, which will often give more useful errors. Running Node also lets you see console logs in your server code, which can help you debug.
+
+<details> <summary> Additional pm2 commands </summary>
+
+- ```pm2 list```: Shows currently running pm2 processes. Notice how each process has a UID and a PID.
+- ```pm2 restart [id]```: Restart a specific process, replacing [id] with the process UID or PID.
+- ```pm2 restart all```: Restart all current processes.
+- ```pm2 stop all```: Stop all processes.
+- ```pm2 -h```: Help. Shows other pm2 actions and options.
+- For more commands, see these [Quick Start docs](http://pm2.keymetrics.io/docs/usage/quick-start/).
+</details>
+
+
+***
 
 ## nginx (optional)
 When you have multiple files to host, nginx will let you keep them on the same droplet by watching for traffic coming to your droplet and routing that traffic to the appropriate project on the droplet.
@@ -410,48 +470,6 @@ server {
 ***
 
 
-## test with Node
-- Test to see if your hosted project works. Try running node on your server file. If, for example, your server file is called "index.js" and it is inside a folder called "server", run ```node server/index.js```.
-- Now enter your IP address (the one Digital Ocean gave you) in the browser URL bar, followed by a ```:``` and the port your server is running on (e.g., ```127.48.12.123:3100```). Your hosted site should appear. You are almost done! Currently, your site is running but will stop as soon as you close the command line window or otherwise terminate the running Node process.
-- Once you've tested your site, use Ctrl+C to terminate the Node process. To keep your app running forever, move on to the final required step, in which you will install something called ```pm2```.
-
-###### Possible issues:
-- You might run Node and find that your app's front end does not appear. Perhaps you see the words ```Cannot GET``` in the browser. Try testing one of your GET endpoints to see if the back end works by typing the endpoint URL into the browser bar (e.g., '122.48.12.123:3100/api/products'). If the browser correctly displays data from your endpoint, this probably indicates that your project is hosted on the server but your server file is not pointing to your build folder correctly.
-    - Carefully check the express.static line again. It is easy to miss a slash (```/```) or a period (```.```). The correct code should probably look like this: ```app.use( express.static( `${__dirname}/../build` ) );```. Notice the ```__dirname``` variable (with two underscores), followed by a slash, then traveling up one folder and going into the ```build``` folder.
-    - You might also double-check that you ran ```npm run build``` to create a build folder.
-
-
-***
-
-
-## pm2
-
-###### Install and start pm2
-- Use ```npm install -g pm2``` to install.
-- Use ```cd``` to go to the top level of your project file.
-- Use ```pm2 start [path to server file]``` to start pm2 (e.g., ```pm2 start server/server.js```).
-
-###### After starting pm2
-- Once you use the ```pm2 start``` command, your project should be running and accessible online even after closing the command line window.
-- If you need to deploy new changes to your project after hosting it, try this [cheat sheet](https://github.com/Alan-Miller/digital-ocean/blob/master/cheat-sheet-for-editing-hosted-project.md).
-
-###### Possible issues:
-- **Miscellaneous**: Sometimes you run pm2 and it fails and you don't know why. It can be helpful to stop pm2 and instead go back to testing the project by running Node, which will often give more useful errors. Running Node also lets you see console logs in your server code, which can help you debug.
-
-<details> <summary> Additional pm2 commands </summary>
-
-- ```pm2 list```: Shows currently running pm2 processes. Notice how each process has a UID and a PID.
-- ```pm2 restart [id]```: Restart a specific process, replacing [id] with the process UID or PID.
-- ```pm2 restart all```: Restart all current processes.
-- ```pm2 stop all```: Stop all processes.
-- ```pm2 -h```: Help. Shows other pm2 actions and options.
-- For more commands, see these [Quick Start docs](http://pm2.keymetrics.io/docs/usage/quick-start/).
-</details>
-
-
-***
-
-
 ## forever (alternative to pm2)
 
 <details> <summary> forever </summary>
@@ -488,3 +506,15 @@ server {
         root
     }
 }
+
+***
+
+### Setting Up Domains
+
+Unless you have lots of friends that enjoy accessing websites by ip (You know they exist) You'll want to route your domain to point at your server.  This is slightly different for each register.  Or you can tell the reigstrar to let Digital Ocean manage your routes.  [Here](https://github.com/zacanger/doc/blob/master/digital-ocean.md#domains) is a short description of how to set up Domain records.
+
+[Google Domains](https://support.google.com/domains/answer/3290350?hl=en)
+
+[Name Cheap](https://www.namecheap.com/support/knowledgebase/article.aspx/319/2237/how-can-i-set-up-an-a-address-record-for-my-domain)
+
+[Go Daddy](https://www.godaddy.com/help/add-an-a-record-19238)
