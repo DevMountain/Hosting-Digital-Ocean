@@ -2,6 +2,8 @@
 
 ## Overview
 
+
+
 ###### Basic hosting steps:
 1. Create an [SSH key](#ssh-key), which you'll use for a secure connection to your server.
 1. Sign up for a droplet on [Digital Ocean](#digital-ocean-account).
@@ -209,6 +211,9 @@ The first time you access your droplet, you need to install Node/npm so you can 
 
 
 ## prep code for production
+
+As an example we can host our [full stack auth example](https://github.com/DevMountain/full-stack-auth-example) to show how hosting works
+
 ###### turn off React's service worker
 If your project was bootstrapped using create-react-app, a default service worker was registered in your index.js file. Make sure ```registerServiceWorker()``` is commented out or that the service worker is otherwise not registered. Doing so will save some headaches caused when trying to serve your local files and server files together.
 
