@@ -5,14 +5,14 @@
 
 
 ###### Basic hosting steps:
-1. Create an [SSH key](#ssh-key), which you'll use for a secure connection to your server.
-1. Sign up for a droplet on [Digital Ocean](#digital-ocean-account).
-1. Install and configure [Node, PostgreSQL, and other necessary software on your droplet](#all-in-one-setup).
-1. Push [working code](#prep-code-for-production) to GitHub. Make sure express.static points to build folder.
-1. [Clone project](#copy-project-to-server) from GitHub to server and ```npm install```.
-1. Create [.env/config.js](#env-variables) files on server.
-1. Create a [build](#build-folder) with ```npm run build```.
-1. Run ```pm2``` (so hosted project is [always running](#pm2)).
+1. Create an [SSH key](#ssh-key), which you'll use for a secure connection to your server. (One Time Only)
+1. Sign up for a droplet on [Digital Ocean](#digital-ocean-account). (One Time Only)
+1. Install and configure [Node, PostgreSQL, and other necessary software on your droplet](#all-in-one-setup). (Once per droplet)
+1. Push [working code](#prep-code-for-production) to GitHub. Make sure express.static points to build folder. (Once per project)
+1. [Clone project](#copy-project-to-server) from GitHub to server and ```npm install```. (Once per project)
+1. Create [.env/config.js](#env-variables) files on server. (Once per project)
+1. Create a [build](#build-folder) with ```npm run build```. (Once per project)
+1. Run ```pm2``` (so hosted project is [always running](#pm2)). (Once per project)
 
 ###### Optional steps:
 1. Set up [nginx](#configure-nginx) to host multiple projects on same droplet.
@@ -30,14 +30,16 @@
 
 ## SSH key
 
-An SSH key gives us a secure connection to our server droplet.
+An SSH key gives us a secure connection to our server droplet.  **YOU WILL ONLY DO THIS ONCE ON YOUR COMPUTER.  DO NOT REPEAT THIS STEP UNLESS YOU KNOW YOU NEED TO. IT WILL DESTROY YOUR OLD KEY, AND YOU WILL LOSE ACCESS TO YOUR PREVIOUS DROPLETS.**
+<details>
+<summary> Only do this once per computer. </summary>
 - To begin the creation process, from any folder, type ```ssh-keygen -t rsa```. Alternatively, add ```ssh-keygen -t rsa -b 4096``` to add 4096-bit encryption (rather than the default 2048).
-- You will be asked for a location and filename. Just use the defaults.
+- You will be asked for a location and filename. Just press enter to use the defaults.
 ```sh
 Generating public/private rsa key pair.
 Enter file in which to save the key (/Users/username/.ssh/id_rsa):
 ```
-- You will be asked to enter a password. **YOU MUST NOT FORGET THIS PASSWORD**. It cannot be recovered. Make sure it is something you can remember.
+- You will be asked to enter a password.  It's an invisible entry field, so you won't see the password or even placeholder characters.  **YOU MUST NOT FORGET THIS PASSWORD**. It cannot be recovered. Make sure it is something you can remember.
 ```sh
 Enter passphrase (empty for no passphrase):
 Enter same passphrase again:
@@ -67,6 +69,7 @@ The key's randomart image is:
 ![ssh-keygen](https://media.giphy.com/media/3o6nV2fTpqU06vXhi8/giphy.gif) </br>
 _this is the whole ssh-keygen process_
 
+</details>
 
 ***
 
@@ -98,14 +101,16 @@ _this is the whole ssh-keygen process_
 
 &nbsp;
 
-###### Change SSH password
-If you need to change your password, you can do so after first logging into your droplet. Obviously, this means you need to know your old password. If you do change it, don't forget you cannot recover passwords, so you will have to take care to remember the new one.
-- Log in to your droplet using ```ssh root@[your.IP.address]```.
-- Type ```passwd```. You will be prompted to enter your old password and then the new password (twice).
+<details> <summary>
+Change SSH passphrase
+</summary>
+If you need to change your passphrase you need to know your old passphrase. If you do change it, don't forget you cannot recover passphrases, so you will have to take care to remember the new one.
+- Type ```ssh-keygen -p -f ~/.ssh/id_dsa```. You will be prompted to enter your old passphrase and then the new passphrase (twice).
 
 &nbsp;
+</details>
 
-###### Add SSH password to ssh-agent keychain
+<details><summary>Add SSH password to ssh-agent keychain</summary>
 To log in without typing your password, you can add the password to the ssh-agent, a program that holds private keys for authentication. [See these docs for more.](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
 - Start the ssh-agent by running ```ssh-agent -s```.
 - Modify the hidden SSH config file on your computer to automatically load keys into ssh-agent's keychain.
@@ -120,8 +125,9 @@ To log in without typing your password, you can add the password to the ssh-agen
 - Add your SSH private key to the ssh-agent by running ```ssh-add -K ~/.ssh/id_rsa```.
 
 &nbsp;
+</details>
 
-###### Custom SSH login
+<details> <summary>Custom SSH login</summary>
 If you find it inconvenient to type in your IP address when logging into your server, try customizing your SSH login.
 - On your local computer open the hidden SSH config file in your home folder. If you want to use nano, you can enter ```nano ~/.ssh/config```.
 - Inside this file, enter a Host, User, and Hostname in the format below. The Host will be the name you want to use for logging in, and the Hostname will be the IP address for the server. The User will be either "root" or the user if you created a user on the server. Optionally, you can specify a port or leave out this line (which sets the port to its default, 22). Below is a sample config file. A person could log in to the 123.456.7.89 droplet from this computer using either ```ssh bakerc``` to log in as root or ```ssh bakerm``` to log in as user mb.
@@ -137,7 +143,7 @@ If you find it inconvenient to type in your IP address when logging into your se
         Hostname 123.456.7.89
 
 ```
-
+</details>
 </details>
 
 ![ssh root](https://media.giphy.com/media/l4EoWjbL8vKePUM6s/giphy.gif) </br>
@@ -146,69 +152,15 @@ _this is what it will look like the first time you ssh into your server_
 ***
 
 ## All In One Setup
-We can setup our server with all the basics it will need with the script below.  We will talk about what each part is doing in the following sections.  If you want to jump to the next step go [here](#prep-code-for-production).  These lines will cover the setup of a [swapfile](#swapfile), [installing node](#install-node), [installing nginx](#install-nginx), [installing pm2](#pm2).
+We can setup our server with all the basics it will need with the script below.  We will talk about what each part is doing in the following sections.
 
 Copy all of this in at once into your server terminal.  You will only do this ONCE when creating a new droplet.  You do not repeat these steps for each project.  
-
-Copy This one
 
 ```cli
 touch /swapfile;fallocate -l 1G /swapfile;chmod 600 /swapfile;mkswap /swapfile;swapon /swapfile;apt-get update -y && apt-get dist-upgrade -y;apt-get install nodejs -y;apt-get install npm -y;npm i -g n;n stable;npm i -g npm;npm i -g pm2;apt-get install nginx -y;
 ```
 
-What it's doing.
-```cli
-touch /swapfile;
-fallocate -l 1G /swapfile;
-chmod 600 /swapfile;
-mkswap /swapfile;
-swapon /swapfile;
-apt-get update -y && apt-get dist-upgrade -y;
-apt-get install nodejs -y;apt-get install npm -y;
-npm i -g n;
-n stable;
-npm i -g npm;
-npm i -g pm2;
-apt-get install nginx -y;
-```
-
-## swapfile
-Many students buy a Digital Ocean droplet on the $5 tier, which comes with limited memory. A swapfile can effectively extend the amount of given memory by swapping out less-recently-used files to the hard disk. This can come in handy. For example, sometimes when running a build on a low-memory droplet, the process will time out because there is not enough memory. Having a swapfile in place can help with this. A swapfile is also a good idea if your project uses Gulp.
-
-###### Create swapfile and turn on
-```cli
-touch /swapfile
-fallocate -l 1G /swapfile
-chmod 600 /swapfile
-mkswap /swapfile
-swapon /swapfile
-```
-
-###### Extra swap options:
-- If you need to turn off the swapfile: ```swapoff /swapfile```.
-- If you need to turn the swapfile back on: ```swapon /swapfile```.
-- If you want to have the droplet load with the swapfile on, use ```nano /etc/fstab``` to open the fstab file, and at the bottom type ```/swapfile   none    swap    sw    0   0```.
-- If you want to tell the server to swap files less often, use ```nano /etc/sysctl.conf``` to open the sysctl.conf file and type ```vm.swappiness=10``` to set the swappiness to 10 (instead of the default 60).
-
-###### Possible issues:
-- If the you get an error related to the ```fallocate``` command, it may be that the swapfile is currently on. You cannot fallocate a swapfile that is currently in use. Try turning off the swapfile with ```swapoff /swapfile``` and then entering the commands again, starting with ```fallocate -l 1G /swapfile``` and ending with ```swapon /swapfile``` (which turns it back on).
-
-***
-
-
-## install Node
-
-The first time you access your droplet, you need to install Node/npm so you can manage and run your code.
-- Run ```apt-get update && apt-get dist-upgrade``` to update the software Linus know about.
-- Run ```apt-get install python-software-properties```. **This is only a dependency, we aren't doing anything with Python**
-- Run ```curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -``` to add version 8 of Node.js and most up to date npm to your ```apt``` repository. _If you want a different version of node, change the 8 after ```setup_.```_
-- Run ```apt-get install nodejs -y``` to install Node/npm.
-- Double-check your versions and install with ```node -v``` and ```npm -v```.
-
-[![install node](https://s2.postimg.org/b5pj2yk95/Screen_Shot_2017-12-15_at_9.57.05_AM.png)](https://youtu.be/YSCw5Gua6wU)
-
-***
-
+[What this is doing](https://github.com/DevMountain/Hosting-Digital-Ocean/describe-one-step.md)
 
 ## prep code for production
 
@@ -216,6 +168,19 @@ As an example we can host our [full stack auth example](https://github.com/DevMo
 
 ###### turn off React's service worker
 If your project was bootstrapped using create-react-app, a default service worker was registered in your index.js file. Make sure ```registerServiceWorker()``` is commented out or that the service worker is otherwise not registered. Doing so will save some headaches caused when trying to serve your local files and server files together.
+
+###### Remove homepage from package.json
+
+Sometimes create-react-app/github will set a homepage property in your package.json.  We need to delete this property if it's there.
+
+```
+"homepage":"https://github.com/brackcarmony/my-project",
+```
+
+Not all versions of create-react-app will have this property.  So if your's isn't there don't worry.
+
+What the homepage property is telling create-react-app is where the server lives.  It'll try and find the server at `/brackcarmony/my-project` but your server isn't running there.  It's running at `/`.  
+
 
 ###### .env variables
 - On local machine, instead of using absolute paths (e.g., 'http://localhost:3200/auth') use environment variables. In other words, everywhere you have a full path with "localhost" in it, replace that path string with a reference to a variable, and store that variable and value in your .env (or config.js) file.
@@ -285,14 +250,8 @@ If you used create-react-app, your README is full of boilerplate docs about crea
 
 
 ###### Possible issues:
-- It is possible to get a timeout error when running a build on your server. This may happen if your droplet is the cheapest tier (with the least RAM). You might fix this by implementing a swapfile (see the optional section on swapfiles). If you already created a swapfile, trying running through all those swapfile commands again (perhaps there was an error when creating it the first time).
+
 - If you see an error saying ```npm build``` was called without any arguments, try ```npm run build``` instead. Your ```package.json``` file shows both ```start``` and ```build``` together in the ```scripts``` section, and you are used to running ```npm start``` (with no "run" command), so you may think you can run ```npm build``` the same way. It is true that leaving out ```run``` is a shorthand way of running scripts, but there is already a built-in npm command for ```npm build``` (used to build Node add-ons FYI), and that built-in command overshadows the ```npm build``` shorthand. **TL;DR**: Try ```npm run build``` instead.
-
-
-***
-
-
-
 
 ***
 
@@ -313,8 +272,7 @@ If you used create-react-app, your README is full of boilerplate docs about crea
 
 ## pm2
 
-###### Install and start pm2
-- Use ```npm install -g pm2``` to install.
+###### Start pm2
 - Use ```cd``` to go to the top level of your project file.
 - Use ```pm2 start [path to server file]``` to start pm2 (e.g., ```pm2 start server/server.js```).
 
@@ -338,14 +296,13 @@ If you used create-react-app, your README is full of boilerplate docs about crea
 
 ***
 
-## nginx (optional)
+## nginx
 When you have multiple files to host, nginx will let you keep them on the same droplet by watching for traffic coming to your droplet and routing that traffic to the appropriate project on the droplet.
 
 <details> <summary> nginx installation and configuration </summary>
 
-###### Install nginx
-- Run ```sudo apt-get install nginx```.
-- The ```nginx/``` folder should now be installed in the ```/etc/``` folder. Inside ```nginx/```, Ubuntu should have installed multiple files and folders, including ```sites-available/``` and ```sites-enabled/```. If these two folders are not here, create them inside the ```nginx/``` folder by running ```touch sites-available sites-enabled```. Although the simplest way is to edit the default file that was probably created for you in ```sites-available/```, it may be a better practice to leave the default file alone and instead create and configure a small file for each hosted project site.
+###### nginx
+- The ```nginx/``` folder should be installed in the ```/etc/``` folder. Inside ```nginx/```, Ubuntu should have installed multiple files and folders, including ```sites-available/``` and ```sites-enabled/```. If these two folders are not here, create them inside the ```nginx/``` folder by running ```touch sites-available sites-enabled```. Although the simplest way is to edit the default file that was probably created for you in ```sites-available/```, it may be a better practice to leave the default file alone and instead create and configure a small file for each hosted project site.
 - After making configuration files in ```sites-available``` for each project, we will make links to those files in the ```sites-enabled``` folder. nginx uses this ```sites-enabled/``` folder to know which projects should be active.
 
 ###### Configure nginx
@@ -444,15 +401,47 @@ When you have multiple files to host, nginx will let you keep them on the same d
         ```
     </details>
 
-- Inside the ```sites-available/``` folder, create a file for each project using the ```touch``` command followed by the name of your project. No file extension is needed for these files. For example, if your project is called "wonderapp", you might type ```touch wonderapp```.
-- Use ```nano``` to open each file and put in code in the format below. Notice the comments telling you what changes to make for your project.
+- Inside the ```sites-available/``` folder, ```nano default``` to edit the default settings.  It starts off setup to work with a PHP server, so we will start by deleting out everything in default.  Hold Ctrl+k till the file is empty.
+
+- Add one of the server blocks below, edit only the server_name line to have your domain(s) and the proxy_pass line to have the port for your backend.  Leave it as 127.0.0.1 DO NOT CHANGE it to your droplet's IP address.
+
+<details> <summary>
+  Multiple nginx files
+</summary>
+  If you would rather create a seperate nginx file for each project on your droplet you can.  
+
+ - Using the ```touch``` command followed by the name of your project. No file extension is needed for these files. For example, if your project is called "wonderapp", you might type ```touch wonderapp```.
+ - Use ```nano``` to open each file and put in code in the format below. Notice the comments telling you what changes to make for your project.
+
+ ```
+ server {
+     listen 80; #80 IS THE USUAL PORT TO USE HERE
+
+     server_name your_project.your_domain.com; #PUT YOUR DOMAIN HERE
+
+     location / {
+         proxy_pass http://127.0.0.1:3001; #PUT YOUR SERVER PORT HERE
+         proxy_http_version 1.1;
+         proxy_set_header Upgrade $http_upgrade;
+         proxy_set_header Connection 'upgrade';
+         proxy_set_header Host $host;
+         proxy_cache_bypass $http_upgrade;
+     }
+ }
+ ```
+
+ - Go to nginx's ```sites-enabled/``` folder by running ```cd /etc/nginx/sites-enabled```.
+ - Inside the ```sites-enabled/``` folder create a symlink for each project using ```ln -s ../sites-available/[project_file_in_sites_available]```. For example, if the file you previously made in ```sites-available/``` was called ```wonderapp```, here you would run ```ln -s ../sites-available/wonderapp```. This creates a symlink between the file that was made in ```sites-available/``` and the the ```sites-enabled/``` folder.
+
+</details>
+
 
 
 ```
 server {
     listen 80; #80 IS THE USUAL PORT TO USE HERE
 
-    server_name your_project.your_domain.com #PUT YOUR DOMAIN HERE
+    server_name your_project.your_domain.com; #PUT YOUR DOMAIN HERE
 
     location / {
         proxy_pass http://127.0.0.1:3001; #PUT YOUR SERVER PORT HERE
@@ -465,16 +454,13 @@ server {
 }
 ```
 
-
-- Go to nginx's ```sites-enabled/``` folder by running ```cd /etc/nginx/sites-enabled```.
-- Inside the ```sites-enabled/``` folder create a symlink for each project using ```ln -s ../sites-available/[project_file_in_sites_available]```. For example, if the file you previously made in ```sites-available/``` was called ```wonderapp```, here you would run ```ln -s ../sites-available/wonderapp```. This creates a symlink between the file that was made in ```sites-available/``` and the the ```sites-enabled/``` folder.
 - Test the nginx configuration by running ```sudo nginx -t```.
 - Restart nginx by running ```sudo service nginx restart```. Your enabled sites should now be up and running as soon as you start the server (see the **test with Node** and **pm2** sections below).
 - If you are wondering how nginx knows to check each of these new files you linked to in ```/sites-enabled```, take a look at the ```nginx.conf``` file in the ```nginx/``` folder by running ```cat /etc/nginx/nginx.conf```. Near the bottom of the file, you should see ```include /etc/nginx/sites-enabled/*;```. This line points nginx to each file in ```/sites-enabled```, so any new file you create there will be included.
 
 
 ###### Possible issues:
-- Once you start the server and try going to the site, if you see the "Welcome to nginx" page instead of your site, you may have nginx installed and working but you may need some additional configuration. Double-check the nginx configuration for your project in ```sites-available/``` and that you have a symlink in ```sites-enabled/```. Double-check also that you tested and restarted nginx using ```sudo nginx -t``` and ```sudo service nginx restart```.
+- Once you start the server and try going to the site, if you see the "Welcome to nginx" page instead of your site, you may have nginx installed and working but you may need some additional configuration. Double-check the nginx configuration for your project in ```sites-available/default```. Double-check also that you tested and restarted nginx using ```sudo nginx -t``` and ```sudo service nginx restart```.
 
 </details>
 
@@ -511,19 +497,11 @@ server {
 
 </details>
 
-
-server {
-    listen 80;
-    location / {
-        root
-    }
-}
-
 ***
 
 ### Setting Up Domains
 
-Unless you have lots of friends that enjoy accessing websites by ip (You know they exist) You'll want to route your domain to point at your server.  This is slightly different for each register.  Or you can tell the reigstrar to let Digital Ocean manage your routes.  [Here](https://github.com/zacanger/doc/blob/master/digital-ocean.md#domains) is a short description of how to set up Domain records.
+Unless you have lots of friends that enjoy accessing websites by ip (You know they exist) You'll want to route your domain to point at your server.  This is slightly different for each register.  Or you can tell the registrar to let Digital Ocean manage your routes.  [Here](https://github.com/zacanger/doc/blob/master/digital-ocean.md#domains) is a short description of how to set up Domain records.
 
 [Google Domains](https://support.google.com/domains/answer/3290350?hl=en)
 
