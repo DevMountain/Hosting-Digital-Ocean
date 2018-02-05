@@ -178,7 +178,7 @@ Copy all of this in at once into your server terminal.  You will only do this ON
 touch /swapfile;fallocate -l 1G /swapfile;chmod 600 /swapfile;mkswap /swapfile;swapon /swapfile;apt-get update -y && apt-get dist-upgrade -y;apt-get install nodejs -y;apt-get install npm -y;npm i -g n;n stable;npm i -g npm;npm i -g pm2;apt-get install nginx -y;
 ```
 
-[What this is doing](https://github.com/DevMountain/Hosting-Digital-Ocean/describe-one-step.md)
+[What this is doing](https://github.com/DevMountain/Hosting-Digital-Ocean/blob/master/describe-one-step.md)
 
 ## prep code for production
 
