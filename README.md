@@ -33,18 +33,27 @@
 An SSH key gives us a secure connection to our server droplet.  **YOU WILL ONLY DO THIS ONCE ON YOUR COMPUTER.  DO NOT REPEAT THIS STEP UNLESS YOU KNOW YOU NEED TO. IT WILL DESTROY YOUR OLD KEY, AND YOU WILL LOSE ACCESS TO YOUR PREVIOUS DROPLETS.**
 <details>
 <summary> Only do this once per computer. </summary>
-- To begin the creation process, from any folder, type ```ssh-keygen -t rsa```. Alternatively, add ```ssh-keygen -t rsa -b 4096``` to add 4096-bit encryption (rather than the default 2048).
+
+## Creating a key
+
+- To begin the creation process, from any folder, type `ssh-keygen -t rsa`. Alternatively, add `ssh-keygen -t rsa -b 4096` to add 4096-bit encryption (rather than the default 2048).
+
 - You will be asked for a location and filename. Just press enter to use the defaults.
+
 ```sh
 Generating public/private rsa key pair.
 Enter file in which to save the key (/Users/username/.ssh/id_rsa):
 ```
+
 - You will be asked to enter a password.  It's an invisible entry field, so you won't see the password or even placeholder characters.  **YOU MUST NOT FORGET THIS PASSWORD**. It cannot be recovered. Make sure it is something you can remember.
+
 ```sh
 Enter passphrase (empty for no passphrase):
 Enter same passphrase again:
 ```
-- Two files will then be created in the .ssh in the home folder of your computer (i.e., in ~/.ssh). These files are ```id_rsa``` and ```id_rsa.pub```, your private and public keys, respectively. You will notice a randomart image of your key like the one below.
+
+- Two files will then be created in the .ssh in the home folder of your computer (i.e., in ~/.ssh). These files are `id_rsa` and `id_rsa.pub`, your private and public keys, respectively. You will notice a randomart image of your key like the one below.
+
 ```sh
 Your identification has been saved in demo_rsa.
 Your public key has been saved in demo_rsa.pub.
@@ -63,8 +72,9 @@ The key's randomart image is:
 |                 |
 +-----------------+
 ```
-- You will copy the public key (```id_rsa.pub```) to give to Digital Ocean. You will not give out the private key. To see the public key, type ```cat ~/.ssh/id_rsa.pub```. This will show you a long string starting with ```ssh-rsa``` and ending with an email address.
-- You can also copy the key using ```pbcopy < ~/.ssh/id_rsa.pub```.
+
+- You will copy the public key (`id_rsa.pub`) to give to Digital Ocean. You will not give out the private key. To see the public key, type `cat ~/.ssh/id_rsa.pub`. This will show you a long string starting with `ssh-rsa` and ending with an email address.
+- You can also copy the key using `pbcopy < ~/.ssh/id_rsa.pub`.
 
 ![ssh-keygen](https://media.giphy.com/media/3o6nV2fTpqU06vXhi8/giphy.gif) </br>
 _this is the whole ssh-keygen process_
