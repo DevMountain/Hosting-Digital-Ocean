@@ -104,7 +104,7 @@ _this is the whole ssh-keygen process_
 
 ## connect to server
 - Open Terminal.app or another command line interface.
-- Type ```ssh root@your.ip.address.here``` (e.g., ```ssh root@127.48.12.123```) to connect to your droplet through the command line.
+- Type `ssh root@your.ip.address.here` (e.g., `ssh root@127.48.12.123`) to connect to your droplet through the command line.
 - You will need your password to connect. **YOU DIDN'T FORGET IT, DID YOU?**
 
 <details> <summary> Additional SSH login options </summary>
@@ -115,16 +115,16 @@ _this is the whole ssh-keygen process_
 Change SSH passphrase
 </summary>
 If you need to change your passphrase you need to know your old passphrase. If you do change it, don't forget you cannot recover passphrases, so you will have to take care to remember the new one.
-- Type ```ssh-keygen -p -f ~/.ssh/id_dsa```. You will be prompted to enter your old passphrase and then the new passphrase (twice).
+- Type `ssh-keygen -p -f ~/.ssh/id_dsa`. You will be prompted to enter your old passphrase and then the new passphrase (twice).
 
 &nbsp;
 </details>
 
 <details><summary>Add SSH password to ssh-agent keychain</summary>
 To log in without typing your password, you can add the password to the ssh-agent, a program that holds private keys for authentication. [See these docs for more.](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
-- Start the ssh-agent by running ```ssh-agent -s```.
+- Start the ssh-agent by running `ssh-agent -s`.
 - Modify the hidden SSH config file on your computer to automatically load keys into ssh-agent's keychain.
-    - Open the config file using ```nano ~/.ssh/config```.
+    - Open the config file using `nano ~/.ssh/config`.
     - Add the following to the config file:
 ```sh
     Host *
@@ -132,15 +132,15 @@ To log in without typing your password, you can add the password to the ssh-agen
         UseKeyChain yes
         IdentityFile ~/.ssh/id_rsa
 ```
-- Add your SSH private key to the ssh-agent by running ```ssh-add -K ~/.ssh/id_rsa```.
+- Add your SSH private key to the ssh-agent by running `ssh-add -K ~/.ssh/id_rsa`.
 
 &nbsp;
 </details>
 
 <details> <summary>Custom SSH login</summary>
 If you find it inconvenient to type in your IP address when logging into your server, try customizing your SSH login.
-- On your local computer open the hidden SSH config file in your home folder. If you want to use nano, you can enter ```nano ~/.ssh/config```.
-- Inside this file, enter a Host, User, and Hostname in the format below. The Host will be the name you want to use for logging in, and the Hostname will be the IP address for the server. The User will be either "root" or the user if you created a user on the server. Optionally, you can specify a port or leave out this line (which sets the port to its default, 22). Below is a sample config file. A person could log in to the 123.456.7.89 droplet from this computer using either ```ssh bakerc``` to log in as root or ```ssh bakerm``` to log in as user mb.
+- On your local computer open the hidden SSH config file in your home folder. If you want to use nano, you can enter `nano ~/.ssh/config`.
+- Inside this file, enter a Host, User, and Hostname in the format below. The Host will be the name you want to use for logging in, and the Hostname will be the IP address for the server. The User will be either "root" or the user if you created a user on the server. Optionally, you can specify a port or leave out this line (which sets the port to its default, 22). Below is a sample config file. A person could log in to the 123.456.7.89 droplet from this computer using either `ssh bakerc` to log in as root or `ssh bakerm` to log in as user mb.
 
 ``` sh
 
@@ -177,7 +177,7 @@ touch /swapfile;fallocate -l 1G /swapfile;chmod 600 /swapfile;mkswap /swapfile;s
 As an example we can host our [full stack auth example](https://github.com/DevMountain/full-stack-auth-example) to show how hosting works
 
 ###### turn off React's service worker
-If your project was bootstrapped using create-react-app, a default service worker was registered in your index.js file. Make sure ```registerServiceWorker()``` is commented out or that the service worker is otherwise not registered. Doing so will save some headaches caused when trying to serve your local files and server files together.
+If your project was bootstrapped using create-react-app, a default service worker was registered in your index.js file. Make sure `registerServiceWorker()` is commented out or that the service worker is otherwise not registered. Doing so will save some headaches caused when trying to serve your local files and server files together.
 
 ###### Remove homepage from package.json
 
@@ -194,7 +194,7 @@ What the homepage property is telling create-react-app is where the server lives
 
 ###### .env variables
 - On local machine, instead of using absolute paths (e.g., 'http://localhost:3200/auth') use environment variables. In other words, everywhere you have a full path with "localhost" in it, replace that path string with a reference to a variable, and store that variable and value in your .env (or config.js) file.
-    - For example, if you have an ```<a>``` tag with an Auth0 link like this...
+    - For example, if you have an `<a>` tag with an Auth0 link like this...
 
         ``` <a href={"http://localhost:3200/auth"}><li>Log in</li></a> ```
 
@@ -207,8 +207,8 @@ What the homepage property is telling create-react-app is where the server lives
         ```REACT_APP_LOGIN=http://localhost:3200/auth```
 
 - Replacing full paths with environment variables is generally a good idea throughout your whole app (both front end and back). For React, however, keep two things in mind:
-    1. If you built your front end with ```create-react-app```, your React front end can only access variables that start with ```REACT_APP_```. The ```npm start``` command builds them into the app. Variables that are accessed outside of React (i.e., in your back end), do not need the ```REACT_APP_``` prefix.
-    2. ```create-react-app``` does not allow you to access files outside the src folder, so if you need environment variables in your front end, you will have to put an .env file inside the src folder.
+    1. If you built your front end with `create-react-app`, your React front end can only access variables that start with `REACT_APP_`. The `npm start` command builds them into the app. Variables that are accessed outside of React (i.e., in your back end), do not need the `REACT_APP_` prefix.
+    2. `create-react-app` does not allow you to access files outside the src folder, so if you need environment variables in your front end, you will have to put an .env file inside the src folder.
 
 ###### build folder
 - Make sure the project is working on your local machine.
