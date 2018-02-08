@@ -214,9 +214,9 @@ What the homepage property is telling create-react-app is where the server lives
 
         ```REACT_APP_LOGIN=http://localhost:3200/auth```
 
-- Replacing full paths with environment variables is generally a good idea throughout your whole app (both front end and back). For React, however, keep two things in mind:
-    1. If you built your front end with `create-react-app`, your React front end can only access variables that start with `REACT_APP_`. The `npm start` command builds them into the app. Variables that are accessed outside of React (i.e., in your back end), do not need the `REACT_APP_` prefix.
-    2. `create-react-app` does not allow you to access files outside the src folder, so if you need environment variables in your front end, you will have to put an .env file inside the src folder.
+- Replacing full paths with environment variables is generally a good idea throughout your whole app (both front end and back). For create-react-app, however, keep something in mind:
+Your React front end can only access variables that start with `REACT_APP_`. The `npm start` command builds them into the app. Variables that are accessed outside of React (i.e., in your back end), do not need the `REACT_APP_` prefix.
+
 
 ###### build folder
 - Make sure the project is working on your local machine.
@@ -249,39 +249,40 @@ If you used create-react-app, your README is full of boilerplate docs about crea
 
 ###### push and pull from GitHub
 - Commit and push your working code to GitHub.
-- Use ```ssh root@your.ip.address``` to connect to your droplet, and use ```cd``` to go into your project folder on the server.
-- Clone the project to the server using ```git clone url-to-your-github-project```. Once done, your code will be on the server, except for node_modules, .env variables, and a build folder (since these are all .gitignored and therefore not copied to and from GitHub).
+- Use `ssh root@your.ip.address' to connect to your droplet,
+- Clone the project to the server using `git clone url-to-your-github-project`. Once done, your code will be on the server, except for node_modules, .env variables, and a build folder (since these are all .gitignored and therefore not copied to and from GitHub).
+- `cd` to go into your project folder on the server.
 
 ###### node_modules
-- Run ```npm install``` inside the project folder on the server to install node packages.
+- Run `npm install` inside the project folder on the server to install node packages.
 
 ###### .env file
 - Recreate any .env file or config.js in the the server.
-    - Use ```touch .env``` to make an .env file.
-    - Use ```nano .env``` to edit the file.
+    - Use `touch .env` to make an .env file.
+    - Use `nano .env` to edit the file.
 - Go to your code editor and copy the contents of your local .env file. Inside nano on the server, paste in the contents you copied so they will now be in the server .env file. Change any full paths containing "localhost" (e.g., 'http://localhost:3100/api/users') to relative paths instead (e.g., '/api/users'). We do this because your server might be structured differently than your local machine, so we give the server a relative path, and it knows what to do from there.
-- To exit nano, use Ctrl+x to exit. It will ask if you want to save. Type ```Yes``` or ```y```, then hit Return to confirm.
+- To exit nano, use Ctrl+x to exit. It will ask if you want to save. Type `Yes` or `y`, then hit Return to confirm.
 
 ###### build folder
-- Create a build folder using ```npm run build```. This will create a folder called "build" with an optimized version of your project. The express.static line you added to the server file will tell the server to look in that build folder for the static files that need to be served.
+- Create a build folder using `npm run build`. This will create a folder called "build" with an optimized version of your project. The express.static line you added to the server file will tell the server to look in that build folder for the static files that need to be served.
 - Now your entire project is saved to the server, including code, node_modules, .env files, and build folder. The next step is to run Node on our project to see if it works from the server.
 
 
 ###### Possible issues:
 
-- If you see an error saying ```npm build``` was called without any arguments, try ```npm run build``` instead. Your ```package.json``` file shows both ```start``` and ```build``` together in the ```scripts``` section, and you are used to running ```npm start``` (with no "run" command), so you may think you can run ```npm build``` the same way. It is true that leaving out ```run``` is a shorthand way of running scripts, but there is already a built-in npm command for ```npm build``` (used to build Node add-ons FYI), and that built-in command overshadows the ```npm build``` shorthand. **TL;DR**: Try ```npm run build``` instead.
+- If you see an error saying `npm build` was called without any arguments, try `npm run build` instead. Your `package.json` file shows both `start` and `build` together in the `scripts` section, and you are used to running `npm start` (with no "run" command), so you may think you can run `npm build` the same way. It is true that leaving out `run` is a shorthand way of running scripts, but there is already a built-in npm command for `npm build` (used to build Node add-ons FYI), and that built-in command overshadows the `npm build` shorthand. **TL;DR**: Try `npm run build` instead.
 
 ***
 
 
 ## test with Node
-- Test to see if your hosted project works. Try running node on your server file. If, for example, your server file is called "index.js" and it is inside a folder called "server", run ```node server/index.js```.
-- Now enter your IP address (the one Digital Ocean gave you) in the browser URL bar, followed by a ```:``` and the port your server is running on (e.g., ```127.48.12.123:3100```). Your hosted site should appear. You are almost done! Currently, your site is running but will stop as soon as you close the command line window or otherwise terminate the running Node process.
-- Once you've tested your site, use Ctrl+C to terminate the Node process. To keep your app running forever, move on to the final required step, in which you will install something called ```pm2```.
+- Test to see if your hosted project works. Try running node on your server file. If, for example, your server file is called "index.js" and it is inside a folder called "server", run `node server/index.js`.
+- Now enter your IP address (the one Digital Ocean gave you) in the browser URL bar, followed by a `:` and the port your server is running on (e.g., `127.48.12.123:3100`). Your hosted site should appear. You are almost done! Currently, your site is running but will stop as soon as you close the command line window or otherwise terminate the running Node process.
+- Once you've tested your site, use Ctrl+C to terminate the Node process. To keep your app running forever, move on to the final required step, in which you will install something called `pm2`.
 
 ###### Possible issues:
-- You might run Node and find that your app's front end does not appear. Perhaps you see the words ```Cannot GET``` in the browser. Try testing one of your GET endpoints to see if the back end works by typing the endpoint URL into the browser bar (e.g., '122.48.12.123:3100/api/products'). If the browser correctly displays data from your endpoint, this probably indicates that your project is hosted on the server but your server file is not pointing to your build folder correctly.
-    - Carefully check the express.static line again. It is easy to miss a slash (```/```) or a period (```.```). The correct code should probably look like this: ```app.use( express.static( `${__dirname}/../build` ) );```. Notice the ```__dirname``` variable (with two underscores), followed by a slash, then traveling up one folder and going into the ```build``` folder.
+- You might run Node and find that your app's front end does not appear. Perhaps you see the words `Cannot GET` in the browser. Try testing one of your GET endpoints to see if the back end works by typing the endpoint URL into the browser bar (e.g., '122.48.12.123:3100/api/products'). If the browser correctly displays data from your endpoint, this probably indicates that your project is hosted on the server but your server file is not pointing to your build folder correctly.
+    - Carefully check the express.static line again. It is easy to miss a slash (`/`) or a period (`.`). The correct code should probably look like this: ```app.use( express.static( `${__dirname}/../build` ) );```. Notice the ```__dirname``` variable (with two underscores), followed by a slash, then traveling up one folder and going into the ```build``` folder.
     - You might also double-check that you ran ```npm run build``` to create a build folder.
 
 
@@ -419,7 +420,7 @@ When you have multiple files to host, nginx will let you keep them on the same d
         ```
     </details>
 
-- Inside the ```sites-available/``` folder, ```nano default``` to edit the default settings.  It starts off setup to work with a PHP server, so we will start by deleting out everything in default.  Hold Ctrl+k till the file is empty.
+- Inside the `sites-available/` folder, `nano default` to edit the default settings.  It starts off setup to work with a PHP server, so we will start by deleting out everything in default.  Hold Ctrl+k till the file is empty.
 
 - Add one of the server blocks below, edit only the server_name line to have your domain(s) and the proxy_pass line to have the port for your backend.  Leave it as 127.0.0.1 DO NOT CHANGE it to your droplet's IP address.
 
