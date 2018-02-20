@@ -175,7 +175,7 @@ We can setup our server with all the basics it will need with the script below. 
 Copy all of this in at once into your server terminal.  You will only do this ONCE when creating a new droplet.  You do not repeat these steps for each project.  
 
 ```cli
-touch /swapfile;fallocate -l 1G /swapfile;chmod 600 /swapfile;mkswap /swapfile;swapon /swapfile;apt-get update -y && apt-get dist-upgrade -y;apt-get install nodejs -y;apt-get install npm -y;npm i -g n;n stable;npm i -g npm;npm i -g pm2;apt-get install nginx -y;
+touch /swapfile;fallocate -l 1G /swapfile;chmod 600 /swapfile;mkswap /swapfile;swapon /swapfile;sudo add-apt-repository ppa:certbot/certbot -y;apt-get update -y && apt-get dist-upgrade -y; sudo apt-get install python-certbot-nginx-y; apt-get install nodejs -y;apt-get install npm -y;npm i -g n;n stable;npm i -g npm;npm i -g pm2;apt-get install nginx -y;
 ```
 
 [What this is doing](https://github.com/DevMountain/Hosting-Digital-Ocean/blob/master/describe-one-step.md)
@@ -318,7 +318,14 @@ If you used create-react-app, your README is full of boilerplate docs about crea
 ## nginx
 When you have multiple files to host, nginx will let you keep them on the same droplet by watching for traffic coming to your droplet and routing that traffic to the appropriate project on the droplet.
 
-<details> <summary> nginx installation and configuration </summary>
+<details> <summary> nginx configuration using certbot </summary>
+  We will be using NGINX to route traffic to our server code.  And Certbot to setup SSL communications on our project.  Below is a link to a project to help you setup the configuration of nginx and certbot.  
+  You will enter in the domain(s) that the site will be running on.  The port the backend server is running on.  And a filename for this configuration.  It will compile all that and give you two commands to run to setup nginx, and obtain the certificates.
+  [https://devmountain.github.io/Host-Helper/](https://devmountain.github.io/Host-Helper/)
+
+</details>
+
+<details> <summary> nginx configuration (For Reference) </summary>
 
 ###### nginx
 - The ```nginx/``` folder should be installed in the ```/etc/``` folder. Inside ```nginx/```, Ubuntu should have installed multiple files and folders, including ```sites-available/``` and ```sites-enabled/```. If these two folders are not here, create them inside the ```nginx/``` folder by running ```touch sites-available sites-enabled```. Although the simplest way is to edit the default file that was probably created for you in ```sites-available/```, it may be a better practice to leave the default file alone and instead create and configure a small file for each hosted project site.

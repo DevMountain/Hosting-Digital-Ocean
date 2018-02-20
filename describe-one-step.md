@@ -59,6 +59,15 @@ The first time you access your droplet, you need to install Node/npm so you can 
 - ```n stable;``` Tell n to update us to the latest stable release (you can instead specify the version you want if you need a specific version ie n 8.4.2)
 - ```npm i -g npm;``` Tell npm to install the latest version compatible with the node we just updated to
 
+## install certbot
+Certbot is a program to help automate sign-signed certificates.  They are used to verify that a person controls the domain name on the certificate.  We will be using it to make our droplets use https / SSL security.  
+These will register the certbot application in our ubuntu repository, and have it install.  
+
+- `sudo add-apt-repository ppa:certbot/certbot -y`
+
+- `sudo apt-get install python-certbot-nginx-y`
+
+
 ## install pm2
 
 - ```npm i -g pm2``` Fairly straight forward, we are going to use pm2 to keep our server running after we leave.  So we need to install it globally.
