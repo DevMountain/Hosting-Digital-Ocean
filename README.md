@@ -15,7 +15,7 @@
 1. Run ```pm2``` (so hosted project is [always running](#pm2)). (Once per project)
 
 ###### Optional steps:
-1. Set up [nginx](#configure-nginx) to host multiple projects on same droplet.
+1. Set up [nginx](#nginx) to host multiple projects on same droplet.
 1. Set up a [domain](#setting-up-domains)name to point to your droplet's IP address.
 
 ###### Steps for making changes to a project that is already hosted:
