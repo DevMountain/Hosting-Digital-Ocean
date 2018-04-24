@@ -321,7 +321,7 @@ When you have multiple files to host, nginx will let you keep them on the same d
 <details> <summary> nginx configuration using certbot </summary>
   We will be using NGINX to route traffic to our server code.  And Certbot to setup SSL communications on our project.  Below is a link to a project to help you setup the configuration of nginx and certbot.  
   You will enter in the domain(s) that the site will be running on.  The port the backend server is running on.  And a filename for this configuration.  It will compile all that and give you two commands to run to setup nginx, and obtain the certificates.
-  [https://devmountain.github.io/Host-Helper/](https://devmountain.github.io/Host-Helper/)
+  https://devmountain.github.io/Host-Helper/
 
 </details>
 
