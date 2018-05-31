@@ -316,7 +316,8 @@ If you used create-react-app, your README is full of boilerplate docs about crea
 ***
 
 ## nginx
-When you have multiple files to host, nginx will let you keep them on the same droplet by watching for traffic coming to your droplet and routing that traffic to the appropriate project on the droplet.
+When you have multiple sites to host, nginx will let you keep them on the same droplet by watching for traffic coming to your droplet and routing that traffic to the appropriate project on the droplet.  The Host-Helper is designed configure nginx to work with a node backend.   
+https://devmountain.github.io/Host-Helper/
 
 <details> <summary> nginx configuration using certbot </summary>
   We will be using NGINX to route traffic to our server code.  And Certbot to setup SSL communications on our project.  Below is a link to a project to help you setup the configuration of nginx and certbot.  
