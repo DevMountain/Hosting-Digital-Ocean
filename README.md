@@ -209,6 +209,7 @@ What the homepage property is telling create-react-app is where the server lives
         ... replace the string so it says something like this:
 
         ```<a href={process.env.REACT_APP_LOGIN}><li>Log in</li></a>```
+- The only places you should have reference to localhost are in the package.json, .env, launch.json, or the registerServiceworker.js (though you can delete the last one) 
 
     - In the .env file, store the variable. No need for a keyword like ```var``` or ```const```. Also, quotation marks are optional (unless there is a space inside the string, in which case they are required). The variable for the example above would look like this inside the .env file:
 
@@ -216,6 +217,16 @@ What the homepage property is telling create-react-app is where the server lives
 
 - Replacing full paths with environment variables is generally a good idea throughout your whole app (both front end and back). For create-react-app, however, keep something in mind:
 Your React front end can only access variables that start with `REACT_APP_`. The `npm start` command builds them into the app. Variables that are accessed outside of React (i.e., in your back end), do not need the `REACT_APP_` prefix.
+
+###### Optional - Make local copy of production .env
+
+We can create a local copy of the .env that we will want to use in production.  This will make it slightly eaiser to set our project up on Digital Ocean (or we can do all this on the server directly through vim / nano) 
+
+- In the .gitignore add .env.prod
+
+- copy the .env file and name it .env.prod
+
+- Change the .env.prod file to have any differences that we need on the server (remove localhost, change database, use real keys etc...)
 
 
 ###### build folder
@@ -226,6 +237,8 @@ Your React front end can only access variables that start with `REACT_APP_`. The
 
 - If you are using React Router's browserHistory, you'll need to use Node's built-in ```path.join()``` method as a catch-all to ensure the index.html file is given on the other routes. Although ```path``` is built in, you must require it with ```const path = require('path');```. Then invoke the ```join()``` method in your server near the end, below all other endpoints, since this endpoint uses an asterisk as a catch-all for everything other than specified endpoints.
     ```js
+    const path = require('path'); // Usually moved to the start of file
+    
     app.get('*', (req, res)=>{
         res.sendFile(path.join(__dirname, '../build/index.html'));
     });
