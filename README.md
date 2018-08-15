@@ -328,6 +328,18 @@ If you used create-react-app, your README is full of boilerplate docs about crea
 
 ***
 
+
+
+### Setting Up Domains
+
+Unless you have lots of friends that enjoy accessing websites by ip (You know they exist) You'll want to route your domain to point at your server.  This is slightly different for each register.  Or you can tell the registrar to let Digital Ocean manage your routes.  [Here](https://github.com/zacanger/doc/blob/master/digital-ocean.md#domains) is a short description of how to set up Domain records.
+
+[Google Domains](https://support.google.com/domains/answer/3290350?hl=en)
+
+[Name Cheap](https://www.namecheap.com/support/knowledgebase/article.aspx/319/2237/how-can-i-set-up-an-a-address-record-for-my-domain)
+
+[Go Daddy](https://www.godaddy.com/help/add-an-a-record-19238)
+
 ## nginx
 When you have multiple sites to host, nginx will let you keep them on the same droplet by watching for traffic coming to your droplet and routing that traffic to the appropriate project on the droplet.  The Host-Helper is designed configure nginx to work with a node backend.   
 https://devmountain.github.io/Host-Helper/
@@ -538,13 +550,3 @@ server {
 </details>
 
 ***
-
-### Setting Up Domains
-
-Unless you have lots of friends that enjoy accessing websites by ip (You know they exist) You'll want to route your domain to point at your server.  This is slightly different for each register.  Or you can tell the registrar to let Digital Ocean manage your routes.  [Here](https://github.com/zacanger/doc/blob/master/digital-ocean.md#domains) is a short description of how to set up Domain records.
-
-[Google Domains](https://support.google.com/domains/answer/3290350?hl=en)
-
-[Name Cheap](https://www.namecheap.com/support/knowledgebase/article.aspx/319/2237/how-can-i-set-up-an-a-address-record-for-my-domain)
-
-[Go Daddy](https://www.godaddy.com/help/add-an-a-record-19238)
