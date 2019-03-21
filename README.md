@@ -104,7 +104,7 @@ _this is the whole ssh-keygen process_
 ###### Possible issues:
 - When pasting in your SSH key, you might get an error saying your private key is invalid, even when you are sure you copied the correct key. This can happen if you accidentally copied spaces at the end of the key string. This especially happens with Windows users using git bash, even when it looks like there are no extra spaces in the selection. Try pasting the key into Notepad or another editor (like VS Code) and then copying again from there.
 
-[![create digital ocean droplet](https://s2.postimg.org/m40sljltl/Screen_Shot_2017-12-15_at_9.56.17_AM.png)](https://www.youtube.com/watch?v=uk28Progsso)
+[Creating Droplet Walkthrough](https://www.youtube.com/watch?v=vqZ7eKM0WS8)
 
 ***
 
