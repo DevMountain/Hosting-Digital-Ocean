@@ -31,6 +31,13 @@
 ## SSH key
 
 An SSH key gives us a secure connection to our server droplet.  **YOU WILL ONLY DO THIS ONCE ON YOUR COMPUTER.  DO NOT REPEAT THIS STEP UNLESS YOU KNOW YOU NEED TO. IT WILL DESTROY YOUR OLD KEY, AND YOU WILL LOSE ACCESS TO YOUR PREVIOUS DROPLETS.**
+
+**IF YOU ARE UNSURE, CHECK WITH THIS COMMAND FIRST AT THE ROOT OF YOUR TERMINAL***
+
+`ls ~/.ssh/*.pub`
+
+This will output all of your public SSH keys, if any are available.
+
 <details>
 <summary> Only do this once per computer. </summary>
 
