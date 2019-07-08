@@ -224,7 +224,7 @@ We can create a local copy of the .env that we will want to use in production.  
 - In your server, use the code below to point your server to your front end static files. This tells express to look for a build folder. The ```__dirname``` variable tells it to start at the current file where Node is running (i.e., your server file), and ```/../build``` tells it to then go up one file and into a build folder.
 ```app.use( express.static( `${__dirname}/../build` ) );```
 
-- If you are using React Router's browserHistory, you'll need to use Node's built-in ```path.join()``` method as a catch-all to ensure the index.html file is given on the other routes. Although ```path``` is built in, you must require it with ```const path = require('path');```. Then invoke the ```join()``` method in your server near the end, below all other endpoints, since this endpoint uses an asterisk as a catch-all for everything other than specified endpoints.
+- If you are using React Router's browserHistory, you'll need to use Node's built-in ```path.join()``` method as a catch-all to ensure the index.html file is given on the other route (NOTE: This does not apply to react-router-dom). Although ```path``` is built in, you must require it with ```const path = require('path');```. Then invoke the ```join()``` method in your server near the end, below all other endpoints, since this endpoint uses an asterisk as a catch-all for everything other than specified endpoints.
     ```js
     const path = require('path'); // Usually moved to the start of file
     
