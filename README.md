@@ -189,22 +189,6 @@ touch /swapfile;fallocate -l 1G /swapfile;chmod 600 /swapfile;mkswap /swapfile;s
 
 ## prep code for production
 
-###### turn off React's service worker
-If your project was bootstrapped using create-react-app, a default service worker was registered in your index.js file. Make sure `registerServiceWorker()` is commented out or that the service worker is otherwise not registered. Doing so will save some headaches caused when trying to serve your local files and server files together.
-
-###### Remove homepage from package.json
-
-Sometimes create-react-app/github will set a homepage property in your package.json.  We need to delete this property if it's there.
-
-```
-"homepage":"https://github.com/brackcarmony/my-project",
-```
-
-Not all versions of create-react-app will have this property.  So if your's isn't there don't worry.
-
-What the homepage property is telling create-react-app is where the server lives.  It'll try and find the server at `/brackcarmony/my-project` but your server isn't running there.  It's running at `/`.  
-
-
 ###### .env variables
 - On local machine, instead of using absolute paths (e.g., 'http://localhost:3200/auth') use environment variables. In other words, everywhere you have a full path with "localhost" in it, replace that path string with a reference to a variable, and store that variable and value in your .env file.
     - For example, if you have an `<a>` tag with a link like this...
@@ -240,7 +224,7 @@ We can create a local copy of the .env that we will want to use in production.  
 - In your server, use the code below to point your server to your front end static files. This tells express to look for a build folder. The ```__dirname``` variable tells it to start at the current file where Node is running (i.e., your server file), and ```/../build``` tells it to then go up one file and into a build folder.
 ```app.use( express.static( `${__dirname}/../build` ) );```
 
-- If you are using React Router's browserHistory, you'll need to use Node's built-in ```path.join()``` method as a catch-all to ensure the index.html file is given on the other routes. Although ```path``` is built in, you must require it with ```const path = require('path');```. Then invoke the ```join()``` method in your server near the end, below all other endpoints, since this endpoint uses an asterisk as a catch-all for everything other than specified endpoints.
+- If you are using React Router's browserHistory, you'll need to use Node's built-in ```path.join()``` method as a catch-all to ensure the index.html file is given on the other route (NOTE: This does not apply to react-router-dom). Although ```path``` is built in, you must require it with ```const path = require('path');```. Then invoke the ```join()``` method in your server near the end, below all other endpoints, since this endpoint uses an asterisk as a catch-all for everything other than specified endpoints.
     ```js
     const path = require('path'); // Usually moved to the start of file
     
@@ -288,6 +272,14 @@ If you used create-react-app, your README is full of boilerplate docs about crea
 
 ###### Possible issues:
 
+- `npm run build` may fail, claiming to be unable to find `@csstools/normalize.css`. If this happens, you should be able to fix it with the following steps:
+   - `npm -v`: The version should come back as 3.5.2. This is incorrect.
+   - `hash -r`: We tell the remote system to forget everything, but especially NPM.
+   - `npm -v`: The version should now be 6.10.0 or above
+   - Delete the node modules and `package-lock.json`
+   - `npm i`: Bring back your node modules
+   - `npm run build`: It should now work.
+   
 - If you see an error saying `npm build` was called without any arguments, try `npm run build` instead. Your `package.json` file shows both `start` and `build` together in the `scripts` section, and you are used to running `npm start` (with no "run" command), so you may think you can run `npm build` the same way. It is true that leaving out `run` is a shorthand way of running scripts, but there is already a built-in npm command for `npm build` (used to build Node add-ons FYI), and that built-in command overshadows the `npm build` shorthand. **TL;DR**: Try `npm run build` instead.
 
 ***
