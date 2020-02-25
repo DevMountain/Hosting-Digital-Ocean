@@ -2,7 +2,11 @@
 
 ## Overview
 
+### Digital Ocean Hosting Video:
 
+Note: The following video will serve as a general guideline for the hosting process. It is recommended that you watch it, then follow the repo below. This video will not cover every student's circumstances, so it should only be used as a guideline for the process below.
+
+https://player.vimeo.com/video/389846747
 
 ###### Basic hosting steps:
 1. Create an [SSH key](#ssh-key), which you'll use for a secure connection to your server. (One Time Only)
