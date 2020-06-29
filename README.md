@@ -96,7 +96,7 @@ _this is the whole ssh-keygen process_
 
 
 ## Digital Ocean account
-- Sign up for a droplet on Digital Ocean.
+- Sign up for a droplet on Digital Ocean. [Use this link for a credit to get started](https://m.do.co/c/5d2405c1d6b4)
 - In the Security Settings, paste in the public SSH key. Give it a name to remember which key it is, probably something like "Michelle-Macbook" to remember which computer it is connected to.
 - Most students should choose Ubuntu for the operation system.
 - Select a droplet size. Most students choose the cheapest droplet (about $5 per month).
