@@ -11,7 +11,7 @@ chmod 600 /swapfile;
 mkswap /swapfile;
 swapon /swapfile;
 get update -y;
-apt dist-upgrade -y;
+apt upgrade -y;
 apt install nodejs -y;
 apt install npm -y;
 npm i -g n;
