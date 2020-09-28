@@ -195,7 +195,7 @@ We can setup our server with all the basics it will need with the script below. 
 Copy all of this in at once into your server terminal. You will only do this ONCE when creating a new droplet. You do not repeat these steps for each project.
 
 ```cli
-touch /swapfile;fallocate -l 1G /swapfile;chmod 600 /swapfile;mkswap /swapfile;swapon /swapfile;sudo apt update -y;sudo apt upgrade -y; apt install nodejs -y;apt install npm -y; npm i -g n; n stable; PATH=$PATH; snap install certbot --classic; sudo apt install python3-certbot-apache -y;sudo npm i -g pm2;apt install nginx -y;npm i -g yarn;
+touch /swapfile;fallocate -l 1G /swapfile;chmod 600 /swapfile;mkswap /swapfile;swapon /swapfile;sudo apt update -y;sudo apt upgrade -y; apt install nodejs -y;apt install npm -y; npm i -g n; n stable; PATH=$PATH; snap install certbot --classic; sudo apt install python3-certbot-apache -y;sudo npm i -g pm2;sudo apt install nginx -y;npm i -g yarn;
 ```
 
 [What this is doing](https://github.com/DevMountain/Hosting-Digital-Ocean/blob/master/describe-one-step.md)
