@@ -10,14 +10,13 @@ fallocate -l 1G /swapfile;
 chmod 600 /swapfile;
 mkswap /swapfile;
 swapon /swapfile;
-get update -y;
+apt update -y;
 apt upgrade -y;
 apt install nodejs -y;
 apt install npm -y;
 npm i -g n;
 n stable;
 PATH=$PATH;
-sudo apt install certbot python3-certbot-apache -y;
 npm i -g npm;
 npm i -g pm2;
 apt-get install nginx -y;
@@ -61,8 +60,8 @@ swapon /swapfile
 
 The first time you access your droplet, you need to install Node/npm so you can manage and run your code.
 
-- `apt-get update && apt-get dist-upgrade` to update the software Linus know about.
-- `apt-get install nodejs -y;apt-get install npm -y;`. This will install vs 4.2 of node and npm. While it's nice that ubuntu wants to make sure it has a stable version of node.
+- `apt update && apt upgrade` to update the software Linux know about.
+- `apt install nodejs -y;apt install npm -y;`. This will install vs 4.2 of node and npm. While it's nice that ubuntu wants to make sure it has a stable version of node.
 
 - `npm i -g n;` Globally installs a program called n that we can use to select what version of node we want to be running.
 - `n stable;` Tell n to update us to the latest stable release (you can instead specify the version you want if you need a specific version ie n 8.4.2)
@@ -73,9 +72,7 @@ The first time you access your droplet, you need to install Node/npm so you can 
 Certbot is a program to help automate sign-signed certificates. They are used to verify that a person controls the domain name on the certificate. We will be using it to make our droplets use https / SSL security.  
 These will register the certbot application in our ubuntu repository, and have it install.
 
-- `sudo add-apt-repository ppa:certbot/certbot -y`
-
-- `sudo apt-get install python-certbot-nginx-y`
+- `snap install certbot --classic`
 
 ## install pm2
 
@@ -83,4 +80,4 @@ These will register the certbot application in our ubuntu repository, and have i
 
 ## install nginx
 
-- `apt-get install nginx -y` Install the program nginx, we will use this as a server router to control which domains go to which ports on our server. Nginx is capable of way more than we have it do here, but this will work as a base entry point.
+- `apt install nginx -y` Install the program nginx, we will use this as a server router to control which domains go to which ports on our server. Nginx is capable of way more than we have it do here, but this will work as a base entry point.
