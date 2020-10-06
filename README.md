@@ -26,7 +26,7 @@ https://player.vimeo.com/video/389846747
 
 ###### Steps for making changes to a project that is already hosted:
 
-After testing changes on your machine and adding, committing, and pushing changes to your repository.
+After testing changes on your machine and adding, committing, and pushing changes to your repository, do the following after connecting to your droplet (If you don't know what that means yet, read on! It will all make sense).
 
 ```git
 cd [project directory]
@@ -289,6 +289,19 @@ Inside your index.html file inside of the public folder, find the `<title>` tags
 ###### Customize the README
 
 By default your README is full of boilerplate docs about create-react-app. Delete all of this and replace it with your own content. A good use for this README is to introduce users to your app with an introduction or overview or images that help the user understand how the app works. This can be particularly useful for portfolio pieces, since potential employers will have an intro page showing them what your app is all about and what they should expect.
+
+Some tips on creating a good README file:
+
+- Include summary of tech used
+- The time-scale of the project
+- Purpose of the project
+- The problems the project aimed to solve
+- Technologies/techniques used to solve the problems
+  - also why you chose that particular tech
+- Project **screenshots**
+- Link to the actual website to show live example
+- List of group members (if group project) _with_ links to personal githubs and portfolios
+- Anything else you think worthy of sharing, _but_ don't be too wordy - keep the reader's attention
 
 </details>
 
