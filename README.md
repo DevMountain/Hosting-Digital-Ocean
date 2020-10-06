@@ -15,7 +15,7 @@ https://player.vimeo.com/video/389846747
 1. Install and configure [Node, PostgreSQL, and other necessary software on your droplet](#all-in-one-setup). (Once per droplet)
 1. Push [working code](#prep-code-for-production) to GitHub. Make sure express.static points to build folder. (Once per project)
 1. [Clone project](#copy-project-to-server) from GitHub to server and `npm install`. (Once per project)
-1. Create [.env/config.js](#env-variables) files on server. (Once per project)
+1. Create [.env](#env-variables) files on server. (Once per project)
 1. Create a [build](#build-folder) with `npm run build`. (Once per project)
 1. Run `pm2` (so hosted project is [always running](#pm2)). (Once per project)
 
@@ -26,7 +26,19 @@ https://player.vimeo.com/video/389846747
 
 ###### Steps for making changes to a project that is already hosted:
 
-- Try this [cheat sheet](https://github.com/Alan-Miller/digital-ocean/blob/master/cheat-sheet-for-editing-hosted-project.md).
+After testing changes on your machine and adding, committing, and pushing changes to your repository, do the following after connecting to your droplet (If you don't know what that means yet, read on! It will all make sense).
+
+```git
+cd [project directory]
+
+git pull
+
+npm i
+
+npm run build
+```
+
+- For more details check this out: [cheat sheet](https://github.com/Alan-Miller/digital-ocean/blob/master/cheat-sheet-for-editing-hosted-project.md).
 
 ###### Hosting your database on Digital Ocean
 
@@ -202,7 +214,14 @@ touch /swapfile;fallocate -l 1G /swapfile;chmod 600 /swapfile;mkswap /swapfile;s
 
 ## prep code for production
 
-###### .env variables
+## .env variables
+
+> It is unlikely you will need to update your axios requests. If you have properly configured your proxy it will not be necessary
+>
+> If a request for users simply looks like `axios.get('/api/users')` you do not need to make changes. If your request looks like `axios.get('http://localhost:3200/api/users)` you will need to update it.
+
+<details>
+<summary>Update axios requests</summary>
 
 - On local machine, instead of using absolute paths (e.g., 'http://localhost:3200/auth') use environment variables. In other words, everywhere you have a full path with "localhost" in it, replace that path string with a reference to a variable, and store that variable and value in your .env file.
 
@@ -221,11 +240,12 @@ touch /swapfile;fallocate -l 1G /swapfile;chmod 600 /swapfile;mkswap /swapfile;s
     `REACT_APP_LOGIN=http://localhost:3200/auth`
 
 - Replacing full paths with environment variables is generally a good idea throughout your whole app (both front end and back). For create-react-app, however, keep something in mind:
-  Your React front end can only access variables that start with `REACT_APP_`. The `npm start` command builds them into the app. Variables that are accessed outside of React (i.e., in your back end), do not need the `REACT_APP_` prefix.
+Your React front end can only access variables that start with `REACT_APP_`. The `npm start` command builds them into the app. Variables that are accessed outside of React (i.e., in your back end), do not need the `REACT_APP_` prefix.
+</details>
 
-###### Optional - Make local copy of production .env
+### Optional - Create a production version of your `.env`.
 
-We can create a local copy of the .env that we will want to use in production. This will make it slightly eaiser to set our project up on Digital Ocean (or we can do all this on the server directly through vim / nano)
+We can create a local copy of the .env that we will want to use in production. This should only be necessary if any of your environment variables will be different in production than in development (API keys etc.) This will make it slightly easier to set our project up on Digital Ocean (or we can do all this on the server directly through vim / nano)
 
 - In the .gitignore add .env.prod
 
@@ -233,17 +253,27 @@ We can create a local copy of the .env that we will want to use in production. T
 
 - Change the .env.prod file to have any differences that we need on the server (remove localhost, change database, use real keys etc...)
 
-###### build folder
+### Test our build and prepare the server to host our site.
 
 - Make sure the project is working on your local machine.
 - Run `npm run build` to create a build folder.
-- In your server, use the code below to point your server to your front end static files. This tells express to look for a build folder. The `__dirname` variable tells it to start at the current file where Node is running (i.e., your server file), and `/../build` tells it to then go up one file and into a build folder.
-  `` app.use( express.static( `${__dirname}/../build` ) ); ``
-
-- If you are using React Router's browserHistory, you'll need to use Node's built-in `path.join()` method as a catch-all to ensure the index.html file is given on the other route (NOTE: This does not apply to react-router-dom). Although `path` is built in, you must require it with `const path = require('path');`. Then invoke the `join()` method in your server near the end, below all other endpoints, since this endpoint uses an asterisk as a catch-all for everything other than specified endpoints.
+- In your server, use the code below to point your server to your front end static files. This tells express to look for a build folder.
 
   ```js
-  const path = require('path') // Usually moved to the start of file
+  //Include this with your other top-level middleware
+  app.use(express.static(`${__dirname}/../build`))
+  ```
+
+  > The `__dirname` variable tells it to start at the current file where Node is running (i.e., your server file), and `/../build` tells it to then go up one file and into a build folder.
+
+- After doing this, you should be able to visit your server location in the browser and see your website. If instead you see `Cannot GET '/'` you will need to include the code below in your `index.js` file:
+
+  ```js
+  //index.js
+
+  const path = require('path')
+
+  //middleware, endpoints, massive, etc...
 
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../build/index.html'))
@@ -254,11 +284,24 @@ We can create a local copy of the .env that we will want to use in production. T
 
 ###### Title the app
 
-Inside your index.html file, find the `<title>` tags inside the `<head>`. If you used create-react-app, the index.html file will be inside the public/ folder and the `title` tags will say `<title>React App</title>`. Inside `<title></title>`, put the name of your app. This name will appear in the browser tab when you go to your site.
+Inside your index.html file inside of the public folder, find the `<title>` tags inside the `<head>`. The `title` tags will say `<title>React App</title>`. Inside `<title></title>`, put the name of your app. This name will appear in the browser tab when you go to your site.
 
 ###### Customize the README
 
-If you used create-react-app, your README is full of boilerplate docs about create-react-app. Delete all of this and replace it with your own content. A good use for this README is to introduce users to your app with an introduction or overview or images that help the user understand how the app works. This can be particularly useful for portfolio pieces, since potential employers will have an intro page showing them what your app is all about and what they should expect.
+By default your README is full of boilerplate docs about create-react-app. Delete all of this and replace it with your own content. A good use for this README is to introduce users to your app with an introduction or overview or images that help the user understand how the app works. This can be particularly useful for portfolio pieces, since potential employers will have an intro page showing them what your app is all about and what they should expect.
+
+Some tips on creating a good README file:
+
+- Include summary of tech used
+- The time-scale of the project
+- Purpose of the project
+- The problems the project aimed to solve
+- Technologies/techniques used to solve the problems
+  - also why you chose that particular tech
+- Project **screenshots**
+- Link to the actual website to show live example
+- List of group members (if group project) _with_ links to personal githubs and portfolios
+- Anything else you think worthy of sharing, _but_ don't be too wordy - keep the reader's attention
 
 </details>
 
@@ -266,31 +309,31 @@ If you used create-react-app, your README is full of boilerplate docs about crea
 
 ## copy project to server
 
-###### push and pull from GitHub
+### push and pull from GitHub
 
 - Commit and push your working code to GitHub.
 - Use `ssh root@your.ip.address' to connect to your droplet,
 - Clone the project to the server using `git clone url-to-your-github-project`. Once done, your code will be on the server, except for node_modules, .env variables, and a build folder (since these are all .gitignored and therefore not copied to and from GitHub).
 - `cd` to go into your project folder on the server.
 
-###### node_modules
+### node_modules
 
 - Run `npm install` inside the project folder on the server to install node packages.
 
-###### .env file
+### .env file
 
 - Recreate any .env file or config.js in the the server.
   - Use `touch .env` to make an .env file.
   - Use `nano .env` to edit the file.
-- Go to your code editor and copy the contents of your local .env file. Inside nano on the server, paste in the contents you copied so they will now be in the server .env file. Change any full paths containing "localhost" (e.g., 'http://localhost:3100/api/users') to relative paths instead (e.g., '/api/users'). We do this because your server might be structured differently than your local machine, so we give the server a relative path, and it knows what to do from there.
+- Go to your code editor and copy the contents of your local .env file. Inside nano on the server, paste in the contents you copied so they will now be in the server .env file.
 - To exit nano, use Ctrl+x to exit. It will ask if you want to save. Type `Yes` or `y`, then hit Return to confirm.
 
-###### build folder
+### build folder
 
 - Create a build folder using `npm run build`. This will create a folder called "build" with an optimized version of your project. The express.static line you added to the server file will tell the server to look in that build folder for the static files that need to be served.
 - Now your entire project is saved to the server, including code, node_modules, .env files, and build folder. The next step is to run Node on our project to see if it works from the server.
 
-###### Possible issues:
+### Possible issues:
 
 - `npm run build` may fail, claiming to be unable to find `@csstools/normalize.css`. If this happens, you should be able to fix it with the following steps:
   - `npm -v`: The version should come back as 3.5.2. This is incorrect.
@@ -309,7 +352,7 @@ If you used create-react-app, your README is full of boilerplate docs about crea
 - Now enter your IP address (the one Digital Ocean gave you) in the browser URL bar, followed by a `:` and the port your server is running on (e.g., `127.48.12.123:3100`). Your hosted site should appear. You are almost done! Currently, your site is running but will stop as soon as you close the command line window or otherwise terminate the running Node process.
 - Once you've tested your site, use Ctrl+C to terminate the Node process. To keep your app running forever, move on to the final required step, in which you will install something called `pm2`.
 
-###### Possible issues:
+#### Possible issues:
 
 - You might run Node and find that your app's front end does not appear. Perhaps you see the words `Cannot GET` in the browser. Try testing one of your GET endpoints to see if the back end works by typing the endpoint URL into the browser bar (e.g., '122.48.12.123:3100/api/products'). If the browser correctly displays data from your endpoint, this probably indicates that your project is hosted on the server but your server file is not pointing to your build folder correctly.
   - Carefully check the express.static line again. It is easy to miss a slash (`/`) or a period (`.`). The correct code should probably look like this: `` app.use( express.static( `${__dirname}/../build` ) ); ``. Notice the `__dirname` variable (with two underscores), followed by a slash, then traveling up one folder and going into the `build` folder.
@@ -319,19 +362,33 @@ If you used create-react-app, your README is full of boilerplate docs about crea
 
 ## pm2
 
-###### Start pm2
+### Start pm2
 
 - Use `cd` to go to the top level of your project file.
 - Use `pm2 start [path to server file]` to start pm2 (e.g., `pm2 start server/server.js`).
 
-###### After starting pm2
+### After starting pm2
 
 - Once you use the `pm2 start` command, your project should be running and accessible online even after closing the command line window.
-- If you need to deploy new changes to your project after hosting it, try this [cheat sheet](https://github.com/Alan-Miller/digital-ocean/blob/master/cheat-sheet-for-editing-hosted-project.md).
+- If you need to deploy new changes to your project after hosting it follow these steps:
+
+  - After testing changes on your machine and adding, committing, and pushing changes to your repository.
+
+    ```git
+    cd [project directory]
+
+    git pull
+
+    npm i
+
+    npm run build
+    ```
+
+  - For more details check this out: [cheat sheet](https://github.com/Alan-Miller/digital-ocean/blob/master/cheat-sheet-for-editing-hosted-project.md).
 
 ###### Possible issues:
 
-- **Miscellaneous**: Sometimes you run pm2 and it fails and you don't know why. It can be helpful to stop pm2 and instead go back to testing the project by running Node, which will often give more useful errors. Running Node also lets you see console logs in your server code, which can help you debug.
+- **Miscellaneous**: Because PM2 does not give any feedback, you will not see errors while running your project using PM2. If this is the case it can be helpful to stop pm2 and instead go back to testing the project by running Node, which will often give more useful errors. Running Node also lets you see console logs in your server code, which can help you debug.
 
 <details> <summary> Additional pm2 commands </summary>
 
@@ -347,7 +404,32 @@ If you used create-react-app, your README is full of boilerplate docs about crea
 
 ### Setting Up Domains
 
-Unless you have lots of friends that enjoy accessing websites by ip (You know they exist) You'll want to route your domain to point at your server. This is slightly different for each register. Or you can tell the registrar to let Digital Ocean manage your routes. [Here](https://github.com/zacanger/doc/blob/master/digital-ocean.md#domains) is a short description of how to set up Domain records.
+Unless you have lots of friends that enjoy accessing websites by ip (You know they exist) You'll want to route your domain to point at your server. This is slightly different for each register but follows a similar format.
+
+You will need to find where you can edit the DNS records for your domain. You will need to create the following:
+
+> NOTE: The column names may be different depending on where you bought your domain. If you get stuck don't be afraid to ask for help.
+
+<table>
+<th>Name</th>
+<th>Type</th>
+<th>ttl</th>
+<th>Data/Value</th>
+<tr>
+  <td>@</td>
+  <td>A</td>
+  <td>1h</td>
+  <td>Your droplet's ip address</td>
+</tr>
+<tr>
+  <td>*</td>
+  <td>CNAME</td>
+  <td>1h</td>
+  <td>Your domain followed by a '.'  For example: google.com.</td>
+</tr>
+</table>
+
+Or you can tell the registrar to let Digital Ocean manage your routes. [Here](https://github.com/zacanger/doc/blob/master/digital-ocean.md#domains) is a short description of how to set up Domain records on Digital Ocean.
 
 [Google Domains](https://support.google.com/domains/answer/3290350?hl=en)
 
@@ -360,6 +442,8 @@ Unless you have lots of friends that enjoy accessing websites by ip (You know th
 When you have multiple sites to host, nginx will let you keep them on the same droplet by watching for traffic coming to your droplet and routing that traffic to the appropriate project on the droplet. The Host-Helper is designed configure nginx to work with a node backend.  
 https://devmountain.github.io/Host-Helper/
 
+After running both of the commands provided by the Host Helper, you should now be able to visit your site at the domain that you purchased!
+
 <details> <summary> nginx configuration using certbot </summary>
   We will be using NGINX to route traffic to our server code.  And Certbot to setup SSL communications on our project.  Below is a link to a project to help you setup the configuration of nginx and certbot.  
   You will enter in the domain(s) that the site will be running on.  The port the backend server is running on.  And a filename for this configuration.  It will compile all that and give you two commands to run to setup nginx, and obtain the certificates.
@@ -367,9 +451,11 @@ https://devmountain.github.io/Host-Helper/
 
 </details>
 
+You can easily host multiple projects on a single droplet by using the nginx helper above. If you would rather configure the files yourself, there are instructions for that below:
+
 <details> <summary> nginx configuration (For Reference) </summary>
 
-###### nginx
+### nginx
 
 - The `nginx/` folder should be installed in the `/etc/` folder. Inside `nginx/`, Ubuntu should have installed multiple files and folders, including `sites-available/` and `sites-enabled/`. If these two folders are not here, create them inside the `nginx/` folder by running `touch sites-available sites-enabled`. Although the simplest way is to edit the default file that was probably created for you in `sites-available/`, it may be a better practice to leave the default file alone and instead create and configure a small file for each hosted project site.
 - After making configuration files in `sites-available` for each project, we will make links to those files in the `sites-enabled` folder. nginx uses this `sites-enabled/` folder to know which projects should be active.
